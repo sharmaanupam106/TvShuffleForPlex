@@ -128,7 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-PlexTvStation/plextvstation/config/
 PlexTvStation/plextvstation/logs/
 
 .idea/
