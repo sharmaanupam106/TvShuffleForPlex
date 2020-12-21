@@ -1,0 +1,13 @@
+<nav class="navbar navbar-default">
+    <div class="container">
+        <a class="btn btn-lg" href="{% url 'index' %}">Plex TV Station</a>
+        <ul class="nav navbar-nav navbar-right">
+            {% if request.session.is_plex %}
+                <li><a class="btn btn-lg" href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li><a class="btn btn-lg" href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+
+        </ul>
+    </div>
+</nav>
