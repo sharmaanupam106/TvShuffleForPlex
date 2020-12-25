@@ -103,12 +103,12 @@ class Plex:
         r_list = []
         resources: [MyPlexResource] = self.my_account.resources()
         for resource in resources:
-            if resources.product == "Plex Media Server":
+            if resource.product == "Plex Media Server":
                 r_list.append(resource)
         return r_list
 
-    def connect_to_server(self, server: MyPlexResource):
-        self.plex: PlexServer = server.connect(ssl=True)
+    def connect_to_server(self, server: str):
+        self.plex: PlexServer = self.my_account.resource(server).connect(ssl=True)
 
 
 

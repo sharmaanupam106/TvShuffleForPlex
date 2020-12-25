@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <h3>Select Plex Server</h3>
+      <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Servers
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">None</a></li>
+          {% for server in plex_servers %}
+            <li><a href='{% url "index" %}?plex_server_select={{ server.name }}'>{{ server.name }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% if plex_connected_server %}
+      <div calss="col-6">
+        <h3>Connected to '{{ plex_connected_server }}'</h3>
+      </div>
+    {% endif %}
+  </div>
+</div>
