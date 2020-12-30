@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <h3>Select Plex Client to push the Queue to.</h3>
+      <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Clients
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">None</a></li>
+          {% for client in plex_clients %}
+            <li><a href='{% url "push_client" %}?client_select={{ client.title }}'>{{ client.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

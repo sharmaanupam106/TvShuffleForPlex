@@ -7,7 +7,7 @@ from plexapi.playqueue import PlayQueue
 from plexapi.video import Show, Movie, Episode, Season
 from plexapi.exceptions import Unauthorized, NotFound, BadRequest
 import urllib3
-
+import random
 
 class Plex:
     def __init__(self, username: str = None, password: str = None):
@@ -60,20 +60,54 @@ class Plex:
             entry = None
         return entry
 
-    def get_shuffle_play_queue(self, movie: bool = False, tv: bool = True, limit: int = 10) -> [Episode, Movie]:
-        movies = []
+    @staticmethod
+    def get_episode_by_season_index(show: Show, season_index: int, episode_index: int) -> [Episode, None]:
+        try:
+            e = show.episode(season=season_index, episode=episode_index)
+            return e
+        except:
+            return None
+
+    def get_episode_after(self, show: Show, episode: Episode) -> Episode:
+        season_number = episode.seasonNumber
+        epi_number = episode.index
+        next_episode = self.get_episode_by_season_index(show, season_number, epi_number + 1)
+        if next_episode is None:
+            next_episode = self.get_episode_by_season_index(show, season_number + 1, 1)
+        return next_episode
+
+    def get_shuffle_play_tv_queue(self, list: [str], include: bool = True, limit: int = 20) -> [Episode, PlayQueue]:
         episodes = []
-        if movie:
-            movies = self.get_movies()
-        if tv:
-            shows = self.get_shows()
-            for show in shows:
-                on_deck = self.get_show_on_deck(show)
-                if on_deck:
-                    episodes.append(on_deck)
-        new_list = episodes + movies
-        random.shuffle(new_list)
-        queue = PlayQueue.create(self.plex, new_list[:limit])
+        shows = self.get_shows()
+        working_shows = []
+        for show in shows:
+            if include:
+                if show.title in list:
+                    working_shows.append(show)
+            else:
+                if show.title not in list:
+                    working_shows.append(show)
+
+        while len(episodes) != limit:
+            n_episode = None
+            while n_episode is None:
+                working_show = random.choice(working_shows)
+                working_show_epi_on_deck = self.get_show_on_deck(working_show)
+                if working_show_epi_on_deck is not None:
+                    if working_show_epi_on_deck not in episodes:
+                        n_episode = working_show_epi_on_deck
+                    else:
+                        tmp_epi = working_show_epi_on_deck
+                        while n_episode is None:
+                            if tmp_epi not in episodes:
+                                n_episode = tmp_epi
+                            tmp_epi = self.get_episode_after(working_show, tmp_epi)
+                            if tmp_epi is None:
+                                break
+
+            episodes.append(n_episode)
+
+        queue = PlayQueue.create(self.plex, episodes)
         return queue
 
     def client_play_media(self, media: [Movie, Episode, PlayQueue]):

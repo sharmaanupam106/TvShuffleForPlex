@@ -1,0 +1,16 @@
+<div class="container shuffled_episodes horizontal-scrollable">
+    <div class="row text-center">
+        <div class="col-sm-12">
+            <h3 style="font-weight: bold;font-size: 24px;">Generated Plex Queue ({{ shuffled_episodes|length }})</h3>
+        </div>
+    </div>
+    <ul class="row text-center">
+    {% for episode in shuffled_episodes %}
+        <li class="col">
+            {% include 'episode_item.html' with episode=episode%}
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+
+{% include 'client_select_and_push.html' %}

@@ -1,0 +1,150 @@
+<style>
+
+    .horizontal-scrollable {
+        overflow-x: scroll;
+        overflow-y: scroll;
+        height: 575px;
+    }
+
+    .horizontal-scrollable > .row {
+        padding-top: 1.5em;
+    }
+
+    .horizontal-scrollable > .row > .col {
+        display: inline-block;
+        float: none;
+    }
+
+    .div-spacer{
+        margin-top: 1.5em;
+    }
+
+    li.selected img {
+        box-shadow: 0 0 0 4px #00c09e;
+    }
+
+    button.select-button {
+        float: left;
+        cursor: pointer;
+        width: 200px;
+    }
+
+    button.select-button:before, button.select-button:after {
+        position: absolute;
+        display: block;
+    }
+
+    button.select-button:after {
+        margin-top: 20px;
+        opacity: 0;
+    }
+
+</style>
+<div class="div-spacer">
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <form class="shuffle_style_radio">
+                <label class="radio-inline">
+                    <input type="radio" value="inclusive" name="optradio" checked>Inclusive Shuffle
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" value="exclusive" name="optradio">Exclusive Shuffle
+                </label>
+            </form>
+        </div>
+        <div class="col-sm">
+            <button class="select-button">Select/UnSelect</button>
+            <label style="padding-left: 1em; font-size: 17px;" id="selected-count">0</label>
+        </div>
+        <div class="col-sm">
+                <button class="shuffle-submit-button">Shuffle</button>
+        </div>
+    </div>
+</div>
+<div class="container horizontal-scrollable">
+    <ul class="row text-center">
+    {% for show in tv_shows %}
+        <li class="col tv_shows_listed {{ show.ratingKey }}">
+            {% include 'show_item.html' with show=show%}
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+
+<div class="container shuffled_view" id="shuffled_view">
+
+</div>
+
+
+<script>
+$(document).ready(function(){
+    console.log("Ready");
+    {% for show in selected_shows %}
+        console.log("{{ show.title }}");
+        $('.{{ show.ratingKey }}').addClass('selected');
+    {% endfor %}
+    counter();
+});
+
+$('.tv_shows_listed').click(function () {
+  $(this).toggleClass('selected');
+  counter();
+});
+
+$('.select-button').click(function () {
+  if ($('li.selected').length == 0) {
+    $('.tv_shows_listed').addClass('selected');
+  }
+  else {
+    $('.tv_shows_listed').removeClass('selected');
+  }
+  counter();
+});
+
+$('.shuffle-submit-button').click(function (e){
+    let data = {}
+    data['list'] = getSelectedShows();
+    data['shuffle_style'] = getShuffleType();
+    document.getElementById("shuffled_view").innerHTML = "<h1>Generating List..... Please Wait</h1>";
+    $.ajax({
+        type: "POST",
+        url: "{% url 'shuffle' %}",
+        data: data,
+        success: function(return_data){
+            console.log("Success");
+            document.getElementById("shuffled_view").innerHTML = return_data;
+        }
+    });
+});
+
+function getSelectedShows(){
+    const send_list = []
+    if ($('li.selected').length != 0) {
+        for (i=0;i<$('li.selected').length;i++){
+            const item = $('li.selected')[i];
+            title = item.innerText;
+            send_list.push(title);
+        }
+    }
+    return send_list;
+}
+
+function getShuffleType(){
+    shuffle_style = "inclusive";
+    var radios = document.getElementsByName("optradio");
+    for (var i = 0; i<radios.length; i++){
+        if (radios[i].checked){
+            shuffle_style = radios[i].value;
+        }
+    }
+    return shuffle_style
+}
+
+function counter() {
+  display=document.getElementById('selected-count');
+  display.innerHTML=$('li.selected').length;
+}
+
+</script>
