@@ -139,8 +139,6 @@ def login(request):
         post_username = request.POST.get('username', None)
         post_password = request.POST.get('password', None)
 
-
-
         # Attempt a login
         global plex_server
         plex_server = Plex(username=post_username, password=post_password)

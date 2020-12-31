@@ -1,0 +1,28 @@
+<div class="container pb-3 shuffle_form">
+    <div class="row text-center">
+        <div class="col-6">
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <form class="shuffle_style_radio">
+                    <label class="radio-inline">
+                        <input type="radio" value="inclusive" name="optradio" checked>Inclusive Shuffle
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" value="exclusive" name="optradio">Exclusive Shuffle
+                    </label>
+                </form>
+                </div>
+                <div class="row d-flex justify-content-center">
+                     <input type="number" class="max-episode-input text-center form-control form-control-sm" placeholder="Max episodes (20 default)">
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+           <button class="btn btn-sm select-button">Select/UnSelect</button>
+            <label style="padding-left: 1em; font-size: 17px;" id="selected-count">0</label>
+        </div>
+        <div class="col-2">
+            <button class="btn btn-lg shuffle-submit-button">Shuffle</button>
+        </div>
+    </div>
+</div>

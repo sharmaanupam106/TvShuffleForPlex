@@ -1,14 +1,15 @@
-<nav class="navbar navbar-default">
-    <div class="container">
+<div class="container mb-5 mt-3 navigation">
+    <nav class="navbar navbar-default navbar-light">
         <a class="btn btn-lg" href="{% url 'index' %}">Plex TV Station</a>
-        <ul class="nav navbar-nav navbar-right">
-            {% if request.session.is_plex %}
-                <li><a class="btn btn-lg disabled" href="#">{{ request.session.username }}</a></li>
-                <li><a class="btn btn-lg" href="{% url 'logout' %}">Logout</a></li>
-            {% else %}
-                <li><a class="btn btn-lg" href="{% url 'login' %}">Login</a></li>
-            {% endif %}
-
-        </ul>
-    </div>
-</nav>
+        {% if request.session.is_plex %}
+        <div>
+            <a class="btn btn-lg disabled" href="#">{{ request.session.username }}</a>
+            <a class="btn btn-lg" href="{% url 'logout' %}">Logout</a>
+        </div>
+        {% else %}
+        <div>
+            <a class="btn btn-lg" href="{% url 'login' %}">Login</a>
+        </div>
+        {% endif %}
+    </nav>
+</div>

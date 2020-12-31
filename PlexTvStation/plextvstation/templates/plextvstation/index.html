@@ -1,27 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    {% include 'boot_strap.html' %}
-</head>
-<body>
-    {% include 'navigation.html' %}
+    <head>
+        {% include 'boot_strap.html' %}
+    </head>
+    <body>
+        {% include 'navigation.html' %}
 
-    {% include 'messages.html' %}
+        {% include 'messages.html' %}
 
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                {% include 'server_selection.html' %}
-            </div>
-        </div>
+        {% include 'server_selection.html' %}
+
         {% if plex_connected_server %}
-        <div class="row">
-            <div class="col">
                 {% include 'shuffle_view.html' %}
-            </div>
-        </div>
         {% endif %}
-    </div>
 
-</body>
+    </body>
+
+    {% include 'my_js_functions.html' %}
+
+    {% include 'waiting.html' %}
+
 </html>

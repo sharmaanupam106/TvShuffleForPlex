@@ -8,18 +8,18 @@
 
     {% include 'messages.html' %}
 
-    <div class="container col-md-4 col-md-offset-4">
-        <h3 class="text" align="center">Log in with you plex account</h3>
+    <div class="container col-8 login">
+        <h3 class="text-center pb-3 pt-3">Log in with you plex account</h3>
         <form method="post" action="login">
             {% csrf_token %}
-            <div align="center">
-                <input type="text" id="username" name="username" placeholder="username/email">
+            <div class="text-center">
+                <input class="username text-center form-control form-control-md" type="text" id="username" name="username" placeholder="username/email">
             </div>
-            <div align="center">
-                <input type="password" id="password" name="password" placeholder="password">
+            <div class="text-center pb-2">
+                <input class="password text-center form-control form-control-md" type="password" id="password" name="password" placeholder="password">
             </div>
-            <div align="center">
-                <input type="submit" value="Log In">
+            <div class="text-center pb-3">
+                <button type="submit" class="btn btn-lg shuffle-submit-button">Log In</button>
             </div>
         </form>
     </div>

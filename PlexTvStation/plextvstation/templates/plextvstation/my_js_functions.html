@@ -1,0 +1,69 @@
+<script>
+$(document).ready(function(){
+    $('.waiting').hide();
+    {% for show in selected_shows %}
+        $('.{{ show.ratingKey }}').addClass('selected');
+    {% endfor %}
+    counter();
+});
+
+$('.show_list_item').click(function () {
+  $(this).toggleClass('selected');
+  counter();
+});
+
+$('.select-button').click(function () {
+  if ($('.show_list_item.selected').length == 0) {
+    $('.show_list_item').addClass('selected');
+  }
+  else {
+    $('.show_list_item').removeClass('selected');
+  }
+  counter();
+});
+
+$('.shuffle-submit-button').click(function (e){
+    let data = {}
+    data['list'] = getSelectedShows();
+    data['shuffle_style'] = getShuffleType();
+    $('.waiting').show();
+    document.getElementById("shuffled_view").innerHTML = "";
+    $.ajax({
+        type: "POST",
+        url: "{% url 'shuffle' %}",
+        data: data,
+        success: function(return_data){
+            document.getElementById("shuffled_view").innerHTML = return_data;
+            $('.waiting').hide();
+        }
+    });
+});
+
+function getSelectedShows(){
+    const send_list = []
+    if ($('.show_list_item.selected').length != 0) {
+        for (i=0;i<$('.show_list_item.selected').length;i++){
+            const item = $('.show_list_item.selected')[i];
+            title = item.innerText;
+            send_list.push(title);
+        }
+    }
+    return send_list;
+}
+
+function getShuffleType(){
+    shuffle_style = "inclusive";
+    var radios = document.getElementsByName("optradio");
+    for (var i = 0; i<radios.length; i++){
+        if (radios[i].checked){
+            shuffle_style = radios[i].value;
+        }
+    }
+    return shuffle_style
+}
+
+function counter() {
+  display=document.getElementById('selected-count');
+  display.innerHTML=$('.show_list_item.selected').length;
+}
+</script>
