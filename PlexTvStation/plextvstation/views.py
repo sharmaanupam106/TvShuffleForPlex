@@ -15,6 +15,7 @@ global play_queue
 
 def index(request):
     context = {}
+    lib.write_log("index")
     if request.session.get('message', None):
         message = request.session.get('message', None)
         lib.write_log(message)
@@ -23,51 +24,61 @@ def index(request):
 
     if not request.session.get("is_plex", None):
         request.session['message'] = 'Please log in'
+        lib.write_log("Invalid login")
         return redirect('login')
     elif plex_server is None:
         request.session.pop("is_plex")
         request.session['message'] = 'Please log in'
+        lib.write_log("Invalid login")
         return redirect('login')
 
     if request.session.get('selected_shows', None):
         selected_shows = request.session.get('selected_shows', None)
         working_show_list = []
+        lib.write_log("Getting Show by items")
         for item in selected_shows:
             working_show_list.append(plex_server.get_show(item))
+        lib.write_log("Getting Show by items -- Done")
         context['selected_shows'] = working_show_list
-
-    lib.write_log("Index call")
+    lib.write_log("Getting Servers")
     servers = plex_server.get_servers()
+    lib.write_log("Getting Servers -- Done")
     context['plex_servers'] = servers
-
     if request.session.get('plex_connected_server', None):
         plex_server_select = request.session.get('plex_connected_server', None)
     else:
         plex_server_select = request.GET.get("plex_server_select", None)
-
     if plex_server_select:
+        lib.write_log("Connecting to server")
         plex_server.connect_to_server(plex_server_select)
+        lib.write_log("Connecting to server -- Done")
         if plex_server.plex.friendlyName:
             context['plex_connected_server'] = plex_server.plex.friendlyName
             request.session['plex_connected_server'] = plex_server.plex.friendlyName
+            lib.write_log("Getting Shows")
             context['tv_shows'] = plex_server.get_shows()
+            lib.write_log("Getting Shows -- Done")
+    lib.write_log(f"{context=}")
     return render(request, template_name="plextvstation/index.html", context=context)
 
 
 @csrf_exempt
 def shuffled_view_and_client_select_push(request):
     context = {}
+    lib.write_log("shuffled_view_and_client_select_push")
     if not request.session.get("is_plex", None):
         request.session['message'] = 'Please log in'
+        lib.write_log("Invalid login")
         return redirect('login')
     elif plex_server is None:
         request.session.pop("is_plex")
         request.session['message'] = 'Please log in'
+        lib.write_log("Invalid login")
         return redirect('login')
 
     if request.method == "POST":
         post_data = dict(request.POST)
-        print(post_data)
+        lib.write_log(f"{post_data=}")
         list = post_data.get("list[]")
         request.session['selected_shows'] = list
         if len(post_data.get("shuffle_style")) >= 1:
@@ -76,20 +87,33 @@ def shuffled_view_and_client_select_push(request):
             else:
                 shuffle_style = True
         else:
-            shuffle_style= True
+            shuffle_style = True
+        max_length = post_data.get("max_episode_count", None)
+        if max_length is None:
+            max_length = 20
+        elif len(max_length) == 1:
+            max_length = int(max_length[0])
+        else:
+            max_length = 20
         working_show_list = []
+        lib.write_log("Getting Shows by item")
         for item in list:
             show = plex_server.get_show(item)
             working_show_list.append(show)
+        lib.write_log("Getting Shows by item -- Done")
         context['selected_shows'] = working_show_list
         context['shuffle_style'] = shuffle_style
-        shuffled_episodes = plex_server.get_shuffle_play_tv_queue(list, include=shuffle_style)
+        lib.write_log("Getting Shuffled list")
+        shuffled_episodes = plex_server.get_shuffle_play_tv_queue(list, include=shuffle_style, limit=max_length)
+        lib.write_log("Getting Shuffled list -- Done")
         context['shuffled_episodes'] = shuffled_episodes
         global play_queue
         play_queue = shuffled_episodes
+        lib.write_log("Getting Clients")
         clients = plex_server.get_clients()
+        lib.write_log("Getting Clients -- Done")
         context['plex_clients'] = clients
-        print(context)
+        lib.write_log(f"{context=}")
         return render(request, template_name="plextvstation/shuffled_view_and_client_select_push.html", context=context)
 
     if request.method == "GET":
@@ -98,12 +122,15 @@ def shuffled_view_and_client_select_push(request):
 
 
 def client_push(request):
+    lib.write_log("client_push")
     if not request.session.get("is_plex", None):
         request.session['message'] = 'Please log in'
+        lib.write_log("Invalid login")
         return redirect('login')
     elif plex_server is None:
         request.session.pop("is_plex")
         request.session['message'] = 'Please log in'
+        lib.write_log("Invalid login")
         return redirect('login')
     if request.method == "POST":
         request.session['message'] = 'Method Not Allowed'
@@ -114,19 +141,25 @@ def client_push(request):
         else:
             client_select = request.GET.get("client_select", None)
         if client_select is not None:
+            lib.write_log("Getting and setting client")
             client = plex_server.get_client(client_select)
             plex_server.set_client(client)
+            lib.write_log("Getting and setting client -- Done")
             global play_queue
+            lib.write_log("Queue sending")
             plex_server.client_play_media(play_queue)
             request.session['message'] = 'Queue Sent'
+            lib.write_log("Queue sending -- Done")
             return redirect('index')
         else:
             request.session['message'] = 'No Client'
+            lib.write_log("No Client")
             return redirect('index')
 
 
 def login(request):
     context = {}
+    lib.write_log("login")
     # Request for login
     if request.method == "POST":
         # Get messages from ession
@@ -162,11 +195,12 @@ def login(request):
         if request.session.get("is_plex", None):
             request.session['message'] = 'Already logged in'
             return redirect('index')
-        lib.write_log("login call")
+        lib.write_log(f"{context=}")
         return render(request, template_name="plextvstation/login.html", context=context)
 
 
 def logout(request):
+    lib.write_log("logout")
     if request.session.get('message', None):
         message = request.session.get('message', None)
         lib.write_log(message)
@@ -175,5 +209,6 @@ def logout(request):
     global plex_server
     plex_server = None
     request.session['message'] = 'Log out successful'
+    lib.write_log('Log out successful')
     return redirect("login")
 

@@ -26,6 +26,7 @@ $('.shuffle-submit-button').click(function (e){
     let data = {}
     data['list'] = getSelectedShows();
     data['shuffle_style'] = getShuffleType();
+    data['max_episode_count'] = getMaxEpisodeCount();
     $('.waiting').show();
     document.getElementById("shuffled_view").innerHTML = "";
     $.ajax({
@@ -38,6 +39,10 @@ $('.shuffle-submit-button').click(function (e){
         }
     });
 });
+
+function getMaxEpisodeCount(){
+    return document.getElementById("max-episode-input").value;
+}
 
 function getSelectedShows(){
     const send_list = []
