@@ -1,5 +1,14 @@
 # !/usr/bin/python3
 
+'''
+This is a lib file I've worked on since python2. It provides a lot of functions, not all useful all the time.
+For this project, it is primary used for it's logging and config features.
+
+You are more than welcome to go through it, and modify it should you need to.
+
+IT HAS ONLY BEEN TESTED ON LINUX SYSTEMS.
+'''
+
 # imports
 from datetime import datetime as DT
 from datetime import timedelta as TD

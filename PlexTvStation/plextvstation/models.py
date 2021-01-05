@@ -5,7 +5,8 @@ import json
 # Create your models here.
 class SavedLists(models.Model):
     inserted_date = models.DateField(auto_now=True)
-    name = models.TextField()
+    user = models.TextField(default=None)
+    name = models.TextField(default=None)
     list = models.TextField(null=True)
 
     def set_list(self, list: [str]):
@@ -16,6 +17,7 @@ class SavedLists(models.Model):
 
     def to_string(self) -> dict:
         return {
+            "user": self.user,
             "name": self.name,
             "list": self.get_list(),
         }
