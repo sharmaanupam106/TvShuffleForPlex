@@ -69,6 +69,7 @@ Update line:
 ```
 http://<IP>:<PORT>/login
 ```
+![Login](UsageSamples/login.mp4?raw=true)
 - Select a plex server
 - Select TV Shows
 - Shuffle the Shows
