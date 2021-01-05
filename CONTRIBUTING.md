@@ -1,4 +1,4 @@
-- Request a fork.
+- Make a pull request.
 - Make your changes
 - Submit the changes via GitHub
 - Once the changes have been reviewd and test, they will be merged into a main.
