@@ -42,7 +42,7 @@ NOTE: This is not a secure site, keep it within your local network. (no port for
     RestartSec=1
     ExecStart={FULL PATH TO PYTHON3} {INSTALL PATH}/manage.py runserver {IP}:{PORT}
     ```
-    - Link the to service controller `systemctl link PlexTvStation.service`
+    - Link the to service controller `systemctl link {INSTALL PATH}/PlexTvStation.service`
     - Reload daemon `systemctl daemon-reload`
     - Enable the service `systemctl enable PlexTvStation.service`
     - Start the service `systemctl start PlexTvStation.service`
