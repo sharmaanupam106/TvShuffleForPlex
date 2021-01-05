@@ -22,6 +22,20 @@ $('.select-button').click(function () {
   counter();
 });
 
+$('.save-selected-button').click(function(){
+    let data = {}
+    data['list'] = getSelectedShows();
+    data['save_name'] = getSelectedSaveName();
+    $.ajax({
+        type: "POST",
+        url: "{% url 'saved_list' %}",
+        data: data,
+        success: function(return_data){
+            window.location.reload();
+        }
+    });
+});
+
 $('.shuffle-submit-button').click(function (e){
     let data = {}
     data['list'] = getSelectedShows();
@@ -42,6 +56,10 @@ $('.shuffle-submit-button').click(function (e){
 
 function getMaxEpisodeCount(){
     return document.getElementById("max-episode-input").value;
+}
+
+function getSelectedSaveName(){
+    return document.getElementById("save-select-name-input").value;
 }
 
 function getSelectedShows(){

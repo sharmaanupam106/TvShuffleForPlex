@@ -3,6 +3,7 @@ from pathlib import Path
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpRequest, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from .models import SavedLists
 
 from .bin.LIB import LIB
 from .bin.PLEX import Plex
@@ -40,6 +41,12 @@ def index(request):
             working_show_list.append(plex_server.get_show(item))
         lib.write_log("Getting Show by items -- Done")
         context['selected_shows'] = working_show_list
+
+    lib.write_log("Getting saved list")
+    saved_list = SavedLists.objects.all()
+    context['saved_list'] = saved_list
+    lib.write_log("Getting saved list -- Done")
+
     lib.write_log("Getting Servers")
     servers = plex_server.get_servers()
     lib.write_log("Getting Servers -- Done")
@@ -50,7 +57,9 @@ def index(request):
         plex_server_select = request.GET.get("plex_server_select", None)
     if plex_server_select:
         lib.write_log("Connecting to server")
-        plex_server.connect_to_server(plex_server_select)
+        if not plex_server.is_connected_to_server():
+            plex_server.connect_to_server(plex_server_select)
+            lib.write_log("Connecting to server -- New Connection")
         lib.write_log("Connecting to server -- Done")
         if plex_server.plex.friendlyName:
             context['plex_connected_server'] = plex_server.plex.friendlyName
@@ -92,7 +101,10 @@ def shuffled_view_and_client_select_push(request):
         if max_length is None:
             max_length = 20
         elif len(max_length) == 1:
-            max_length = int(max_length[0])
+            if max_length[0] != '':
+                max_length = int(max_length[0])
+            else:
+                max_length = 20
         else:
             max_length = 20
         working_show_list = []
@@ -119,6 +131,43 @@ def shuffled_view_and_client_select_push(request):
     if request.method == "GET":
         request.session['message'] = 'Method Not Allowed'
         return redirect('index')
+
+
+@csrf_exempt
+def saved_list(request):
+    lib.write_log("select_list")
+    if request.method == "GET":
+        lib.write_log(f"{request.GET=}")
+        name = request.GET.get("saved_list_name", None)
+        if name is None:
+            lib.write_log('Missing name');
+            request.session['message'] = 'Missing name'
+            return redirect('index')
+        obj = SavedLists.objects.get(name=name)
+        request.session['selected_shows'] = obj.get_list()
+        return redirect('index')
+    else:
+        post_data = dict(request.POST)
+        lib.write_log(f"{post_data=}")
+        list = post_data.get("list[]")
+        name = post_data.get("save_name")[0]
+        if (name == "") or (len(list) == 0):
+            lib.write_log('Name or List is empty')
+            request.session['message'] = 'Name or List is empty'
+            return redirect('index')
+        lib.write_log('Getting Objects')
+        try:
+            obj = SavedLists.objects.get(name=name)
+        except Exception as e:
+            lib.write_log('Object not found -- creating new')
+            obj = SavedLists(name=name)
+
+        lib.write_log('Updating object')
+        obj.set_list(list)
+        obj.save()
+        request.session['selected_shows'] = list
+        return redirect('index')
+        pass
 
 
 def client_push(request):

@@ -18,8 +18,8 @@ class Plex:
             self.message = "Incorrect username or password"
         except Exception as e:
             self.message = "Something went wrong"
-        self.plex: PlexServer
-        self.client: PlexClient
+        self.plex: PlexServer = None
+        self.client: PlexClient = None
 
     def __del__(self):
         pass
@@ -144,5 +144,9 @@ class Plex:
     def connect_to_server(self, server: str):
         self.plex: PlexServer = self.my_account.resource(server).connect(ssl=True)
 
-
+    def is_connected_to_server(self,) -> bool:
+        if self.plex is None:
+            return False
+        else:
+            return True
 
