@@ -66,15 +66,22 @@ Update line:
 
 ## Usage
 - Login with your plex account
-```
-http://<IP>:<PORT>/login
-```
-![Login](UsageSamples/login.mp4?raw=true)
+    ```
+    http://<IP>:<PORT>/login
+    ```
+    https://user-images.githubusercontent.com/50554850/103680804-b22be380-4f54-11eb-805e-be88c33bcd7b.mp4
 - Select a plex server
+    https://user-images.githubusercontent.com/50554850/103681439-77767b00-4f55-11eb-9c7b-366908e8d761.mp4
 - Select TV Shows
+    https://user-images.githubusercontent.com/50554850/103681471-82c9a680-4f55-11eb-91fc-cd2fab8fcbc9.mp4
 - Shuffle the Shows
     - Inclusive/Exclusive select
     - Max episodes in generate queue
+    https://user-images.githubusercontent.com/50554850/103681522-9117c280-4f55-11eb-98a9-920b1a1b1fa4.mp4
 - Shuffle the list
 - Select a client to push the queue to
+    https://user-images.githubusercontent.com/50554850/103681137-19e22e80-4f55-11eb-85b7-a96af9669d10.mp4
 - Save the selected list
+    https://user-images.githubusercontent.com/50554850/103681290-45fdaf80-4f55-11eb-8d61-c5dcbd626cab.mp4
+- Select saved List
+    https://user-images.githubusercontent.com/50554850/103681380-62015100-4f55-11eb-9623-e6d0d1163b1c.mp4
