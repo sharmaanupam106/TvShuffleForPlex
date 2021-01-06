@@ -13,7 +13,13 @@ NOTE: This is not a secure site, keep it within your local network. (no port for
 - Allow users to set the max number of episodes that will be put in the plex queue.
 - Allow users to push the generated episodes plex queue to a given client.
 
-## Installation (LINUX)
+## Note
+**Currently only tested on LINUX systems.** - Ubuntu 20.x - Manjaro 20.x
+
+## Installation **(LINUX)**
+### REQUIREMENTS
+    - Python3.8 or grater.
+    - All packages in requirements.txt 
 1. Download the git repo
 2. Install the requirements
     `pip3 install -r requirements.txt`
@@ -27,8 +33,8 @@ NOTE: This is not a secure site, keep it within your local network. (no port for
 
 ### Optional
 - Create and Enable a service. _(**NOTE**: Done under the `root` account, if you wish to use a different user, please use sudo when running systemctl commands)_
-    - Create service file `touch PlexTvStation.service`
-    - Edit the file with the following (Make sure you update all {} with the correct info)
+    - Create service file `touch {INSTALL PATH}/PlexTvStation.service`
+    - Edit the file with the following _(Make sure you update all {} with the correct info)_
     ```
     [Unit]
     Description=Plex TV Station
@@ -40,14 +46,15 @@ NOTE: This is not a secure site, keep it within your local network. (no port for
     Type=simple
     Restart=always
     RestartSec=1
-    ExecStart={FULL PATH TO PYTHON3} {INSTALL PATH}/manage.py runserver {IP}:{PORT}
+    ExecStart={FULL PATH TO PYTHON3} {INSTALL PATH}/PlexTvStation/manage.py runserver {IP}:{PORT}
     ```
     - Link the to service controller `systemctl link {INSTALL PATH}/PlexTvStation.service`
     - Reload daemon `systemctl daemon-reload`
     - Enable the service `systemctl enable PlexTvStation.service`
+        - Will automatically start the service on boot.
     - Start the service `systemctl start PlexTvStation.service`
         - Check to make sure the service started normally without errors `systemctl status PlexTvStation.service`
-- The service will automatically be started on boot
+- Starting and Stopping the service
     - Start service `systemctl start PlexTvStation.service`
     - Stop service `systemctl stop PlexTvStation.service`
 ## Troubleshooting
@@ -61,7 +68,7 @@ Update line:
 ```
 <INSTALL PATH>/PlexTvStation/plextvstation/logs
 ```
-- Read console outputs
+- Read console outputs `journalctl -u PlexTvStation.service`
 - Google errors that might occur.
 
 ## Usage
