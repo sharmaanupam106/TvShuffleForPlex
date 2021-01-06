@@ -37,7 +37,7 @@ NOTE: This is not a secure site, keep it within your local network. (no port for
     python3 manage.py migrate
     ```
 6. Start the application
-    `python3 manage.py runserver <IP>:<PORT>`
+    `python3 manage.py runserver {IP}:{PORT}`
 
 ### Optional
 - Create and Enable a service. _(**NOTE**: Done under the `root` account, if you wish to use a different user, please use sudo when running systemctl commands)_
@@ -66,6 +66,10 @@ NOTE: This is not a secure site, keep it within your local network. (no port for
     - Start service `systemctl start PlexTvStation.service`
     - Stop service `systemctl stop PlexTvStation.service`
 ## Troubleshooting
+- You may have update `{INSTALL PATH}/PlexTvStation/settings.py`
+```
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "{IP}"]
+```
 - Read the log files at `{INSTALL PATH}/PlexTvStation/plextvstation/logs`
 - Read console outputs `journalctl -u PlexTvStation.service`
 - Google errors that might occur.
