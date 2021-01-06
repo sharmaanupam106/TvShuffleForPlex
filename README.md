@@ -25,12 +25,11 @@ NOTE: This is not a secure site, keep it within your local network. (no port for
     `pip3 install -r requirements.txt`
 3. Generate and record a secret key. `python manage.py shell -c 'from django.core.management import utils; print(utils.get_random_secret_key())'`
     - Keep this handy for the next step
-4. Update the following parameters in `{INSTALL PATH}/PlexTvStation/settings.py`
+4. Update the following parameters in `settings.py`
    ```
    SECRET_KEY = "{KEY FROM STEP 3}"
    DEBUG = False
    ```
-   - This is done for application security
 5. Make migrations
     ```
     python3 manage.py makemigrations
@@ -41,7 +40,7 @@ NOTE: This is not a secure site, keep it within your local network. (no port for
 
 ### Optional
 - Create and Enable a service. _(**NOTE**: Done under the `root` account, if you wish to use a different user, please use sudo when running systemctl commands)_
-    - Create service file `touch {INSTALL PATH}/PlexTvStation.service`
+    - Create service file `touch PlexTvStation.service`
     - Edit the file with the following _(Make sure you update all {} with the correct info)_
     ```
     [Unit]
@@ -56,7 +55,7 @@ NOTE: This is not a secure site, keep it within your local network. (no port for
     RestartSec=1
     ExecStart={FULL PATH TO PYTHON3} {INSTALL PATH}/PlexTvStation/manage.py runserver {IP}:{PORT}
     ```
-    - Link the to service controller `systemctl link {INSTALL PATH}/PlexTvStation.service`
+    - Link the to service controller `systemctl link ./PlexTvStation.service`
     - Reload daemon `systemctl daemon-reload`
     - Enable the service `systemctl enable PlexTvStation.service`
         - Will automatically start the service on boot.
