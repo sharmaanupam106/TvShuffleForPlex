@@ -17,18 +17,26 @@ NOTE: This is not a secure site, keep it within your local network. (no port for
 **Currently only tested on LINUX systems.** - Ubuntu 20.x - Manjaro 20.x
 
 ## Installation **(LINUX)**
-### REQUIREMENTS
-    - Python3.8 or grater.
-    - All packages in requirements.txt 
+#### REQUIREMENTS
+- Python3.8 or grater
+- All packages in requirements.txt 
 1. Download the git repo
 2. Install the requirements
     `pip3 install -r requirements.txt`
-3. Make migrations
+3. Generate and record a secret key. `python manage.py shell -c 'from django.core.management import utils; print(utils.get_random_secret_key())'`
+    - Keep this handy for the next step
+4. Update the following parameters in `{INSTALL PATH}/PlexTvStation/settings.py`
+   ```
+   SECRET_KEY = "{KEY FROM STEP 3}"
+   DEBUG = False
+   ```
+   - This is done for application security
+5. Make migrations
     ```
     python3 manage.py makemigrations
     python3 manage.py migrate
     ```
-4. Start the application
+6. Start the application
     `python3 manage.py runserver <IP>:<PORT>`
 
 ### Optional
@@ -58,16 +66,7 @@ NOTE: This is not a secure site, keep it within your local network. (no port for
     - Start service `systemctl start PlexTvStation.service`
     - Stop service `systemctl stop PlexTvStation.service`
 ## Troubleshooting
-- You may have to add the IP into the settings file.
-```
-<INSTALL PATH>/PlexTvStation/setting.py
-Update line:
-    ALLOWED_HOSTS = ["<IP>"]
-``` 
-- Read the log files at
-```
-<INSTALL PATH>/PlexTvStation/plextvstation/logs
-```
+- Read the log files at `{INSTALL PATH}/PlexTvStation/plextvstation/logs`
 - Read console outputs `journalctl -u PlexTvStation.service`
 - Google errors that might occur.
 
