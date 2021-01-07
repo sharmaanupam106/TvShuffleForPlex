@@ -21,8 +21,10 @@ global play_queue
 def index(request):
 
     # Rotate the log files
-    lib.file_rotation(f'{lib.LOG}/{lib.OUT_LOG}')
-    lib.file_rotation(f'{lib.LOG}/{lib.ERR_LOG}')
+    out_log_file = os.path.join(lib.LOG, lib.OUT_LOG)
+    error_log_file = os.path.join(lib.LOG, lib.ERR_LOG)
+    lib.file_rotation(out_log_file)
+    lib.file_rotation(error_log_file)
 
     context = {}
     lib.write_log("index")
