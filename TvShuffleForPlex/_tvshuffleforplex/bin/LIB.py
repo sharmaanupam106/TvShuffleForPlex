@@ -707,8 +707,8 @@ class LIB:
 
         self.write_log("File Rotation started: '{}'".format(working_file.path))
 
-        list = working_file.path.split("/")
-        dir = "/".join(list[:len(list) - 1])
+        list = os.path.split(working_file.path)
+        dir = os.path.join(*list[:len(list) - 1])
 
         try:
             SIZELIMIT = float(self.get_config_value("LogRotationFileSize", 10))

@@ -21,8 +21,10 @@ global play_queue
 def index(request):
 
     # Rotate the log files
-    lib.file_rotation(f'{lib.LOG}/{lib.OUT_LOG}')
-    lib.file_rotation(f'{lib.LOG}/{lib.ERR_LOG}')
+    out_log_file = os.path.join(lib.LOG, lib.OUT_LOG)
+    error_log_file = os.path.join(lib.LOG, lib.ERR_LOG)
+    lib.file_rotation(out_log_file)
+    lib.file_rotation(error_log_file)
 
     context = {}
     lib.write_log("index")
@@ -87,7 +89,7 @@ def index(request):
             context['tv_shows'] = plex_server.get_shows()
             lib.write_log("Getting Shows -- Done")
     lib.write_log(f"{context=}")
-    return render(request, template_name="plextvstation/index.html", context=context)
+    return render(request, template_name="_tvshuffleforplex/index.html", context=context)
 
 
 # Generate a shuffled episode list from selected shows, and allow the user to push the list to an available plex client
@@ -163,7 +165,7 @@ def shuffled_view_and_client_select_push(request):
         lib.write_log("Getting Clients -- Done")
         context['plex_clients'] = clients
         lib.write_log(f"{context=}")
-        return render(request, template_name="plextvstation/shuffled_view_and_client_select_push.html", context=context)
+        return render(request, template_name="_tvshuffleforplex/shuffled_view_and_client_select_push.html", context=context)
 
     # Get method for this URL is not allowed
     if request.method == "GET":
@@ -341,7 +343,7 @@ def login(request):
             request.session['message'] = 'Already logged in'
             return redirect('index')
         lib.write_log(f"{context=}")
-        return render(request, template_name="plextvstation/login.html", context=context)
+        return render(request, template_name="_tvshuffleforplex/login.html", context=context)
 
 
 # Log out of the app

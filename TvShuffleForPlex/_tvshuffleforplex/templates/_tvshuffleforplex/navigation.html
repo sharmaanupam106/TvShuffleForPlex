@@ -1,6 +1,6 @@
 <div class="container mb-5 mt-3 navigation">
     <nav class="navbar navbar-default navbar-light">
-        <a class="btn btn-lg" href="{% url 'index' %}">Plex TV Station</a>
+        <a class="btn btn-lg" href="{% url 'index' %}">TV Shuffle for Plex</a>
         {% if request.session.is_plex %}
         <div>
             <a class="btn btn-lg disabled" href="#">{{ request.session.username }}</a>
