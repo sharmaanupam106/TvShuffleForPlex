@@ -1,5 +1,7 @@
 # Imports
 import random
+import os
+from pathlib import Path
 
 # Plex imports
 from plexapi.myplex import MyPlexAccount, MyPlexResource
@@ -9,10 +11,11 @@ from plexapi.playqueue import PlayQueue
 from plexapi.video import Show, Movie, Episode, Season
 from plexapi.exceptions import Unauthorized, NotFound, BadRequest
 
+from .LIB import LIB
 
 # Plex class to assist with plex api interaction
 class Plex:
-    def __init__(self, username: str = None, password: str = None):
+    def __init__(self, username: str = None, password: str = None, lib: LIB = None):
         self.message = None
 
         # Try to connect to the users plex account
@@ -30,6 +33,10 @@ class Plex:
         # Set the plex server and client to None for later definition
         self.plex: PlexServer = None
         self.client: PlexClient = None
+        if lib is not None:
+            self.lib = lib
+        else:
+            self.lib = LIB(home=str(Path(os.path.dirname(os.path.realpath(__file__)))))
 
     def __del__(self):
         pass
@@ -42,7 +49,11 @@ class Plex:
 
     # Get all the moves on the plex server
     def get_movies(self) -> [Movie]:
-        all_entries = self.plex.library.search(titile="", libtype="movie")
+        all_entries = []
+        try:
+            all_entries = self.plex.library.search(titile="", libtype="movie")
+        except Exception as e:
+            self.lib.write_error(f"Error getting movies {e=}")
         return all_entries
 
     # Get a plex movie given the name
@@ -50,12 +61,17 @@ class Plex:
         try:
             entry = self.plex.library.search(title=name, libtype='movie')[0]
         except Exception as e:
+            self.lib.write_error(f"Error getting movie {e=}")
             entry = None
         return entry
 
     # Get all the shows on the plex server
     def get_shows(self) -> [Show]:
-        all_entries = self.plex.library.search(titile="", libtype="show")
+        all_entries = []
+        try:
+            all_entries = self.plex.library.search(titile="", libtype="show")
+        except Exception as e:
+            self.lib.write_error(f"Error getting shows {e=}")
         return all_entries
 
     # Get a plex show given the name
@@ -63,6 +79,7 @@ class Plex:
         try:
             entry = self.plex.library.search(title=name, libtype='show')[0]
         except Exception as e:
+            self.lib.write_error(f"Error getting show {e=}")
             entry = None
         return entry
 
@@ -94,7 +111,7 @@ class Plex:
         return next_episode
 
     # Get a list of episodes for a given show list. inclusive and exclusive shuffle is allowed
-    # TODO: This function can be optimized
+    # TODO: This function can be optimized, and handle errors
     def get_shuffle_play_tv_queue(self, list: [str], include: bool = True, limit: int = 20) -> [Episode, PlayQueue]:
         episodes = []
         shows = self.get_shows()
@@ -131,17 +148,27 @@ class Plex:
 
     # Play given media on the client
     def client_play_media(self, media: [Movie, Episode, PlayQueue]):
-        self.client.playMedia(media)
+        try:
+            self.client.playMedia(media)
+        except Exception as e:
+            self.lib.write_error(f"Error playing media on client {e=}")
 
     # Get a list of clients
     def get_clients(self) -> [PlexClient]:
-        return self.plex.clients()
+        try:
+            return self.plex.clients()
+        except Exception as e:
+            self.lib.write_error(f"Error getting server clients {e=}")
 
     # Get a client given the name
-    def get_client(self, name: str) -> PlexClient:
-        for client in self.plex.clients():
-            if client.title == name:
-                return client
+    def get_client(self, name: str) -> [PlexClient, None]:
+        try:
+            for client in self.plex.clients():
+                if client.title == name:
+                    return client
+        except Exception as e:
+            self.lib.write_error(f"Error getting server client {e=}")
+            return None
 
     # Set the client given the plex client
     def set_client(self, client: PlexClient) -> None:
@@ -149,33 +176,51 @@ class Plex:
 
     # Pause the media on the client
     def client_pause(self):
-        self.client.pause()
+        try:
+            self.client.pause()
+        except Exception as e:
+            self.lib.write_error(f"Error setting client to pause {e=}")
 
     # Play the media on the client
     def client_play(self):
-        self.client.play()
+        try:
+            self.client.play()
+        except Exception as e:
+            self.lib.write_error(f"Error setting client to play {e=}")
 
     # Check if the client media is playing
     def client_is_playing(self):
-        self.client.isPlayingMedia(includePaused=True)
+        try:
+            self.client.isPlayingMedia(includePaused=True)
+        except Exception as e:
+            self.lib.write_error(f"Error getting client media playing status {e=}")
 
     # Get a list of servers for the plex account
     def get_servers(self) -> [MyPlexResource]:
         r_list = []
-        resources: [MyPlexResource] = self.my_account.resources()
-        for resource in resources:
-            if resource.product == "Plex Media Server":
-                r_list.append(resource)
+        try:
+            resources: [MyPlexResource] = self.my_account.resources()
+            for resource in resources:
+                if resource.product == "Plex Media Server":
+                    r_list.append(resource)
+        except Exception as e:
+            self.lib.write_error(f"Error getting account resources {e=}")
         return r_list
 
     # Connect to a server given the name
-    def connect_to_server(self, server: str):
-        self.plex: PlexServer = self.my_account.resource(server).connect(ssl=True)
+    def connect_to_server(self, server: str) -> bool:
+        try:
+            self.plex: PlexServer = self.my_account.resource(server).connect(ssl=True)
+            return True
+        except Exception as e:
+            self.lib.write_error(f"Error connecting to server {e=}")
+            return False
 
     # Check if the object is connected to a plex server
     def is_connected_to_server(self,) -> bool:
-        if self.plex is None:
-            return False
-        else:
+        try:
+            self.plex.isLatest()
             return True
+        except Exception as e:
+            return False
 

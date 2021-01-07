@@ -47,9 +47,19 @@ $('.shuffle-submit-button').click(function (e){
         type: "POST",
         url: "{% url 'shuffle' %}",
         data: data,
-        success: function(return_data){
-            document.getElementById("shuffled_view").innerHTML = return_data;
-            $('.waiting').hide();
+        complete: function(return_data){
+            let m_html = return_data.responseText;
+            let responce_code = return_data.status
+            if (responce_code != 200) {
+                document.open()
+                document.write(m_html)
+                document.close()
+                $('.waiting').hide();
+            }
+            else{
+                document.getElementById("shuffled_view").innerHTML = m_html;
+                $('.waiting').hide();
+            }
         }
     });
 });

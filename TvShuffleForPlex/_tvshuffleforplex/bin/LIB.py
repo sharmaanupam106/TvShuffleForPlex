@@ -97,7 +97,7 @@ class LIB:
     ERR_LOG = None
     HOSTSLIST= None
     LOGGING = True
-    VERSION = 0.6
+    VERSION = 0.7
 
     LASTFILEROTATE=None
 
