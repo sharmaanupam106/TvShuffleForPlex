@@ -85,19 +85,26 @@ NOTE: This is not a secure site, keep it within your local network. (no port for
     ```
     http://<IP>:<PORT>/login
     ```
-    ![LogIn](https://imgur.com/ac6nWyq)
+    
+    ![Login](https://user-images.githubusercontent.com/50554850/103911884-97807880-50d4-11eb-99d7-dee320f46cb7.gif)
 - Select a plex server
-    ![Server Select](https://imgur.com/afGCCoX)
+    
+    ![ServerSelect](https://user-images.githubusercontent.com/50554850/103912591-79ffde80-50d5-11eb-97b7-4d3a850283b7.gif)
 - Select TV Shows
-    ![Show Select](https://imgur.com/Td1wZgG)
+    
+    ![ShowSelect](https://user-images.githubusercontent.com/50554850/103912593-7a987500-50d5-11eb-91ee-f2dc50db36dc.gif)
 - Shuffle the Shows
     - Inclusive/Exclusive select
     - Max episodes in generate queue
-    ![Shuffle](https://imgur.com/6Y7EeIY)
+    
+    ![Shuffle](https://user-images.githubusercontent.com/50554850/103912594-7a987500-50d5-11eb-8ee9-8a1d88e5e7db.gif)
 - Shuffle the list
 - Select a client to push the queue to
-    ![Client Push](https://imgur.com/Dy3qLvT)
+    
+    ![ClientPush](https://user-images.githubusercontent.com/50554850/103912584-78ceb180-50d5-11eb-910f-2d689eaf6c61.gif)
 - Save the selected list
-    ![Save List](https://imgur.com/AMEQB83)
+    
+    ![SaveList](https://user-images.githubusercontent.com/50554850/103912586-79674800-50d5-11eb-8f4a-35a8d4f86920.gif)
 - Select saved List
-    ![Select List](https://imgur.com/na0sQy7)
+    
+    ![SelectList](https://user-images.githubusercontent.com/50554850/103912589-79ffde80-50d5-11eb-8967-2df0f4d9c77e.gif)
