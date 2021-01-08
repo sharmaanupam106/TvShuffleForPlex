@@ -22,7 +22,7 @@ class Plex:
         try:
             self.my_account: MyPlexAccount = MyPlexAccount(username=username, password=password)
 
-        # Error loging in
+        # Error logging in
         except Unauthorized as e:
             self.message = "Incorrect username or password"
 
@@ -173,6 +173,17 @@ class Plex:
     # Set the client given the plex client
     def set_client(self, client: PlexClient) -> None:
         self.client = client
+
+    # Check client connection
+    def is_connected_to_client(self) -> bool:
+        if self.client is None:
+            return False
+        try:
+            self.client.reload()
+            return True
+        except Exception as e:
+            self.lib.write_error(f"Error lost client connection {e}")
+            return False
 
     # Pause the media on the client
     def client_pause(self):

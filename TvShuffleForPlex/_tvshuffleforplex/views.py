@@ -271,8 +271,6 @@ def client_push(request):
         response.status_code = 307
         return response
 
-    # TODO: Validate Client connection
-
     # Check if a plex session already exists (user is already logged in)
     if not request.session.get("is_plex", None):
         request.session['message'] = 'Please log in'
@@ -307,6 +305,12 @@ def client_push(request):
         # There is a client selected
         if client_select is not None:
 
+            # Validate Client connection
+            if not plex_server.is_connected_to_client():
+                request.session['message'] = 'Client connection lost'
+                response = index(request)
+                return response
+
             # Set the client in the plex object
             lib.write_log("Getting and setting client")
             client = plex_server.get_client(client_select)
@@ -323,7 +327,6 @@ def client_push(request):
             response.status_code = 307
             return response
         else:
-
             # There was no client selected
             request.session['message'] = 'No Client'
             lib.write_log("No Client")
