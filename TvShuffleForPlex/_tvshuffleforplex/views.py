@@ -91,14 +91,6 @@ def shuffled_view_and_client_select_push(request):
     context = {}
     lib.write_log("shuffled_view_and_client_select_push")
 
-    # Validate server connection
-    if not plex_server.is_connected_to_server():
-        lib.write_log(f"Connection to {plex_server.plex.friendlyName} was lost.")
-        disconnect_server(request)
-        response = index(request)
-        response.status_code = 307
-        return response
-
     # Check if a plex session already exists (user is already logged in)
     if not request.session.get("is_plex", None):
         request.session['message'] = 'Please log in'
@@ -111,6 +103,14 @@ def shuffled_view_and_client_select_push(request):
         request.session['message'] = 'Please log in'
         lib.write_log("Invalid login")
         response = login(request)
+        response.status_code = 307
+        return response
+
+    # Validate server connection
+    if not plex_server.is_connected_to_server():
+        lib.write_log(f"Connection to {plex_server.plex.friendlyName} was lost.")
+        disconnect_server(request)
+        response = index(request)
         response.status_code = 307
         return response
 
@@ -263,14 +263,6 @@ def saved_list(request):
 def client_push(request):
     lib.write_log("client_push")
 
-    # Validate server connection
-    if not plex_server.is_connected_to_server():
-        lib.write_log(f"Connection to {plex_server.plex.friendlyName} was lost.")
-        disconnect_server(request)
-        response = index(request)
-        response.status_code = 307
-        return response
-
     # Check if a plex session already exists (user is already logged in)
     if not request.session.get("is_plex", None):
         request.session['message'] = 'Please log in'
@@ -283,6 +275,14 @@ def client_push(request):
         request.session['message'] = 'Please log in'
         lib.write_log("Invalid login")
         response = login(request)
+        response.status_code = 307
+        return response
+
+    # Validate server connection
+    if not plex_server.is_connected_to_server():
+        lib.write_log(f"Connection to {plex_server.plex.friendlyName} was lost.")
+        disconnect_server(request)
+        response = index(request)
         response.status_code = 307
         return response
 
