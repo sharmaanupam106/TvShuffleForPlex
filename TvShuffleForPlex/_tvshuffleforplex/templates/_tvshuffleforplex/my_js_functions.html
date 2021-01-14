@@ -99,4 +99,9 @@ function counter() {
   display=document.getElementById('selected-count');
   display.innerHTML=$('.show_list_item.selected').length;
 }
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
 </script>

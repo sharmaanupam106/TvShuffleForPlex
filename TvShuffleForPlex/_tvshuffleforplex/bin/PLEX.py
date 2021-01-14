@@ -13,6 +13,7 @@ from plexapi.exceptions import Unauthorized, NotFound, BadRequest
 
 from .LIB import LIB
 
+
 # Plex class to assist with plex api interaction
 class Plex:
     def __init__(self, username: str = None, password: str = None, lib: LIB = None):
@@ -109,6 +110,27 @@ class Plex:
         if next_episode is None:
             next_episode = self.get_episode_by_season_index(show, season_number + 1, 1)
         return next_episode
+
+    # Get all the episodes of a given show
+    def get_episodes_for_show(self, show: Show) -> [Episode]:
+        shows = []
+        try:
+            shows = show.episodes()
+        except Exception as e:
+            self.lib.write_error(f"Error getting show episodes {e=}")
+        return shows
+
+    # Get duration of show (done by returning the duration of season 1 episode 1)
+    def get_duration_of_show(self, show: Show) -> int:
+        return_value = 0
+        try:
+            episode: Episode = show.episode(season=1, episode=1)
+            return_value: int = episode.duration
+        except Exception as e:
+            self.lib.write_error(f"Error getting show episodes {e=}")
+        return return_value
+
+
 
     # Get a list of episodes for a given show list. inclusive and exclusive shuffle is allowed
     # TODO: This function can be optimized, and handle errors

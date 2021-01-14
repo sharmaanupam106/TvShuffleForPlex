@@ -1,148 +1,305 @@
 # !/usr/bin/python3
 
-'''
-This is a lib file I've worked on since python2. It provides a lot of functions, not all useful all the time.
-For this project, it is primary used for it's logging and config features.
-
-You are more than welcome to go through it, and modify it should you need to.
-
-IT HAS ONLY BEEN TESTED ON LINUX SYSTEMS.
-'''
-
 # imports
-from datetime import datetime as DT
-from datetime import timedelta as TD
+from datetime import datetime as dt
+from datetime import timedelta as td
 import time
 import sys
 import subprocess
+import threading
 import os
-import inspect
-import multiprocessing as MP
+import multiprocessing as mp
 import base64
 import re
 import shutil
 import getpass
 import string
+import copy
 
-#Multiprocessing shared memory manager
-MANAGER = MP.Manager()
+# Multiprocessing shared memory manager
+from typing import List
+
+MANAGER = mp.Manager()
+
+
+class Command:
+    """
+    Command object that is executed.
+
+    :ivar bytes output: STDOUT of the command
+    :ivar bytes error: STDERR of the command
+    :ivar int status_code: Return Code of the command
+    :ivar subprocess.Popen process: The process that is spawned to run the command
+    :ivar str cmd: The command being run
+    """
+
+    def __init__(self, cmd: str = None):
+        self.output: bytes = None
+        self.error: bytes = None
+        self.status_code: int = None
+        self.process: subprocess.Popen = None
+        self.cmd = cmd
+
+    def run(self, timeout: int = 60):
+        """
+        The run function that will spawn a new thread and execute the given command. Thread time out is used to ensure the command exists at some point
+
+        :param int timeout: Timeout value to be used to kill the process if still running. A value of 0 will indicate no timeout
+        :return:
+        """
+
+        def target():
+            """
+            Target function that is being opened by the thread
+
+            :return:
+            """
+            self.process = subprocess.Popen(self.cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                            stdin=subprocess.PIPE, shell=True)
+            self.output, self.error = self.process.communicate()
+            self.status_code = self.process.returncode
+
+        thread = threading.Thread(target=target)
+        thread.start()
+
+        if timeout != 0:
+            thread.join(timeout)
+        else:
+            thread.join()
+
+        if thread.is_alive():
+            self.process.terminate()
+            thread.join()
+
+    def get_done_values(self) -> [str, str, int]:
+        """
+        Returns the output, error, and status code of the executed command
+
+        :return [str, str, int]: [STDOUT, STDERR, status_code]
+        """
+        return [self.output.decode(), self.error.decode(), self.status_code]
+
 
 class File:
     """
     File Object Class, stores attributes about a given file.
-    """
-    def __init__(self,name=None, permissions=None, size=None, modified_time=None, path=None):
-        self.name = name
-        self.permissions = permissions
-        self.size = size
-        self.modified_time = modified_time
-        self.path = path    #includes the name of the file
-        filename, file_extension = os.path.splitext(self.path)
-        self.extension = file_extension
-        self.is_directory = os.path.isdir(self.path)
 
-    def to_string(self):
+    :param str name: Name of the file
+    :param str permissions: Permission of the file
+    :param int size: Size of the file
+    :param str modified_time: Modified time of the file
+    :param str path: Path of the file
+
+    :ivar str name: Name of the file
+    :ivar oct permissions: Permission's of the file
+    :ivar int size: Size of the file
+    :ivar float modified_time: Time last modified
+    :ivar str path: Full path to the file
+    :ivar str extension: Extension of the file
+    :ivar bool is_directory: Indicate if the file is a directory
+    """
+
+    def __init__(self, name: str = None, permissions: oct = None, size: int = None, modified_time: float = None,
+                 path: str = None):
+        self.name: str = name
+        self.permissions: oct = permissions
+        self.size: int = size
+        self.modified_time: float = modified_time
+        self.path: str = os.path.join(*os.path.split(path)[:len(os.path.split(path))-1])
+        filename, file_extension = os.path.splitext(path)
+        self.extension: str = file_extension
+        self.is_directory: bool = os.path.isdir(path)
+
+    def to_string(self) -> str:
         """
         Return a dict string of all the attributes for this class
+
         :return: String dict of all attributes
         :rtype: String
         """
         return str(self.__dict__)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Same as to_string function
-        :return:
-        :rtype:
+
+        :return: String dict of all attributes
+        :rtype: String
         """
         return str(self.__dict__)
+
+    def get_abs_path(self) -> str:
+        """
+        Get the absolute path to the file with file name
+
+        :return str: absolute path to the file
+        """
+        return os.path.join(self.path, self.name)
+
 
 class Host:
     """
     Host object class, stores attributes about a host. Read from the hosts file.
+
+    :param hostname (str): Hostname of the host
+    :param ip (str): IP of the host
+    :ivar [str] hostname: List of hostname's
+    :ivar [str] ip: List of IP's
     """
     hostname = []
-    ip = "None"
-    def __init__(self, hostname, ip):
+    '''List of hostname's'''
+    ip = []
+    '''List of IP's'''
+
+    def __init__(self, hostname: [str] = None, ip: [str] = None):
+
         if hostname is not None:
             self.hostname = hostname
         else:
-            self.hostname = "None"
+            self.hostname = []
         if ip is not None:
             self.ip = ip
         else:
             self.ip = []
 
-    def toString(self):
+    def to_string(self) -> str:
+        """
+        Return the dict representation of this object as a string
+
+        :return: Dict as string
+        """
         return str(self.__dict__)
 
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        Return the dict representation of this object as a string
+
+        :return: Dict as string
+        """
         return str(self.__dict__)
+
+    def add_hostname(self, hostname: str = None):
+        """
+        Add a hostname to the host.
+
+        :param str hostname: Hostname of the host
+        :return:
+        """
+        if hostname is None:
+            return None
+        else:
+            self.hostname.append(hostname)
+
+    def add_ip(self, ip: str = None):
+        """
+        Add a ip to the host
+
+        :param str ip: IP of the host
+        :return:
+        """
+        if ip is None:
+            return None
+        else:
+            self.ip.append(ip)
+
 
 class LIB:
     """
     Lib Object Class. Contains functions that are most commonly used in a project for simplicity of use.
     Most commonly used for logging, config file reading, and system command execution
+
+    :param str home: Working directory of the project. (bin directory contains this file)
+    :param str cfg: Path to the config file
+    :param str out_log: Name of the output log file
+    :param str err_log: Name of the error log file
+
+    :ivar [str] PUNCTUATION:
+    :ivar str HOME:
+    :ivar str LOG:
+    :ivar str CFG_IN_USE:
+    :ivar dict CFG:
+    :ivar [str] ARGS:
+    :ivar [process] PROCESSLIST:
+    :ivar str OS:
+    :ivar str OUT_LOG:
+    :ivar str ERR_LOG:
+    :ivar [Host] HOSTSLIST:
+    :ivar bool LOGGING:
+    :ivar str VERSION:
+    :ivar File LASTFILEROTATE:
     """
-    PUNCTUATION = ['"', '\'', '*']
-    HOME = None
-    LOG = None
-    CFG_IN_USE=None
-    CFG = MANAGER.dict()
-    ARGS = None
-    MSGLIST = []
-    PROCESSLIST = []
-    OS = None
-    OUT_LOG = None
-    ERR_LOG = None
-    HOSTSLIST= None
-    LOGGING = True
-    VERSION = 0.7
 
-    LASTFILEROTATE=None
+    PUNCTUATION: [str] = ['"', '\'', '*']
+    '''Punctuation list used in sanitize_string '''
+    HOME: str = None
+    '''Home path for the project'''
+    LOGS_PATH: str = None
+    '''Log path for the project'''
+    CFGS_PATH: str = None
+    '''Config files path'''
+    CFG_IN_USE: str = None
+    '''Config file name being used'''
+    CFG: dict = MANAGER.dict()
+    '''Config dictionary used to hold config keys and values'''
+    ARGS: [str] = None
+    '''System arguments passed to the program'''
+    OS: str = None
+    '''OS current program is being run on'''
+    OUT_LOG: str = None
+    '''Out log file name'''
+    ERR_LOG: str = None
+    '''Error log file name'''
+    HOSTSLIST: [Host] = None
+    '''Host's lists'''
+    LOGGING: bool = True
+    '''Logging is enabled'''
+    VERSION: str = "1.0.1"
+    '''Version of this LIB file'''
+    LASTFILEROTATE: File = None
+    '''Last log file that was rotated'''
 
-    def __init__(self, home=None, cfg=None, out_log = None, err_log = None):
-        #find out home if none is given. lib location is used.
-        self.PROCESSLIST = []
+    def __init__(self, home: str = None, cfg: str = None, out_log: str = None, err_log: str = None):
         if home is None:
             home = os.getcwd()
-            parts = home.split("/")
+            parts = os.path.split(home)
             if parts[len(parts) - 1] == "bin":
-                home = "/".join(parts[:len(parts) - 1])
+                tmp_list = parts[:len(parts) - 1]
+                home = os.path.join(*tmp_list)
 
         self.HOME = home
-        # check and/or create the project structure
+        # Check and/or create the project structure
         if not self.path_exists(self.HOME):
             if not self.make_path(self.HOME):
                 return
 
-        #set the logs directory
-        self.LOG = "{}/logs".format(self.HOME)
-        if not self.path_exists(self.LOG):
-            if not self.make_path(self.LOG):
+        # Set the logs directory
+        self.LOGS_PATH = os.path.join(self.HOME, "logs")
+        if not self.path_exists(self.LOGS_PATH):
+            if not self.make_path(self.LOGS_PATH):
                 return
 
-        #get and store the sys arguments
+        # Get and store the sys arguments
         self.ARGS = sys.argv
 
-        #load the config file
+        # Load the config file
+        self.CFGS_PATH = os.path.join(self.HOME, 'config')
         if cfg is None:
-            cfg = self.get_args_value("-cfg", "{}/config/config.cfg".format(self.HOME))
+            cfg = self.get_args_value('-cfg', os.path.join(self.CFGS_PATH, 'config.cfg'))
 
-        tmp_CFG = self.read_config(cfg)
-        if tmp_CFG is None:
+        tmp_cfg = self.read_config(cfg)
+        if tmp_cfg is None:
             self.CFG = MANAGER.dict()
         else:
-            for key in tmp_CFG:
-                self.CFG[key] = tmp_CFG[key]
+            for key in tmp_cfg:
+                self.CFG[key] = tmp_cfg[key]
 
-        #set the output log file and error log file
+        # Set the output log file and error log file
         if out_log is None:
-            self.OUT_LOG = self.get_config_value("outputlog","output.log")
+            self.OUT_LOG = self.get_config_value("outputlog", "output.log")
         else:
             self.OUT_LOG = out_log
         if err_log is None:
-            self.ERR_LOG = self.get_config_value("errorlog","error.log")
+            self.ERR_LOG = self.get_config_value("errorlog", "error.log")
         else:
             self.ERR_LOG = err_log
 
@@ -150,7 +307,8 @@ class LIB:
             value = self.get_config_value("logging", True)
             if value == "false":
                 self.LOGGING = False
-        except:
+        except Exception as e:
+            self.write_error("ERROR\n###########\n{}\n###########\n".format(e))
             self.LOGGING = True
 
         self.write_log("Making lib instance: '{}'".format(home))
@@ -158,29 +316,25 @@ class LIB:
         self.write_log("Using Config file: '{}'".format(cfg))
         self.write_log("Config: '{}'".format(self.CFG))
 
-        #set the current running OS
+        # Set the current running OS
         self.OS = self.clean_string(str(sys.platform).lower())
         self.write_log("Using OS: {}".format(self.OS))
-
-        # Start the config file reload thread
-        if self.get_config_value("ConfigReloadInterval", 0) != 0:
-            confi_reloader = MP.Process(name = "ConfigReloader", target=self.auto_reload_config, args=(self.CFG,))
-            confi_reloader.start()
-            self.write_log("Starting config reload process with pid: {}".format(confi_reloader.pid))
-            self.PROCESSLIST.append(confi_reloader)
 
     """
     CONFIG
     """
 
-    # Read the file in config file format, and populate the CFG dictionary
-    # Input  : config file
-    # Output : CFG dict
-    def read_config(self, cfgFile=None):
-        self.CFG_IN_USE = cfgFile
+    def read_config(self, in_cfg_file: str = None) -> [dict, None]:
+        """
+        Read the config file and generate a key value dict
+
+        :param str in_cfg_file: Config file name
+        :return {str, Any}: key value dict of file content
+        """
+        self.CFG_IN_USE = in_cfg_file
         tmp_cfg = {}
-        data = self.read_file(cfgFile)
-        if (data == -1) or (data is None):
+        data = self.read_file(in_cfg_file)
+        if data in [-1, None]:
             return None
         for line in data:
             line = self.clean_string(line)
@@ -196,71 +350,41 @@ class LIB:
                 if value[0] == '"':
                     value = self.clean_string(value.replace('"', ""))
                 elif value[0] == '[':
-                    mList = value.replace("[", "").replace("]", "").split(",")
-                    mList = list(map(self.sanitize_string, mList))
-                    value = mList
+                    tmp_list = value.replace("[", "").replace("]", "").split(",")
+                    tmp_list = list(map(self.sanitize_string, tmp_list))
+                    value = tmp_list
                 else:
                     try:
                         value = int(value)
-                    except:
+                    except Exception as e:
+                        self.write_error("ERROR\n###########\n{}\n###########\n".format(e))
                         value = self.clean_string(value).lower()
 
                 tmp_cfg[key] = value
         return tmp_cfg
 
-    # Get a config key value, if no key exists, the given default value is returned
-    # Input  : key, default value
-    # Output : value
-    def get_config_value(self, key, default=None):
+    def get_config_value(self, key: str, default=None):
+        """
+        Get he config value for a given key
+
+        :param str key: Key for the config value
+        :param Any default: Default value to return if key is not found
+        :return: Found value, default value, or None
+        """
         try:
             data = self.CFG[key.lower()]
-        except:
+        except Exception as e:
+            self.write_error("ERROR\n###########\n{}\n###########\n".format(e))
             data = default
         return data
 
-    # Auto-Reload the config file
-    # input: String config file, to be executed once.
-    # output: None
-    def auto_reload_config(self, m_cfg=None, one_run=False):
-        while True:
-            #Ensure the parent process is still running. (1 means its been taken over by the kernal)
-            if os.getppid() == 1:
-                return 0
-
-            if m_cfg is None:
-                string = "Main config not provided"
-                self.write_log(string)
-                return 0
-
-            self.write_log("Reloading confing '{}' from {}".format(self.CFG_IN_USE,os.getpid()))
-            #read the config file into a temp var
-            tmp_cfg = self.read_config(self.CFG_IN_USE)
-            if tmp_cfg is not None:
-                #clear out the config file.
-                for key in m_cfg.keys():
-                    if key in tmp_cfg:
-                        self.write_log("Updating {}".format(key))
-                        m_cfg[key] =  tmp_cfg[key]
-                    else:
-                        self.write_log("Removing {}".format(key))
-                        del m_cfg[key]
-                for key in tmp_cfg.keys():
-                    if key not in m_cfg.keys():
-                        self.write_log("Adding {}".format(key))
-                        m_cfg[key] = tmp_cfg[key]
-                self.write_log("New config values '{}'".format(m_cfg))
-                self.write_log("Reloading done")
-                self.sleep(self.get_config_value("ConfigReloadInterval", 60))
-            else:
-                self.sleep(2)
-            if one_run:
-                return
-
-    # Reload the given lib with the given config file
-    # input: String config file
-    # output: None
     def reload_config(self):
-        self.write_log("Reloading confing '{}' from {}".format(self.CFG_IN_USE, os.getpid()))
+        """
+        Reload the config file into the CFG dict
+
+        :return:
+        """
+        self.write_log("Reloading config '{}' from {}".format(self.CFG_IN_USE, os.getpid()))
         tmp_cfg = self.read_config(self.CFG_IN_USE)
         if tmp_cfg is not None:
             self.CFG.clear()
@@ -269,129 +393,53 @@ class LIB:
             self.write_log("New config values '{}'".format(self.CFG))
             self.write_log("Reloading done")
 
-    # Destroy this lib instance... it will become unusable if this is called
-    # Input: None
-    # Output: None
     def end(self):
-        self.write_log("{} processes to terminate".format(len(self.PROCESSLIST)))
-        for process in self.PROCESSLIST:
-            if process.is_alive():
-                self.write_log("Stopping process: {}".format(process.name))
-                self.force_kill_process(process.pid)
+        """
+        Terminate this LIB instance
+
+        :return:
+        """
         self.write_log("Terminating LIB instance")
         del self
-
-    # Force kill a process
-    # Input: pid of the process
-    # Output: boolean
-    def force_kill_process(self, in_pid=None):
-        if in_pid is None:
-            self.write_log("Need a process id")
-            return False
-        if type(in_pid) is not int:
-            self.write_log("Process id must be an integer")
-            return False
-        if in_pid is os.getpid():
-            self.write_log("Can't kill self")
-            return False
-        if in_pid == 1:
-            self.write_log("Can't kill root process")
-            return False
-        if in_pid is os.getppid():
-            self.write_log("Can't kill parent process")
-            return False
-        self.write_log("Killing pid : {}".format(in_pid))
-        cmd = "kill -9 {}".format(in_pid)
-        result = self.run_os_cmd(cmd)
-        if result is None:
-            self.write_log("CMD run error")
-            return False
-        if result[2] != 0:
-            self.write_log("Return code for kill not normal")
-            self.write_error("ERROR\n###########\n{}\n###########\n".format(result[1]))
-        else:
-            self.write_log("Successfully killed pid : {}".format(in_pid))
-            return True
-
-    # Get the name of the parent script that called lib
-    # Input: None
-    # Output: String
-    def get_script(self):
-        # Index definition for stack object
-        FILENAME_INDEX = 1
-        FUNCTIONAME_INDEX = 3
-
-        # Get python stack
-        try:
-            stack = inspect.stack()
-        except Exception as e:
-            self.write_error("Error:\n####\n{}\n####\n".format(e))
-            return None
-
-        # Remove all python imports. (this in theory will only show usr writen scripts)
-        m_stack = []
-        for entry in stack:
-            try:
-                if ("python" not in entry[FILENAME_INDEX]) and ("__" not in entry[FUNCTIONAME_INDEX]):
-                    m_stack.append(entry)
-            except Exception as e:
-                self.write_error("Error:\n####\n{}\n####\n".format(e))
-                return None
-
-        # reverse the stack (starting of the script is at the bottom, must bring it top)
-        m_stack.reverse()
-        try:
-            for entry in m_stack:
-                name = entry[FILENAME_INDEX]
-                function = entry[FUNCTIONAME_INDEX]
-                idx = m_stack.index(entry)
-                # if this is the last entry in the last return script and function name
-                if idx is len(m_stack) - 1:
-                    if self.HOME in name:
-                        name = name.split("/")[-1]
-                    return "{}/{}".format(name, function)
-                # get the next entry
-                next_entry = m_stack[idx + 1]
-                # if this is the first entry, and the next entry does not have the same name return script (this is pobably the main script)
-                if (idx == 0) and (next_entry[FILENAME_INDEX] is not name):
-                    if self.HOME in name:
-                        name = name.split("/")[-1]
-                    return "{}".format(name)
-                # if the next entry is not the same return script and function name
-                if (next_entry[FILENAME_INDEX] is not name):
-                    if self.HOME in name:
-                        name = name.split("/")[-1]
-                    return "{}/{}".format(name, function)
-        except Exception as e:
-            self.write_error("Error:\n####\n{}\n####\n".format(e))
-            return None
 
     """
     SYSTEM ARGUMENTS
     """
 
-    # Get the system argumnets
-    # Input  : None
-    # Output : list
-    def get_args(self):
+    def get_args(self) -> List[str]:
+        """
+        Get the arguments passed to the script
+
+        :return [str]: list of strings
+        """
         return self.ARGS
 
-    # Get a system key value, if no key exists, the given default value is returned. value is key index + 1
-    # Input  : None
-    # Output : list
-    def get_args_value(self, key, default=None):
+    def get_args_value(self, key: str = None, default=None):
+        """
+        Get and argument value given the key. (the value in this case is the next argument, {key_index+1})
+
+        :param str key: String key to the value of.
+        :param Any default: Default value to be returned is none is found
+        :return Any: None or the value (argument index +1) of the given key
+        """
         args = self.ARGS
         try:
             idx = args.index(key)
             value = args[idx + 1]
         except Exception as e:
+            self.write_error("Error:\n####\n{}\n####\n".format(e))
             value = default
         return value
 
-    # Ket in system arguments
-    # Input  : key
-    # Output : boolean
-    def in_args(self, key):
+    def in_args(self, key: str = None) -> bool:
+        """
+        Test if the key is part of the arguments
+
+        :param str key: Key to search for in arguments
+        :return bool: True if key is present, False otherwise.
+        """
+        if key is None:
+            return False
         args = self.ARGS
         if key in args:
             return True
@@ -401,10 +449,13 @@ class LIB:
     IO
     """
 
-    # Read string from user
-    # Input: String message
-    # Output: String user_input
-    def read_string(self,message = "Enter a string: "):
+    def read_string(self, message: str = "Enter a string: ") -> [str, None]:
+        """
+        Read a string from the user
+
+        :param srt message: Message to be displayed when asking for input
+        :return [str, None]: String value entered by the user, or None for input error
+        """
         try:
             input_string = input(message)
             self.write_log("{} {}".format(message, input_string))
@@ -413,10 +464,13 @@ class LIB:
             self.write_error("Error:\n####\n{}\n####\n".format(e))
             return None
 
-    # Read password from user
-    # Input: String message
-    # Output: String user_input
-    def read_password(self, message="Enter a password: "):
+    def read_password(self, message: str = "Enter a password: ") -> [str, None]:
+        """
+        Read a password from the user (not displayed in text)
+
+        :param str message: Message to be displayed when asking for input
+        :return [str, None]: String value entered by the user, or None for input error
+        """
         try:
             input_string = getpass.getpass(prompt=message)
             return input_string
@@ -424,25 +478,32 @@ class LIB:
             self.write_error("Error:\n####\n{}\n####\n".format(e))
             return None
 
-    # Read int from user
-    # Input: String message
-    # Output: int user_input
-    def read_int(self, message="Enter an integer: "):
+    def read_int(self, message: str = "Enter an integer: ") -> [int, None]:
+        """
+        Read an integer from the user
+
+        :param str message: Message to be displayed when asking for input
+        :return [int, None]: Integer value entered by the user, or None for input error
+        """
         try:
             value = self.read_string(message)
-            self.write_log("{} {}".format(message,value))
+            self.write_log("{} {}".format(message, value))
             if value == -1:
                 return None
-            intput_int = int(value)
-            return intput_int
+            input_int = int(value)
+            return input_int
         except Exception as e:
+            self.write_error("Error:\n####\n{}\n####\n".format(e))
             self.write_log("Invalid int")
             return None
 
-    # Read int from user
-    # Input: String message
-    # Output: String user_input
-    def read_char(self, message="Enter a character: "):
+    def read_char(self, message: str = "Enter a character: ") -> [str, None]:
+        """
+        Read a char from the user
+
+        :param str message: Message to be displayed when asking for input
+        :return [str, None]: String value entered by the user, or None for input error
+        """
         try:
             input_string = self.read_string(message)
             self.write_log("{} {}".format(message, input_string))
@@ -450,13 +511,18 @@ class LIB:
                 return None
             return input_string
         except Exception as e:
+            self.write_error("Error:\n####\n{}\n####\n".format(e))
             self.write_log("Invalid char")
             return None
 
-    # Get a Ipv4 from the user
-    # input: string
-    # output: string
-    def read_ip(self, message="Entry an IPv4: "):
+    def read_ip(self, message: str = "Entry an IPv4: ") -> [str, None]:
+        """
+        Read an IP from the user
+
+        :param str message: Message to be displayed when asking for input
+        :return [str, None]: String value of the IP entered by the user, or None for input error
+        """
+        value = None
         try:
             value = self.read_string(message=message)
             if self.is_ip(value) is False:
@@ -466,42 +532,51 @@ class LIB:
         self.write_log("{} {}".format(message, value))
         return value
 
-    # Read the given file name, retuns a list of lines
-    # Input  : filename
-    # Output : list
-    def read_file(self, fileName):
-        self.write_log("Reading file {}".format(fileName))
+    def read_file(self, in_file_name: str = None) -> [[str], None]:
+        """
+        Read given filename
+
+        :param srt in_file_name: Name of the file to be read
+        :return [[str], None]: List of strings for each line, or None for error
+        """
+        self.write_log("Reading file {}".format(in_file_name))
         try:
-            inFile = open(fileName, "r+", errors='ignore')
+            in_file = open(in_file_name, "r+", errors='ignore')
         except Exception as e:
             self.write_error("Error:\n####\n{}\n####\n".format(e))
             return None
         try:
             data = []
-            for line in inFile:
+            for line in in_file:
                 data.append(line)
-            inFile.close()
+            in_file.close()
             return data
         except Exception as e:
             self.write_error("Error:\n####\n{}\n####\n".format(e))
-            inFile.close()
+            in_file.close()
             return None
 
-    # Write out put to the log file
-    # Input  : string
-    # Output : None
-    def write_log(self, string, mode="a+"):
+    def write_log(self, in_string: str = None, mode: str = "a+") -> None:
+        """
+        Write a given string to the log file
+
+        :param str in_string: String to be written to the log file
+        :param str mode: The mode in which the log file is opened.
+        :return None: None if there is an error
+        """
+        if in_string is None:
+            return None
         if self.OUT_LOG is None:
             return
         try:
-            out = open("{}/{}".format(self.LOG,self.OUT_LOG), mode)
+            out = open(os.path.join(self.LOGS_PATH, self.OUT_LOG), mode)
         except Exception as e:
             self.write_error("Error:\n####\n{}\n####\n".format(e))
             return None
-        msg = "{} ~ {} ~ {}\n".format(self.get_now(), self.get_script(), string)
+        msg = "{} ~ {}\n".format(self.get_now(), in_string)
         try:
             con = self.get_config_value("console", 0)
-            if (con == 1) or (con == 4):
+            if con in [1, 4]:
                 print(msg)
             if self.LOGGING:
                 out.write(msg)
@@ -509,97 +584,128 @@ class LIB:
         except Exception as e:
             self.write_error("Error:\n####\n{}\n####\n".format(e))
             return None
-        return 0
+        return
 
-    # Write out put to the error file
-    # Input  : string
-    # Output : None
-    def write_error(self, string, mode="a+"):
+    def write_error(self, in_string: str = None, mode: str = "a+") -> None:
+        """
+        Write an string the error file.
+
+        :param str in_string: String to be written to the error file
+        :param srt mode: The mode in which hte lof file is opened
+        :return None: None if there is an error
+        """
+        if in_string is None:
+            return None
         if self.ERR_LOG is None:
             return
         try:
-            out = open("{}/{}".format(self.LOG,self.ERR_LOG), mode)
+            out = open(os.path.join(self.LOGS_PATH, self.ERR_LOG), mode)
         except:
             return None
-        msg = "{} ~ {} ~ {}\n".format(self.get_now(), self.get_script(), string)
+        msg = "{} ~ {}\n".format(self.get_now(), in_string)
         try:
             con = self.get_config_value("console", 0)
-            if (con == 2) or (con == 4):
+            if con in [2, 4]:
                 print(msg)
             if self.LOGGING:
                 out.write(msg)
             out.close()
         except:
             return None
-        return 0
+        return
 
-    # Write output to a specified file
-    # Input: filename, string
-    # Output: None
-    def write_file(self, file_name, string=None, mode="a+", time_stamp=True):
+    def write_file(self, file_name: str = None, in_string: str = None, mode: str = "a+",
+                   time_stamp: bool = False) -> None:
+        """
+        Write a given string to a given file
+
+        :param str file_name: Name of the file where the string is to be written
+        :param str in_string: String that is written to the file
+        :param srt mode: Mode in which the file is to be written in
+        :param bool time_stamp: Boolean a time stamp should be included
+        :return None: None if an error is to occur
+        """
+        if file_name is None:
+            return None
+        if in_string is None:
+            return None
         try:
             out = open(file_name, mode)
         except Exception as e:
             self.write_error("Error:\n####\n{}\n####\n".format(e))
             return None
         if time_stamp:
-            if string[len(string) - 1] == "\n":
-                msg = "{} ~ {}".format(self.get_now(), string)
+            if in_string[len(in_string) - 1] == "\n":
+                msg = "{} ~ {}".format(self.get_now(), in_string)
             else:
-                msg = "{} ~ {}\n".format(self.get_now(), string)
+                msg = "{} ~ {}\n".format(self.get_now(), in_string)
         else:
-            if string[len(string)-1] == "\n":
-                msg = "{}".format(string)
+            if in_string[len(in_string) - 1] == "\n":
+                msg = "{}".format(in_string)
             else:
-                msg = "{}\n".format(string)
+                msg = "{}\n".format(in_string)
         try:
             out.write(msg)
             con = self.get_config_value("console", 0)
-            if (con == 3) or (con == 4):
+            if con in [3, 4]:
                 print(msg)
             out.close()
         except Exception as e:
             self.write_error("Error:\n####\n{}\n####\n".format(e))
             out.close()
             return None
-        return 0
+        return
 
-    # List all the files and directories in a given path
-    # Input: String path
-    # Output: list of Files
-    def directory_listing(self, directory=None, recursive = True):
+    def directory_listing(self, directory: str = None, recursive: bool = True) -> [[File], None]:
+        """
+        List the contents of a directory
+
+        :param srt directory: Path to the directory
+        :param bool recursive: Bool if the contents should be listed recursively
+        :return [[File], None]: List of File objects, or None if error
+        """
         if not self.path_exists(directory):
             self.write_log("No such path {}".format(directory))
             return None
-        self.write_log("Listing directory {} Recursive = {}".format(directory,recursive))
+        self.write_log("Listing directory {} Recursive = {}".format(directory, recursive))
         files = []
         if recursive:
             for root, dirs, dire_files in os.walk(directory, topdown=False):
                 for name in dire_files:
                     try:
-                        stats = os.stat(os.path.join(root,name))
-                        files.append(File(name=name, path=os.path.join(root, name), size=stats.st_size, modified_time=stats.st_mtime, permissions=oct(stats.st_mode)))
-                    except:
+                        stats = os.stat(os.path.join(root, name))
+                        files.append(File(name=name, path=os.path.join(root, name), size=stats.st_size,
+                                          modified_time=stats.st_mtime, permissions=oct(stats.st_mode)))
+                    except Exception as e:
+                        self.write_error("Error:\n####\n{}\n####\n".format(e))
                         pass
                 for name in dirs:
                     try:
                         stats = os.stat(os.path.join(root, name))
-                        files.append(File(name=name, path=os.path.join(root, name), size=stats.st_size, modified_time=stats.st_mtime, permissions=oct(stats.st_mode)))
-                    except:
+                        files.append(File(name=name, path=os.path.join(root, name), size=stats.st_size,
+                                          modified_time=stats.st_mtime, permissions=oct(stats.st_mode)))
+                    except Exception as e:
+                        self.write_error("Error:\n####\n{}\n####\n".format(e))
                         pass
         if not recursive:
             for f in os.listdir(directory):
                 try:
-                    stats = os.stat("{}/{}".format(directory,f))
-                    files.append(File(name=f,path="{}/{}".format(directory,f), size=stats.st_size, modified_time=stats.st_mtime, permissions=oct(stats.st_mode)))
-                except:
+                    stats = os.stat(os.path.join(directory, f))
+                    files.append(
+                        File(name=f, path=os.path.join(directory, f), size=stats.st_size, modified_time=stats.st_mtime,
+                             permissions=oct(stats.st_mode)))
+                except Exception as e:
+                    self.write_error("Error:\n####\n{}\n####\n".format(e))
                     pass
         return files
 
-    # Check if the given path already exists
-    # Input: absolute path TODO: Make relative safe
-    # Output: boolean
-    def path_exists(self, path):
+    def path_exists(self, path: str = None) -> bool:
+        """
+        Check if a given path exists
+
+        :param str path: String of the full path to test
+        :return bool: Bool of the test
+        """
         self.write_log("Check path: {}".format(path))
         try:
             value = os.path.exists(path)
@@ -609,16 +715,20 @@ class LIB:
         self.write_log("Path exists result: {}".format(value))
         return value
 
-    # Make file, make the File object
-    # Input: path to the file
-    # Output: File object
-    def make_file(self,in_file=None,create=None):
+    def make_file(self, in_file: str = None, create: bool = False) -> [File, None]:
+        """
+        Create a new File Object
+
+        :param srt in_file: Full path and name to file
+        :param bool create: Create the file on the system
+        :return [File, None]: File Object of None if error
+        """
         if in_file is None:
             self.write_log("Need file path")
             return None
         if not self.file_exists(in_file):
             self.write_log("File does not exists")
-            if create is not None:
+            if create:
                 self.write_log("Creating new file {}".format(in_file))
                 try:
                     file = open(in_file, "w+")
@@ -627,24 +737,25 @@ class LIB:
                 except Exception as e:
                     self.write_error("Error creating file: {}".format(e))
                     return None
-            else:
-                return None
         name = os.path.basename(in_file)
         path = os.path.abspath(in_file)
         stats = os.stat(in_file)
         return File(name=name, path=path, size=stats.st_size, modified_time=stats.st_mtime,
                     permissions=oct(stats.st_mode))
 
-    # Remove file, remove the given file
-    # Input: path to the file or the file object
-    # Output: boolean
-    def remove_file(self,in_file=None):
+    def remove_file(self, in_file: [File, str] = None) -> bool:
+        """
+        Remove a file from the system
+
+        :param [File, str] in_file: File object of full path to the file
+        :return bool: Status of the removal
+        """
         if in_file is None:
             self.write_log("Need a file path or name")
             return False
         file_name = None
         if type(in_file) is File:
-            file_name = in_file.path
+            file_name = in_file.get_abs_path()
         elif type(in_file) is str:
             file_name = in_file
 
@@ -664,14 +775,19 @@ class LIB:
             self.write_error("Error removing file: {}".format(e))
             return False
 
-    # Check if the file exists
-    # Input: Path to the file
-    # Output: Boolean
-    def file_exists(self,in_file=None):
+    def file_exists(self, in_file: [File, str] = None) -> bool:
+        """
+        Check if the file exists
+
+        :param [File, str] in_file: File object of full path to the file
+        :return bool: Status of file check
+        """
         if in_file is None:
             self.write_log("Need file path")
             return False
         try:
+            if type(in_file) is File:
+                in_file = in_file.path
             value = os.path.isfile(in_file)
             if value:
                 return True
@@ -681,110 +797,110 @@ class LIB:
             self.write_error("Error: {}".format(e))
             return False
 
-    # File Rotation, rotate the given file, if it meets the
-    # Input: File name / path
-    # Output: Boolean
-    def file_rotation(self, in_file=None, force_rotation=False):
+    def file_rotation(self, in_file: [File, str] = None, force_rotation: bool = False):
+        """
+        Check and rotate a given file
+
+        :param [File, str] in_file: File object of full path to the file
+        :param bool force_rotation: Ignore the size check and rotate the file anyways
+        :return [bool, None]: Status of the rotation or None if error
+        """
         if type(in_file) is not File:
             if type(in_file) is str:
                 if self.file_exists(in_file):
                     working_file = self.make_file(in_file)
                 else:
-                    logMessage = "File does not exist '{}'".format(in_file)
-                    self.write_log(logMessage)
+                    log_message = "File does not exist '{}'".format(in_file)
+                    self.write_log(log_message)
                     return None
             else:
-                logMessage = "Unknown file type '{}'".format(in_file)
-                self.write_log(logMessage)
+                log_message = "Unknown file type '{}'".format(in_file)
+                self.write_log(log_message)
                 return None
         else:
             working_file = in_file
 
         if working_file is None:
-            logMessage = "File is none"
-            self.write_log(logMessage)
+            log_message = "File is none"
+            self.write_log(log_message)
             return None
 
-        self.write_log("File Rotation started: '{}'".format(working_file.path))
-
-        list = os.path.split(working_file.path)
-        dir = os.path.join(*list[:len(list) - 1])
+        self.write_log("File Rotation started: '{}'".format(working_file.name))
 
         try:
-            SIZELIMIT = float(self.get_config_value("LogRotationFileSize", 10))
-            FILELIMIT = float(self.get_config_value("LogRotationFileLimit", 1))
+            _sizelimit = float(self.get_config_value("LogRotationFileSize", 10))
+            _filelimit = float(self.get_config_value("LogRotationFileLimit", 1))
         except Exception as e:
-            logMessage = "Unknown config value"
-            self.write_log(logMessage)
-            SIZELIMIT = 10
-            FILELIMIT = 1
+            self.write_error(f"Error {e}")
+            log_message = "Unknown config value"
+            self.write_log(log_message)
+            _sizelimit = 10
+            _filelimit = 1
 
-        # get all the files at this path
-        dirFiles = self.directory_listing(dir,False)
+        # Get all the files at this path
+        dir_files = self.directory_listing(working_file.path, False)
 
-        # if force_rotation is set, this is ignored
+        # If force_rotation is set, this is ignored
         if not force_rotation:
-            # ensure this file has a size grater than whats defined
-            for dirFile in dirFiles:
-                if dirFile.path == working_file.path:
-                    print(float((SIZELIMIT * 1000) * 1024))
-                    print(float(dirFile.size))
-                    if float(dirFile.size) < float(((SIZELIMIT * 1000) * 1024)):
-                        self.write_log("Size not at limit: '{}'".format(working_file.path))
+            # Ensure this file has a size grater than whats defined
+            for dir_file in dir_files:
+                if dir_file.name == working_file.name:
+                    print(float((_sizelimit * 1000) * 1024))
+                    print(float(dir_file.size))
+                    if float(dir_file.size) < float(((_sizelimit * 1000) * 1024)):
+                        self.write_log("Size not at limit: '{}'".format(working_file.name))
                         return False
         else:
             self.write_log("Force Rotation")
 
-        tmpList = []
-        # remove files that are not an iteration of the file in question
-        for dirFile in dirFiles:
-            if working_file.name in dirFile.name:
-                tmpList.append(dirFile)
-        dirFiles = tmpList
+        tmp_list = []
+        # Remove files that are not an iteration of the file in question
+        for dir_file in dir_files:
+            if working_file.name in dir_file.name:
+                tmp_list.append(dir_file)
+        dir_files = tmp_list
 
-        while int(len(dirFiles)) > int(FILELIMIT):
-            # find the oldest files
+        while int(len(dir_files)) > int(_filelimit):
+            # Find the oldest files
             oldest = None
-            for dirFile in dirFiles:
-                if dirFile.name != working_file.name:
-                    if (oldest is None):
-                        oldest = dirFile
+            for dir_file in dir_files:
+                if dir_file.name != working_file.name:
+                    if oldest is None:
+                        oldest = dir_file
                     else:
-                        if oldest.modified_time > dirFile.modified_time:
-                            oldest = dirFile
-            logMessage = "Removing oldest file '{}'".format(oldest.path)
-            self.write_log(logMessage)
-            cmd = "rm -f {}".format(oldest.path)
-            out, err, return_code = self.run_os_cmd(cmd)
-            if return_code != 0:
-                logMessage = "Could not remove file '{}'".format(oldest.path)
-                self.write_log(logMessage)
-            dirFiles.remove(oldest)
+                        if oldest.modified_time > dir_file.modified_time:
+                            oldest = dir_file
+            log_message = "Removing oldest file '{}'".format(oldest.name)
+            self.write_log(log_message)
+            if self.remove_file(oldest):
+                dir_files.remove(oldest)
+            else:
+                self.write_log(f"Unable to remove {oldest}")
 
-        # rotate and make new files
-        logMessage = "Copying file file '{}'".format(working_file.path)
-        self.write_log(logMessage)
-        new_name = "{}.{}".format( working_file.path,self.get_now().replace(" ", "-").replace(":", "-").split(".")[0])
-        self.LASTFILEROTATE = new_name
-        cmd = "mv {} {}".format(working_file.path,new_name)
-
-        out, err, return_code = self.run_os_cmd(cmd)
-        if return_code != 0:
-            logMessage = "Could not move '{}'".format(working_file.path)
-            self.write_log(logMessage)
+        # Rotate and make new files
+        self.LASTFILEROTATE = working_file
+        new_file = copy.deepcopy(working_file)
+        new_file.name = "{}.{}".format(new_file.name, self.get_now().replace(" ", "-").replace(":", "-").split(".")[0])
+        if self.move_file(working_file, new_file):
+            self.write_log(f"Moved {working_file.name} to {new_file.name}")
+        else:
+            self.write_log(f"Error moving file")
             return False
-        cmd = "touch {}".format(working_file.path)
-        out, err, return_code = self.run_os_cmd(cmd)
-        if return_code != 0:
-            logMessage = "Could not create file '{}'".format(working_file.path)
-            self.write_log(logMessage)
-        self.write_log("File Rotation done: '{}.{}'".format(working_file.path,self.get_now().replace(" ", "-").replace(":", "-").split(".")[0]))
+        # Create an empty file to replace the old one with
+        if self.make_file(working_file.get_abs_path(), create=True):
+            self.write_log(f"New file {working_file.name} created")
+        else:
+            self.write_log(f"Error creating {working_file.name}")
+            return False
         return True
 
-    # Create the given path. This is a recursive operation.
-    # Input: absolute path TODO: Make relative safe
-    # Output: boolean
-    def make_path(self, path=None):
+    def make_path(self, path: str = None) -> bool:
+        """
+        Make the given absolute path
+
+        :param str path: Absolute path that should be created
+        :return bool: True if the path is created, False otherwise
+        """
         if path is None:
             self.write_log("Need a path")
             return False
@@ -799,10 +915,14 @@ class LIB:
             return False
         return False
 
-    # Remove the given path. This is a recursive operation.
-    # Input: absolute path, force deletion
-    # Output: boolean
-    def remove_path(self, path=None,force=False):
+    def remove_path(self, path: str = None, force: bool = False) -> bool:
+        """
+        Remove the given absolute path
+
+        :param str path: Absolute path that needs to be removed
+        :param bool force: Force the removal of the path (if there is content in the directory)
+        :return bool: True if the path was removed, False otherwise.
+        """
         if path is None:
             self.write_log("Need a path")
             return False
@@ -822,144 +942,272 @@ class LIB:
             self.write_error("Error:\n####\n{}\n####\n".format(e))
             return False
 
-    # Copy file
-    # Input: String source, String destination
-    # Output: None
-    def copy_file(self,source=None, destination=None):
+    def move_file(self, source: [File, str] = None, destination: [File, str] = None) -> bool:
+        """
+        Move the given source file to the given destination
+
+        :param [File, str] source: Source File that needs to be moved
+        :param [File, str] destination: Destination File where to move (must be a directory)
+        :return bool: Status of the move
+        """
         if (source is None) or (destination is None):
-            return None
-        if not self.path_exists(source):
-            return None
-        self.write_log("COPY {} TO {}".format(source, destination))
-        if not self.path_exists(destination):
-            parts = destination.split("/")
-            make_path = "/".join(parts[:len(parts)-1])
-            self.make_path(make_path)
-        try:
-            shutil.copy2(source,destination)
-        except Exception as e:
-            self.write_error("Error:\n####\n{}\n####\n".format(e))
-            return None
-        return None
+            return False
 
-    # Run the given os command
-    # Input: string (system command)
-    # Output: [command.output, command.error, command.returncode]
-    def run_os_cmd(self, cmd):
-        tout = self.get_config_value("cmdtimeout", 60)
-        if tout != 0:
-            cmd = "timeout {} {}".format(tout, cmd)
+        if type(source) not in [File, str]:
+            self.write_log(f"Invalid source file")
+            return False
+        if type(destination) not in [File, str]:
+            self.write_log(f"Invalid destination file")
+            return False
+
+        if type(source) == str:
+            source = self.make_file(in_file=source, create=False)
+            if source is None:
+                self.write_log(f"Error making source file")
+
+        if type(destination) == str:
+            destination = self.make_file(in_file=destination, create=False)
+            if destination is None:
+                self.write_log(f"Error making destination file")
+
+        if not self.path_exists(source.path):
+            self.write_log(f"Source path does not exist")
+            return False
+
+        if not self.path_exists(destination.path):
+            self.write_log(f"Destination path does not exist")
+            return False
+
+        if not source.is_directory and destination.is_directory:
+            tmp_source = source.get_abs_path()
+            tmp_destination = os.path.join(destination.get_abs_path(), source.name)
+            self.write_log("MOVE {} TO {}".format(tmp_source, tmp_destination))
+            try:
+                shutil.move(tmp_source, tmp_destination)
+            except Exception as e:
+                self.write_error("Error:\n####\n{}\n####\n".format(e))
+                return False
+            return True
+        elif not source.is_directory and not destination.is_directory:
+            tmp_source = source.get_abs_path()
+            tmp_destination = destination.get_abs_path()
+            self.write_log("MOVE {} TO {}".format(tmp_source, tmp_destination))
+            try:
+                shutil.move(tmp_source, tmp_destination)
+            except Exception as e:
+                self.write_error("Error:\n####\n{}\n####\n".format(e))
+                return False
+            return True
+        elif source.is_directory and destination.is_directory:
+            self.write_log(f"Source and destination are directories")
+            return False
+        elif source.is_directory and not destination.is_directory:
+            self.write_log(f"Source is a directories")
+            return False
+        else:
+            self.write_log(f"Unknown source and destination types")
+            return False
+
+    def copy_file(self, source: [File, str] = None, destination: [File, str] = None) -> bool:
+        """
+        Copy the given source file to the given destination
+
+        :param [File, str] source: Source File that needs to be copied
+        :param [File, str] destination: Destination File where to copy (must be a directory)
+        :return bool: Status of the copy
+        """
+        if (source is None) or (destination is None):
+            return False
+
+        if type(source) not in [File, str]:
+            self.write_log(f"Invalid source file")
+            return False
+        if type(destination) not in [File, str]:
+            self.write_log(f"Invalid destination file")
+            return False
+
+        if type(source) == str:
+            source = self.make_file(in_file=source, create=False)
+            if source is None:
+                self.write_log(f"Error making source file")
+
+        if type(destination) == str:
+            destination = self.make_file(in_file=destination, create=False)
+            if destination is None:
+                self.write_log(f"Error making destination file")
+
+        if not self.path_exists(source.path):
+            self.write_log(f"Source path does not exist")
+            return False
+
+        if not self.path_exists(destination.path):
+            self.write_log(f"Destination path does not exist")
+            return False
+
+        if not source.is_directory and destination.is_directory:
+            tmp_source = source.get_abs_path()
+            tmp_destination = os.path.join(destination.get_abs_path(), source.name)
+            self.write_log("COPY {} TO {}".format(tmp_source, tmp_destination))
+            try:
+                shutil.copy2(tmp_source, tmp_destination)
+            except Exception as e:
+                self.write_error("Error:\n####\n{}\n####\n".format(e))
+                return False
+            return True
+        elif not source.is_directory and not destination.is_directory:
+            tmp_source = source.get_abs_path()
+            tmp_destination = destination.get_abs_path()
+            self.write_log("COPY {} TO {}".format(tmp_source, tmp_destination))
+            try:
+                shutil.copy2(tmp_source, tmp_destination)
+            except Exception as e:
+                self.write_error("Error:\n####\n{}\n####\n".format(e))
+                return False
+            return True
+        elif source.is_directory and destination.is_directory:
+            self.write_log(f"Source and destination are directories")
+            return False
+        elif source.is_directory and not destination.is_directory:
+            self.write_log(f"Source is a directories")
+            return False
+        else:
+            self.write_log(f"Unknown source and destination types")
+            return False
+
+    def run_os_cmd(self, cmd: str = None) -> [[str, str, int], [None, None, int]]:
+        """
+        Run a given OS command
+
+        :param str cmd: OS command to be run
+        :return [[str, str , str], None]: List of [command.output, command.error, command.return_code] or None if error
+
+        :ivar Command command: The command object that runs the given command
+        """
+
+        if cmd is None:
+            return [None, None, 127]
+
+        tout = self.get_config_value("CmdTimeout", 60)
+        if type(tout) is not int:
+            tout: int = 60
+
         self.write_log("Running cmd: '{}'".format(cmd))
-        try:
-            p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
-            p.wait()
-            out, error = p.communicate()
-            returnCode = p.poll()
-            self.write_log("Code:{}\n==OUT==\n{}\n==OUT==\n==ERR==\n{}\n==ERR==".format(returnCode, out, error))
-        except Exception as e:
-            self.write_error("Error:\n####\n{}\n####\n".format(e))
-            return None
-        return [out, error, returnCode]
+        command = Command(cmd)
+        command.run(tout)
 
-    # Start the given os command as it's on process
-    # Input: string (system command)
-    # Output: subprocess.Popen obejct
-    def start_process(self, cmd):
-        self.write_log("Starting process cmd: '{}'".format(cmd))
-        try:
-            p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
-        except Exception as e:
-            self.write_error("Error:\n####\n{}\n####\n".format(e))
-            return None
-        return p
+        return command.get_done_values()
 
     """
     TIME BASE
     """
 
-    # Get the time now
-    # Input: None
-    # Output: string
-    def get_now(self):
-        return str(DT.now())
+    @staticmethod
+    def get_now() -> str:
+        """
+        String representation of datetime.now()
 
-    # Convert time stamp to human readable date
-    # Input: string (timestamp)
-    # Output: string (human readable format)
-    def timestamp_to_date(self, stamp):
+        :return:
+        """
+        return str(dt.now())
+
+    @staticmethod
+    def timestamp_to_date(stamp: float = None) -> [str, None]:
+        """
+        Convert time stamp to human readable date
+
+        :param str stamp: Timestamp that needs to be converted
+        :return [str, None]: String of the human readable format, None if error
+        """
         if stamp is not None:
-            return str(DT.utcfromtimestamp(stamp)).split(".")[0]
+            return str(dt.utcfromtimestamp(stamp)).split(".")[0]
         return None
 
-    # Sleep for a given duration
-    # Input: int (duration)
-    # Output: none
-    def sleep(self, duration):
+    def sleep(self, duration: int = 0):
+        """
+        Program sleep for the given duration
+
+        :param int duration: Duration for the sleep to take place
+        :return:
+        """
         self.write_log("Sleeping for {}".format(duration))
         try:
             time.sleep(duration)
         except Exception as e:
-            string = "Sleep error: '{}'".format(e)
-            self.write_log("Sleep error")
-            self.write_error(string)
+            tmp_string = "Sleep error: '{}'".format(e)
+            self.write_error(tmp_string)
         return
 
-    # Delta time +/-
-    # Input: Integer delta, String measure
-    def time_delta(self, delta=None, measure=None):
+    def time_delta(self, delta: int = None, measure: str = None) -> [str, None]:
+        """
+        Return string representation of time after shifting delta from now()
+
+        :param int delta: Duration to delta the time
+        :param str measure: The measure in which to do the delta
+        :return [str, None]: String representation of the delta time
+
+        :ivar [str] _measure: ['days', 'weeks', 'hours', 'minutes', 'seconds']
+        """
         if (delta is None) or (measure is None):
             self.write_error("Invalid delta or measure")
             return None
-        MEASURE = ['days','weeks','hours','minutes','seconds']
-        if measure not in MEASURE:
+        _measure = ['days', 'weeks', 'hours', 'minutes', 'seconds']
+        if measure not in _measure:
             self.write_error("Invalid measure {}".format(measure))
-            self.write_error("OPTIONS: {}".format(MEASURE))
+            self.write_error("OPTIONS: {}".format(_measure))
             return None
         if type(delta) is not int:
             self.write_error("Delta must be an integer")
             return None
         self.write_log("Time delta {} {}".format(delta, measure))
-        now = DT.now()
+        now = dt.now()
         future = False
-        if delta >0:
+        if delta > 0:
             future = True
         delta = abs(delta)
         measure = measure.lower()
         return_value = None
         if future:
             if measure == "seconds":
-                return_value = str(now + TD(seconds=delta)).split(".")[0]
+                return_value = str(now + td(seconds=delta)).split(".")[0]
             if measure == "minutes":
-                return_value = str(now + TD(minutes=delta)).split(".")[0]
+                return_value = str(now + td(minutes=delta)).split(".")[0]
             if measure == "hours":
-                return_value = str(now + TD(hours=delta)).split(".")[0]
+                return_value = str(now + td(hours=delta)).split(".")[0]
             if measure == "days":
-                return_value = str(now + TD(days=delta)).split(".")[0]
+                return_value = str(now + td(days=delta)).split(".")[0]
             if measure == "weeks":
-                return_value = str(now + TD(weeks=delta)).split(".")[0]
+                return_value = str(now + td(weeks=delta)).split(".")[0]
         if not future:
             if measure == "seconds":
-                return_value = str(now - TD(seconds=delta)).split(".")[0]
+                return_value = str(now - td(seconds=delta)).split(".")[0]
             if measure == "minutes":
-                return_value = str(now - TD(minutes=delta)).split(".")[0]
+                return_value = str(now - td(minutes=delta)).split(".")[0]
             if measure == "hours":
-                return_value = str(now - TD(hours=delta)).split(".")[0]
+                return_value = str(now - td(hours=delta)).split(".")[0]
             if measure == "days":
-                return_value = str(now - TD(days=delta)).split(".")[0]
+                return_value = str(now - td(days=delta)).split(".")[0]
             if measure == "weeks":
-                return_value = str(now - TD(weeks=delta)).split(".")[0]
+                return_value = str(now - td(weeks=delta)).split(".")[0]
         return return_value
 
     '''
     HOSTS FUNCTIONS
     '''
 
-    def remove_comments(self, hostsfile):
+    def remove_comments_from_hosts_file_entry_list(self, hostsfile: [str] = None) -> [[str], None]:
+        """
+        Remove comments from hosts files line entries
+
+        :param [str] hostsfile: List of lines from the hosts file
+        :return [[srt], None]: Sanitized list of lines
+        """
         self.write_log("Cleaning hosts file")
-        newHosts = []
+        if hostsfile is None:
+            return None
+        new_host = []
         # for each line the hosts file
         for line in hostsfile:
-            # string any leading and tralling spaces, and the new line at the end
+            # string any leading and trailing spaces, and the new line at the end
             line = line.strip().replace("\n", "")
             if line != "":
                 # if the line starts with "#" or "*" ignore it
@@ -967,238 +1215,289 @@ class LIB:
                     # if the line has "#" in is parse out all the data after it
                     if "#" in line:
                         tmp = line[:line.index("#")]
-                        newHosts.append(tmp.replace("\t", " "))
+                        new_host.append(tmp.replace("\t", " "))
                     else:
-                        newHosts.append(line.replace("\t", " "))
-        return newHosts
+                        new_host.append(line.replace("\t", " "))
+        return new_host
 
-    # Read the host file and convert them in to  hostsfile objects (hostFileClass.py)
-    # input  : hostfile
-    # output : list of hosts objects (hostFileClass.py)
-    def generate_hosts_list(self, hostsfile):
-        str = "Generating hosts list"
-        self.write_log(str)
+    def generate_hosts_list(self, in_hostsfile: [str] = None) -> [[Host], None]:
+        """
+        Generate a list of hosts from hosts file
+
+        :param [str] in_hostsfile: List of lines from the hosts file
+        :return:
+        """
+        tmp_string = "Generating hosts list"
+        self.write_log(tmp_string)
         # remove comments from file
-        hosts = self.remove_comments(hostsfile)
-        myHosts = []
+        hosts = self.remove_comments_from_hosts_file_entry_list(in_hostsfile)
+        my_hosts = []
         for h in hosts:
-            ip = "None"
             hostname = []
-            list = h.split(" ")
-            if len(list) > 1:
-                ip = list[0]
-                for i in range(len(list)):
-                    if (i != 0) and (list[i] != ""):
+            tmp_list = h.split(" ")
+            if len(tmp_list) > 1:
+                ip = tmp_list[0]
+                for i in range(len(tmp_list)):
+                    if (i != 0) and (tmp_list[i] != ""):
                         # for each hostname assigned to ip
-                        hostname.append(list[i].strip().replace("\n", "").replace("\r", ""))
-                myHosts.append(Host(hostname, ip))
-        str = "Generation Done. Got %s hosts" % (len(myHosts))
-        self.write_log(str)
-        return myHosts
+                        hostname.append(tmp_list[i].strip().replace("\n", "").replace("\r", ""))
+                my_hosts.append(Host(hostname, ip))
+        tmp_string = "Generation Done. Got %s hosts" % (len(my_hosts))
+        self.write_log(tmp_string)
+        return my_hosts
 
-    # get the hostfile from /etc/hosts
-    # input  : none
-    # output : list of hosts objects (hostFileClass.py)
-    def get_hosts(self, hosts_file = None):
+    def get_hosts(self, hosts_file: str = None) -> [[Host], None]:
+        """
+        Gets a list of Hosts object from a given hosts file
+
+        :param str hosts_file: Path to the hosts file
+        :return [[Host], None]: List of Host's or None if error
+        """
         if hosts_file is None:
-            hostsfile = self.read_file("/etc/hosts")
-        else:
-            hostsfile = self.read_file(hosts_file)
+            if self.OS.lower() in ['linux']:
+                hosts_file = os.path.join('/', 'etc', 'hosts')
+            elif self.OS.lower() in ['windows', 'win', 'win32', 'win64']:
+                hosts_file = os.path.join('C:', 'Windows', 'System32', 'drivers', 'etc', 'hosts')
+        hostsfile = self.read_file(hosts_file)
         if hostsfile is None:
             return None
         self.HOSTSLIST = self.generate_hosts_list(hostsfile)
         return self.HOSTSLIST
 
-    # check to see if the name is assigned to host as one of its hostnames
-    # input  : hosts object, name
-    # output : 0 = false, 1 = true
-    def name_in_hostnames(self, host, name):
-        for hName in host.hostname:
-            if name.lower() == hName.lower():
-                return 1
-        return 0
+    @staticmethod
+    def name_in_hostnames(host: Host = None, name: str = None) -> bool:
+        """
+        Search for a given name in the given Host.
 
-    # check to see if the ip given is the same as the ip for the host.
-    # input  : hosts object, ip
-    # output : 0 = false, 1 = true
-    def isIp(self, host, ip):
-        if (ip == "None") or (ip is None) or (ip == "0.0.0.0"):
-            return 0
-        if host.ip == ip:
-            return 1
-        return 0
+        :param Host host: Host object in which to search for the name
+        :param str name: Name to search for in the Host object
+        :return bool: True if the name is found, False otherwise
+        """
+        if (host is None) or (name is None):
+            return False
+        for h_name in host.hostname:
+            if name.lower() == h_name.lower():
+                return True
+        return False
 
-    # check to see if the node (nodeClass) given is in hostfile
-    # input  : node object
-    # output : 0 = false, 1 = true
-    def in_hosts_list(self, node):
+    @staticmethod
+    def ip_in_host(host: Host = None, ip: str = None) -> bool:
+        """
+        Check if a given IP is in a given Host
+
+        :param Host host: Host in which to search for the IP
+        :param str ip: The IP which is being searched
+        :return bool: True if the IP is found, False otherwise
+        """
+        if (ip is None) or (host is None):
+            return False
+        for host_ip in host.ip:
+            if host_ip == ip:
+                return True
+        return False
+
+    def host_in_hosts_list(self, in_host: Host = None) -> bool:
+        """
+        Check if a given host is in the hosts list
+        
+        :param Host in_host: Host to search for 
+        :return bool: True if the host is found, false otherwise 
+        """
+        if in_host is None:
+            return False
         for host in self.HOSTSLIST:
-            if self.name_in_hostnames(host, node.name):
-                if len(node.ip) >= 1:
-                    if not (self.isIp(host, node.ip)):
-                        return 0
-                return 1
-        return 0
+            if host is in_host:
+                return True
+        return False
 
-    def get_hostnames(self, ip=None):
-        if ip is None:
-            return None
-        if not self.is_ip(ip):
-            return None
-        for host in self.HOSTSLIST:
-            if host.ip == ip:
-                string = ",".join(host.hostname)
-                return string
+    @staticmethod
+    def make_host(name: str = None, ip: str = None) -> Host:
+        """
+        Make a host object given the name and ip
 
-    # return the nodename syntex from the hostsfile
-    # input  : node object
-    # output : name OR None
-    def get_host_name_syntax(self, node):
-        for host in self.HOSTSLIST:
-            for hName in host.hostname:
-                if node.name.lower() == hName.lower():
-                    return hName
-        return None
+        :param str name: Name of the host
+        :param str ip: IP of the host
+        :return Host: The Host object
+        """
+        return Host(hostname=[name], ip=[ip])
 
     """
     GENERAL FUNCTIONS
     """
 
-    #Get the version number of this liberary
-    #input: none
-    #output: version number (string)
-    def get_version(self):
-        return str(self.VERSION)
+    def get_version(self) -> str:
+        """
+        Return the version of this LIB
 
-    # Clean the given list of strings. Errors result in the same list being returned
-    # Input: list (of strings)
-    # Output: list (of string)
-    def clean_string_list(self, list):
+        :return str: Version of this LIB
+        """
+        return self.VERSION
+
+    def clean_string_list(self, in_list: [str] = None) -> [str]:
+        """
+        Clear a list of strings
+
+        :param [str] in_list: List of string to be cleaned
+        :return [str]: Cleaned list of string, same list return if error
+        """
         try:
-            mlist = []
-            for m in list:
+            m_list = []
+            for m in in_list:
                 if (m != "") or (len(m) >= 1):
-                    mlist.append(self.clean_string(m))
-            return mlist
+                    m_list.append(self.clean_string(m))
+            return m_list
         except Exception as e:
             self.write_error("Error:\n####\n{}\n####\n".format(e))
-            return list
+            return in_list
 
-    # Clean the given string. Remove newline characters, and strip whitespaces. Errors result in the same string being returned
-    # Input: string
-    # Output: string
-    def clean_string(self, string):
+    def clean_string(self, in_string: str = None) -> str:
+        """
+        Clean a given string
+
+        :param str in_string: String to be cleaned
+        :return str: Cleaned string
+        """
         try:
-            mstring = string.replace("\n", "").replace("\r", "").strip()
-            mstring = re.sub('\s+', ' ', mstring).strip()
-            return mstring
+            m_string = in_string.replace("\n", "").replace("\r", "").strip()
+            m_string = re.sub('\s+', ' ', m_string).strip()
+            return m_string
         except Exception as e:
             self.write_error("Error:\n####\n{}\n####\n".format(e))
-            return string
+            return in_string
 
-    # Sanitize string, remove all punctuations (defined at the top), newlines, and whitespaces
-    # Input: string
-    # Output: string
-    def sanitize_string(self, instring, black_list=None):
-        words = instring.split()
+    def sanitize_string(self, in_string: str = None, black_list: [str] = None):
+        """
+        Sanitized a given string. Removes punctuations, and back listed words from string
 
-        if black_list != None:
+        :param str in_string: String to be sanitized
+        :param [str] black_list: List of blacklisted words to remove
+        :return str:
+        """
+        words = in_string.split()
+        if black_list is not None:
             tmp = []
             for word in words:
                 if word not in black_list:
                     tmp.append(word)
             words = tmp
 
-        mstring = []
+        m_string = []
         for word in words:
-            mword = []
+            m_word = []
             for char in word:
                 if char not in self.PUNCTUATION:
-                    mword.append(char)
-            mstring.append("".join(mword))
-        string = self.clean_string(" ".join(mstring))
-        self.write_log("Sanitized string: {}".format(string))
-        return string
+                    m_word.append(char)
+            m_string.append("".join(m_word))
+        clean_string = self.clean_string(" ".join(m_string))
+        self.write_log("Sanitized string: {}".format(clean_string))
+        return clean_string
 
-    # Remove characters from string
-    # Input: string
-    # Output: string
-    def remove_char_from_string(self, in_string=None, white_list=None):
+    @staticmethod
+    def remove_char_from_string(in_string: str = None, white_list: [str] = None) -> [str, None]:
+        """
+        Remove non-ascii letters and non-white-list chars from string
+
+        :param str in_string: String to be cleaned
+        :param [str] white_list: List of chars not to remove
+        :return [str, None]: Cleaned string
+
+        :ivar [str] _valid_chars: List of valid chars or None if error
+        """
         if in_string is None:
-            return None
+            return in_string
         if type(in_string) is not str:
-            return None
-        VALID_CHARS = string.ascii_letters + string.digits + white_list
+            return in_string
+        _valid_chars = string.ascii_letters + string.digits + white_list
         tmp_string = ""
         for char in in_string:
-            if char in VALID_CHARS:
+            if char in _valid_chars:
                 tmp_string = "{}{}".format(tmp_string, char)
         return tmp_string
 
-    # Return if letts and number are in the string, + any white list you define.
-    # Input: string
-    # Output: Boolean
-    def is_legal_string(self, in_string=None, white_list=None):
+    @staticmethod
+    def is_legal_string(in_string: str = None, white_list: [str] = None) -> bool:
+        """
+        Checks if the string is legal. Only ascii chars and white list chars
+
+        :param str in_string: String to be checked
+        :param [str] white_list: List of valid chars
+        :return bool: True if the string is valid, False otherwise
+        """
         if in_string is None:
-            return None
+            return False
         if type(in_string) is not str:
-            return None
-        VALID_CHARS = string.ascii_letters + string.digits + white_list
+            return False
+        _valid_chars = string.ascii_letters + string.digits + white_list
         for char in in_string:
-            if char not in VALID_CHARS:
+            if char not in _valid_chars:
                 return False
         return True
 
-    # Encode a given value using base64. A key can be given to further secure the encoding
-    #  NOTE: THIS IS NOT SECURE ENCRIPTION... BUT ALTEAST ITS NOT PLAIN TEXT
-    # Input: String value, String key
-    # Output: String encoded_value
-    def encode(self, value = None, key="secret"):
+    def encode(self, value: str = None, key: str = "secret") -> [str, None]:
+        """
+        Encode a given value using base64. A key can be given to further secure the encoding
+        NOTE: THIS IS NOT SECURE ENCRYPTION.. BUT ATLEAST ITS NOT PLAIN TEXT
+
+        :param str value: Value to be encoded
+        :param str key: Salt value when encoding
+        :return [str, None]: Encoded string
+        """
         self.write_log("Encoding: {}".format(value))
         encoded_value = None
         if value is None:
-                return encoded_value
+            return encoded_value
         try:
-            encoded_key = base64.b64encode(key.encode(self.get_config_value('CharEncoding','utf-8'))).decode(self.get_config_value('CharEncoding','utf-8'))
-            value_lenght = len(value)
-            m_value = "{}{}{}".format(value[:int(value_lenght/2)],encoded_key,value[int(value_lenght/2):])
-            encoded_value = base64.b64encode(m_value.encode(self.get_config_value('CharEncoding', 'utf-8'))).decode(self.get_config_value('CharEncoding', 'utf-8'))
+            encoded_key = base64.b64encode(key.encode(self.get_config_value('CharEncoding', 'utf-8'))).decode(
+                self.get_config_value('CharEncoding', 'utf-8'))
+            value_length = len(value)
+            m_value = "{}{}{}".format(value[:int(value_length / 2)], encoded_key, value[int(value_length / 2):])
+            encoded_value = base64.b64encode(m_value.encode(self.get_config_value('CharEncoding', 'utf-8'))).decode(
+                self.get_config_value('CharEncoding', 'utf-8'))
         except Exception as e:
             self.write_error("Error:\n####\n{}\n####\n".format(e))
             return None
         return encoded_value
 
-    # Decode a given value using base64. A key has to be given if it was encoded using one
-    #  NOTE: THIS IS NOT SECURE ENCRIPTION... BUT ALTEAST ITS NOT PLAIN TEXT
-    # Input: String value, String key
-    # Output: String decoded_value
-    def decode(self, value = None, key="secret"):
+    def decode(self, value: str = None, key: str = "secret") -> [str, None]:
+        """
+        Decode a given value using base64. A key has to be given if it was encoded using one
+        NOTE: THIS IS NOT SECURE ENCRYPTION... BUT ALTEAST ITS NOT PLAIN TEXT
+
+        :param str value: String to decode
+        :param str key: Salt value when decoding
+        :return [str, None]: Decoded string
+        """
         self.write_log("Decoding: {}".format(value))
         m_value = None
         if value is None:
             return m_value
         try:
-            encoded_key = base64.b64encode(key.encode(self.get_config_value('CharEncoding', 'utf-8'))).decode(self.get_config_value('CharEncoding', 'utf-8'))
-            decoded_value = base64.b64decode(value.encode(self.get_config_value('CharEncoding', 'utf-8'))).decode(self.get_config_value('CharEncoding', 'utf-8'))
-            m_value = decoded_value.replace(encoded_key,"")
+            encoded_key = base64.b64encode(key.encode(self.get_config_value('CharEncoding', 'utf-8'))).decode(
+                self.get_config_value('CharEncoding', 'utf-8'))
+            decoded_value = base64.b64decode(value.encode(self.get_config_value('CharEncoding', 'utf-8'))).decode(
+                self.get_config_value('CharEncoding', 'utf-8'))
+            m_value = decoded_value.replace(encoded_key, "")
         except Exception as e:
             self.write_error("Error:\n####\n{}\n####\n".format(e))
             return None
         return m_value
 
-    # Determines if string is ip v4
-    # Input: string
-    # Output: boolean
-    def is_ip(self, string):
+    def is_ip(self, in_string: str = None) -> bool:
+        """
+        Check if a string is ipV4
+        
+        :param str in_string: IP being tested 
+        :return bool: True is the string is an IP, False otherwise 
+        """
         return_value = True
-        if string is None:
+        if in_string is None:
             return_value = False
-            self.write_log("{} is ip: {}".format(string,return_value))
+            self.write_log("{} is ip: {}".format(in_string, return_value))
             return return_value
-        parts = string.split(".")
+        parts = in_string.split(".")
         if len(parts) != 4:
             return_value = False
-            self.write_log("{} is ip: {}".format(string,return_value))
+            self.write_log("{} is ip: {}".format(in_string, return_value))
             return return_value
         for part in parts:
             try:
@@ -1207,9 +1506,8 @@ class LIB:
                     return_value = False
             except:
                 return_value = False
-        self.write_log("{} is ip: {}".format(string,return_value))
+        self.write_log("{} is ip: {}".format(in_string, return_value))
         return return_value
-
 
 """
 ####################################################################################################
@@ -1221,79 +1519,115 @@ class LIB:
 ####################################################################################################
 """
 
-class MySQL:
-    CONN = None
-    CUR = None
-    lib = None
-    config = None
 
-    # Create a MySQL object (and connection)
-    # Input: String host, String username, String password, String database, LIB lib)
-    # Output: None
-    def __init__(self,host=None,username=None,password=None,database=None, lib = None):
-        #import the mysql connector return if it's not installed
+class MySQL:
+    """
+    MySQL object
+
+    :param str host: Hostname of the DB host
+    :param str username: DB Username
+    :param str password: DB user password
+    :param str database: DB name to connect to
+    :param LIB lib: Lib used as a reference to create a local copy
+
+    :ivar mysql.connector.MySQLConnection CONN: Connection object to the database
+    :ivar CUR: Cursor object to retrieve data
+    :ivar LIB lib: Local Lib object for logging and config
+    :ivar str config: DB connection configs
+    """
+
+    CONN = None
+    """
+    Connection to the DB
+    """
+
+    CUR = None
+    """
+    Cursor used to interact with the DB
+    """
+
+    lib: LIB = None
+    """
+    Lib used for logging and config file
+    """
+
+    config: dict = None
+    """
+    MySQL DB connection configs
+    """
+
+    def __init__(self, host: str = None, username: str = None, password: str = None, database: str = None,
+                 lib: LIB = None):
+        # Import the mysql connector return if it's not installed
         try:
             import mysql.connector
         except:
             return
 
-        #make sure all the values are given
+        # Make sure all the values are given
         if (host is None) or (username is None) or (password is None) or (database is None):
             return
 
-        #make a lib instance for itself
+        # Make a lib instance for itself
         if (lib is None) and (self.lib is None):
-            self.lib = LIB(home="/tmp",out_log="mysql_{}_{}_output.log".format(host,database),err_log="mysql_{}_{}_error.log".format(host,database))
+            self.lib = LIB(out_log="mysql_{}_{}_output.log".format(host, database),
+                           err_log="mysql_{}_{}_error.log".format(host, database))
         else:
             self.lib = LIB(home=lib.HOME)
-            self.lib.OUT_LOG = "mysql_{}_{}_output.log".format(host,database)
-            self.lib.ERR_LOG = "mysql_{}_{}_error.log".format(host,database)
+            self.lib.OUT_LOG = "mysql_{}_{}_output.log".format(host, database)
+            self.lib.ERR_LOG = "mysql_{}_{}_error.log".format(host, database)
 
-        #make the config dict for mysql conn
+        # Make the config dict for mysql conn
         self.config = {
             'user': username,
             'password': password,
             'host': host,
             'database': database
         }
-        #try to make the mysql connection
+        # Try to make the mysql connection
         try:
-            self.CONN = mysql.connector.connect(**self.config)
+            self.CONN: mysql.connector.MySQLConnection = mysql.connector.connect(**self.config)
         except Exception as e:
-            string = "Could not connect '{}'".format(self.config)
-            self.lib.write_log(string)
-            self.lib.write_error(string)
+            tmp_string = "Could not connect '{}'".format(self.config)
+            self.lib.write_log(tmp_string)
+            self.lib.write_error(tmp_string)
             self.lib.write_error("Error: {}".format(e))
             self.end()
             return
-        #get the cursor
+        # Get the cursor
         self.CUR = self.CONN.cursor(dictionary=True)
 
         self.lib.write_log("Connected {}".format(self.config))
 
-    # Terminate this entire instance
-    # Input: None
-    # Output: None
     def end(self):
+        """
+        Terminate the MySQL object
+
+        :return:
+        """
         self.close_connection()
         self.lib.write_log("Terminating")
         self.lib.end()
         del self
 
-    # Close this mysql connection
-    # Input: None
-    # Output: None
     def close_connection(self):
+        """
+        Close a database connection
+
+        :return:
+        """
         self.lib.write_log("Closing {}".format(self.config))
         if self.CUR is not None:
             self.CUR.close()
         if self.CONN is not None:
             self.CONN.close()
 
-    # Reconnect using the config
-    # Input: None
-    # Output: None
     def reconnect(self):
+        """
+        Reconnect to the DB
+
+        :return:
+        """
         self.lib.write_log("Attempting to re-connect {}".format(self.config))
         # import the mysql connector return if it's not installed
         try:
@@ -1303,26 +1637,30 @@ class MySQL:
         try:
             self.CONN = mysql.connector.connect(**self.config)
         except Exception as e:
-            string = "Could not re-connect '{}'".format(self.config)
-            self.lib.write_log(string)
-            self.lib.write_error(string)
+            tmp_string = "Could not re-connect '{}'".format(self.config)
+            self.lib.write_log(tmp_string)
+            self.lib.write_error(tmp_string)
             self.lib.write_error("Error: {}".format(e))
             self.end()
 
-    # Run select query
-    # Input: String query, Tuples (values)
-    # Output: list rows (as dictionaries)
-    def select(self,query=None, variables=None):
-        #ensure a query is given
+    def select(self, query: str = None, variables: () = None):
+        """
+        Run a select query
+
+        :param str query: Select query
+        :param () variables: Tuple of values to map into the query
+        :return [(), None]: List of tuples with results or None if error
+        """
+        # Ensure a query is given
         if query is None:
             self.lib.write_log("Query is None")
             return None
-        #ensure the query is a select statement
+        # Ensure the query is a select statement
         if query.lower().split(" ")[0] != "select":
             self.lib.write_log("Query not select statement")
             return None
         self.lib.write_log("Running '{}'".format(query))
-        #there are no variables in this query
+        # There are no variables in this query
         if variables is None:
             try:
                 self.CUR.execute(query)
@@ -1330,33 +1668,36 @@ class MySQL:
                 self.lib.write_log("Result count {}".format(self.CUR.rowcount))
                 return results
             except Exception as e:
-                string = "Query execution error"
-                self.lib.write_log(string)
-                self.lib.write_error(string)
+                tmp_string = "Query execution error"
+                self.lib.write_log(tmp_string)
+                self.lib.write_error(tmp_string)
                 self.lib.write_error("Error: {}".format(e))
                 return None
-        #there are variables in this query
+        # There are variables in this query
         elif variables is not None:
-            #ensure the variables are given as tuples
+            # Ensure the variables are given as tuples
             if type(variables) is not tuple:
                 self.lib.write_log("Variables need to be a tuple")
                 return None
             try:
-                self.CUR.execute(query,variables)
+                self.CUR.execute(query, variables)
                 results = self.CUR.fetchall()
                 self.lib.write_log("Result count {}".format(self.CUR.rowcount))
                 return results
             except Exception as e:
-                string = "Query execution error"
-                self.lib.write_log(string)
-                self.lib.write_error(string)
+                tmp_string = "Query execution error"
+                self.lib.write_log(tmp_string)
+                self.lib.write_error(tmp_string)
                 self.lib.write_error("Error: {}".format(e))
                 return None
 
-    # Create a new table
-    # Input: tuple's of definitions
-    # Output: boolean
-    def create_table(self, table_definition=None):
+    def create_table(self, table_definition: str = None) -> bool:
+        """
+        Create a new table
+
+        :param str table_definition: Create table query
+        :return bool: Status of the table creation
+        """
         if table_definition is None:
             self.lib.write_log("Need table definition")
             return False
@@ -1376,10 +1717,14 @@ class MySQL:
             self.lib.write_error("Error: {}".format(e))
             return False
 
-    # Insert multiple rows into database
-    # Input: String insert query, List of tuples (value, or values that need to be inserted)
-    # Output: Int number of affected rows
-    def insert(self, query=None, values=None):
+    def insert(self, query: str = None, values: () = None) -> [int, None]:
+        """
+        Insert query to add data to DB
+
+        :param str query: Insert query
+        :param () values: Tuple of values to map to query
+        :return [int, None]: Inserted row_count or None if error
+        """
         if (query is None) or (values is None):
             self.lib.write_log("Need both query and values")
             return None
@@ -1395,16 +1740,20 @@ class MySQL:
             return self.CUR.rowcount
         except Exception as e:
             self.CONN.rollback()
-            string = "Insert error"
-            self.lib.write_log(string)
-            self.lib.write_error(string)
+            tmp_string = "Insert error"
+            self.lib.write_log(tmp_string)
+            self.lib.write_error(tmp_string)
             self.lib.write_error("Error: {}".format(e))
             return None
 
-    # Update multiple rows into database
-    # Input: String update query, List of tuples (value, or values that need to be inserted)
-    # Output: Int number of affected rows
-    def update(self, query=None, values=None):
+    def update(self, query: str = None, values: () = None) -> [int, None]:
+        """
+        Update multiple rows in DB
+
+        :param str query: Update query
+        :param () values: Tuple of values to map to query
+        :return [int, None]: Updated row_count or None if error
+        """
         if (query is None) or (values is None):
             self.lib.write_log("Need both query and values")
             return None
@@ -1420,17 +1769,21 @@ class MySQL:
             return self.CUR.rowcount
         except Exception as e:
             self.CONN.rollback()
-            string = "Update error"
-            self.lib.write_log(string)
-            self.lib.write_error(string)
+            tmp_string = "Update error"
+            self.lib.write_log(tmp_string)
+            self.lib.write_error(tmp_string)
             self.lib.write_error("Error: {}".format(e))
             return None
 
-    # Delete row from database
-    # Input: Delete query
-    # Output: Int number of affected rows
-    def delete(self, query=None, values=None):
-        if (query is None):
+    def delete(self, query: str = None, values: str = None) -> [int, None]:
+        """
+        Delete query
+
+        :param str query: Delete query
+        :param () values: Tuple of values to map to query
+        :return [int, None]: Deleted row_count or None if error
+        """
+        if query is None:
             self.lib.write_log("Need query")
             return None
         if type(values) is not list:
@@ -1445,8 +1798,8 @@ class MySQL:
             return self.CUR.rowcount
         except Exception as e:
             self.CONN.rollback()
-            string = "Delete error"
-            self.lib.write_log(string)
-            self.lib.write_error(string)
+            tmp_string = "Delete error"
+            self.lib.write_log(tmp_string)
+            self.lib.write_error(tmp_string)
             self.lib.write_error("Error: {}".format(e))
             return None

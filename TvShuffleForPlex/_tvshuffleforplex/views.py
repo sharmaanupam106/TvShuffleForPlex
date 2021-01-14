@@ -22,8 +22,8 @@ global play_queue
 def index(request):
 
     # Rotate the log files
-    out_log_file = os.path.join(lib.LOG, lib.OUT_LOG)
-    error_log_file = os.path.join(lib.LOG, lib.ERR_LOG)
+    out_log_file = os.path.join(lib.LOGS_PATH, lib.OUT_LOG)
+    error_log_file = os.path.join(lib.LOGS_PATH, lib.ERR_LOG)
     lib.file_rotation(out_log_file)
     lib.file_rotation(error_log_file)
 
@@ -71,7 +71,7 @@ def index(request):
 
         # Get user saved lists of shows
         lib.write_log("Getting saved list")
-        saved_list = SavedLists.objects.filter(user=request.session['username'])
+        saved_list = get_db_lists_for_user(user_name=request.session['username'])
         context['saved_list'] = saved_list
         lib.write_log("Getting saved list -- Done")
         if plex_server.plex.friendlyName:
@@ -212,7 +212,7 @@ def saved_list(request):
             response.status_code = 307
             return response
         # Get the shows list given the name for the given user
-        obj = SavedLists.objects.get(name=name, user=request.session['username'])
+        obj = get_db_list(user_name=request.session.get('username'), list_name=name)
         request.session['selected_shows'] = obj.get_list()
         response = index(request)
         response.status_code = 307
@@ -226,34 +226,22 @@ def saved_list(request):
         lib.write_log(f"{post_data=}")
 
         # Get the list of shows from post data
-        list = post_data.get("list[]")
+        tmp_list = post_data.get("list[]")
 
         # Get the given name of the list from post data
         name = post_data.get("save_name")[0]
-        if (name == "") or (len(list) == 0):
+        if (name == "") or (len(tmp_list) == 0):
             lib.write_log('Name or List is empty')
             request.session['message'] = 'Name or List is empty'
             response = index(request)
             response.status_code = 307
             return response
 
-        # Search the DB for a pre-existing list
-        lib.write_log('Getting Objects')
-        try:
-            obj = SavedLists.objects.get(name=name, user=request.session['username'])
-        except Exception as e:
-
-            # Create a new list
-            lib.write_log('Object not found -- creating new')
-            obj = SavedLists(name=name, user=request.session['username'])
-
-        # Update the existing list with the new selection
-        lib.write_log('Updating object')
-        obj.set_list(list)
-        obj.save()
+        # Save the list into the database
+        set_db_list(user_name=request.session.get('username'), list_name=name, in_list=tmp_list)
 
         # Set the new selected shows
-        request.session['selected_shows'] = list
+        request.session['selected_shows'] = tmp_list
         response = index(request)
         response.status_code = 307
         return response
@@ -449,6 +437,10 @@ def connect_to_server(request):
                     request.session['message'] = message
                 lib.write_log("Connecting to server -- New Connection -- Done")
         lib.write_log("connect_to_server -- Done")
+
+        # Generate a pre-set list of shows
+        generate_list(request.session.get('username'))
+
         response = index(request)
         response.status_code = 307
         return response
@@ -470,3 +462,44 @@ def disconnect_server(request):
     message = f'Disconnected from server {server}'
     request.session['message'] = message
     lib.write_log("disconnect_server -- Done")
+
+
+def generate_list(user:  str):
+    lib.write_log(f'generate_list')
+    half_hour_shows = []
+    full_hour_shows = []
+    shows = plex_server.get_shows()
+    for show in shows:
+        duration: int = int(round(plex_server.get_duration_of_show(show) / 60000))
+        if 18 <= duration <= 33:
+            half_hour_shows.append(show.title)
+        elif 34 <= duration <= 70:
+            full_hour_shows.append(show.title)
+    set_db_list(user_name=user, list_name="20 Minute Bangers", in_list=half_hour_shows)
+    set_db_list(user_name=user, list_name="60 Minute Bangers", in_list=full_hour_shows)
+    lib.write_log(f'generate_list -- Done')
+    pass
+
+
+def get_db_lists_for_user(user_name: str) -> SavedLists:
+    return SavedLists.objects.filter(user=user_name)
+
+
+def get_db_list(user_name: str, list_name: str) -> SavedLists:
+    return SavedLists.objects.get(name=list_name, user=user_name)
+
+
+def set_db_list(user_name: str, list_name: str, in_list: [str]) -> bool:
+    # Search the DB for a pre-existing list
+    lib.write_log('Getting Objects')
+    try:
+        obj = get_db_list(user_name=user_name, list_name=list_name)
+    except Exception as e:
+        # Create a new list
+        lib.write_log('Object not found -- creating new')
+        obj = SavedLists(name=list_name, user=user_name)
+    # Update the existing list with the new selection
+    lib.write_log('Updating object')
+    obj.set_list(in_list)
+    obj.save()
+    return True
