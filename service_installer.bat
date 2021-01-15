@@ -39,6 +39,12 @@ FOR /F "tokens=*" %%i IN (%cmd%) DO (
 	goto :pass
 	)
 :pass
+set cmd='where pip'
+FOR /F "tokens=*" %%i IN (%cmd%) DO (
+	SET pip_location=%%i
+	goto :done
+	)
+:done
 set cmd='cd'
 FOR /F "tokens=*" %%i IN (%cmd%) DO SET current_working_directory=%%i
 set ms_service_installer=%current_working_directory%\nssm-2.24\win64\nssm.exe
@@ -49,6 +55,10 @@ set /p host_name=Enter the IP to run the app on:
 set /p port_number=Enter the PORT to run the app on:
 
 set path_to_manage_with_args=%path_to_manage% runserver %host_name%:%port_number%
+
+:: Install the pip requirements
+set cmd=%pip_location% install -r requirements.txt
+start %cmd%
 
 :: Make DB migrations
 set cmd=%python_location% %path_to_manage% makemigrations
