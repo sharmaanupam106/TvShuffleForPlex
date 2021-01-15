@@ -1,5 +1,0 @@
-- Make a pull request.
-- Make your changes
-- Submit the changes via GitHub
-- Once the changes have been reviewd and test, they will be merged into a main.
-- New realeases will be created after major changes or community request after minor feature additions.
