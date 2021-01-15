@@ -1,0 +1,599 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>TvShuffleForPlex._tvshuffleforplex.bin.PLEX &mdash; TvShuffleForPlex 0.9.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> TvShuffleForPlex
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Read Me:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html">TvShuffleForPlex</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Command.html">Command documentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Host.html">Host documentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../MySQL.html">MySQLdocumentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Lib.html">LIB documentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Plex.html">Plex documentation!</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">TvShuffleForPlex</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>TvShuffleForPlex._tvshuffleforplex.bin.PLEX</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for TvShuffleForPlex._tvshuffleforplex.bin.PLEX</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Imports</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="c1"># Plex imports</span>
+<span class="kn">from</span> <span class="nn">plexapi.myplex</span> <span class="kn">import</span> <span class="n">MyPlexAccount</span><span class="p">,</span> <span class="n">MyPlexResource</span>
+<span class="kn">from</span> <span class="nn">plexapi.server</span> <span class="kn">import</span> <span class="n">PlexServer</span>
+<span class="kn">from</span> <span class="nn">plexapi.client</span> <span class="kn">import</span> <span class="n">PlexClient</span>
+<span class="kn">from</span> <span class="nn">plexapi.playqueue</span> <span class="kn">import</span> <span class="n">PlayQueue</span>
+<span class="kn">from</span> <span class="nn">plexapi.video</span> <span class="kn">import</span> <span class="n">Show</span><span class="p">,</span> <span class="n">Movie</span><span class="p">,</span> <span class="n">Episode</span><span class="p">,</span> <span class="n">Season</span>
+<span class="kn">from</span> <span class="nn">plexapi.exceptions</span> <span class="kn">import</span> <span class="n">Unauthorized</span><span class="p">,</span> <span class="n">NotFound</span><span class="p">,</span> <span class="n">BadRequest</span>
+
+<span class="kn">from</span> <span class="nn">.LIB</span> <span class="kn">import</span> <span class="n">LIB</span>
+
+
+<span class="c1"># Plex class to assist with plex api interaction</span>
+<div class="viewcode-block" id="Plex"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex">[docs]</a><span class="k">class</span> <span class="nc">Plex</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The PLEX object used to communicate with the plex server.</span>
+
+<span class="sd">    :param str username: Your PLEX username</span>
+<span class="sd">    :param str password: Your PLEX password</span>
+<span class="sd">    :param LIB lib: A lib instance to be used for logging.</span>
+
+<span class="sd">    :ivar PlexServer plex: The PLEX server object</span>
+<span class="sd">    :ivar PlexClient client: A PLEX client</span>
+<span class="sd">    :ivar str message: A message string used to pass messages back to django</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">lib</span><span class="p">:</span> <span class="n">LIB</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Try to connect to the users plex account</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">my_account</span><span class="p">:</span> <span class="n">MyPlexAccount</span> <span class="o">=</span> <span class="n">MyPlexAccount</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+
+        <span class="c1"># Error logging in</span>
+        <span class="k">except</span> <span class="n">Unauthorized</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Incorrect username or password&quot;</span>
+
+        <span class="c1"># Unknown error</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Something went wrong&quot;</span>
+
+        <span class="c1"># Set the plex server and client to None for later definition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plex</span><span class="p">:</span> <span class="n">PlexServer</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span> <span class="n">PlexClient</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">lib</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lib</span> <span class="o">=</span> <span class="n">lib</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lib</span> <span class="o">=</span> <span class="n">LIB</span><span class="p">(</span><span class="n">home</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)))))</span>
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+
+    <span class="c1"># Get all the moves on the plex server</span>
+<div class="viewcode-block" id="Plex.get_movies"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_movies">[docs]</a>    <span class="k">def</span> <span class="nf">get_movies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Movie</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get movies on the PLEX server</span>
+
+<span class="sd">        :return [Movie]: List of Movies</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">all_entries</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">all_entries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plex</span><span class="o">.</span><span class="n">library</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">titile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">libtype</span><span class="o">=</span><span class="s2">&quot;movie&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error getting movies </span><span class="si">{</span><span class="n">e</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">all_entries</span></div>
+
+    <span class="c1"># Get a plex movie given the name</span>
+<div class="viewcode-block" id="Plex.get_movie"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_movie">[docs]</a>    <span class="k">def</span> <span class="nf">get_movie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Movie</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a movie given the name</span>
+
+<span class="sd">        :param str name: Name of the movie to get from PLEX</span>
+<span class="sd">        :return Movie: The Movie</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">entry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plex</span><span class="o">.</span><span class="n">library</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">libtype</span><span class="o">=</span><span class="s1">&#39;movie&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error getting movie </span><span class="si">{</span><span class="n">e</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">entry</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">entry</span></div>
+
+    <span class="c1"># Get all the shows on the plex server</span>
+<div class="viewcode-block" id="Plex.get_shows"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_shows">[docs]</a>    <span class="k">def</span> <span class="nf">get_shows</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Show</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get TV Shows from the PLEX server</span>
+
+<span class="sd">        :return [Show]: List of TV Shows</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">all_entries</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">all_entries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plex</span><span class="o">.</span><span class="n">library</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">titile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">libtype</span><span class="o">=</span><span class="s2">&quot;show&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error getting shows </span><span class="si">{</span><span class="n">e</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">all_entries</span></div>
+
+    <span class="c1"># Get a plex show given the name</span>
+<div class="viewcode-block" id="Plex.get_show"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_show">[docs]</a>    <span class="k">def</span> <span class="nf">get_show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Show</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a tv show given the name</span>
+
+<span class="sd">        :param str name: Name of the tv show to get</span>
+<span class="sd">        :return Show: The TV Show</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">entry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plex</span><span class="o">.</span><span class="n">library</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">libtype</span><span class="o">=</span><span class="s1">&#39;show&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error getting show </span><span class="si">{</span><span class="n">e</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">entry</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">entry</span></div>
+
+    <span class="c1"># Return the show on deck given the plex show</span>
+<div class="viewcode-block" id="Plex.get_show_on_deck"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_show_on_deck">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_show_on_deck</span><span class="p">(</span><span class="n">show</span><span class="p">:</span> <span class="n">Show</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Episode</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the next unwatched episode for a given show</span>
+
+<span class="sd">        :param Show show: Show from which to get the next unwatched episode</span>
+<span class="sd">        :return [Episode, None]: Episode if found, None otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">entry</span> <span class="o">=</span> <span class="n">show</span><span class="o">.</span><span class="n">onDeck</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">entry</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">entry</span></div>
+
+    <span class="c1"># Get a specific plex episode given the show, season index, and episode index (read plex api doc)</span>
+<div class="viewcode-block" id="Plex.get_episode_by_season_index"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_episode_by_season_index">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_episode_by_season_index</span><span class="p">(</span><span class="n">show</span><span class="p">:</span> <span class="n">Show</span><span class="p">,</span> <span class="n">season_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">episode_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Episode</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get and episode for a given show, given the season number, and episode number</span>
+
+<span class="sd">        :param Show show: Show from which to get the episode</span>
+<span class="sd">        :param int season_index: Season Number from which to get the episode</span>
+<span class="sd">        :param int episode_index: Episode number</span>
+<span class="sd">        :return [Episode, None]: Episode if found, None otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="n">show</span><span class="o">.</span><span class="n">episode</span><span class="p">(</span><span class="n">season</span><span class="o">=</span><span class="n">season_index</span><span class="p">,</span> <span class="n">episode</span><span class="o">=</span><span class="n">episode_index</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">e</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+    <span class="c1"># Get the plex episode after a given show for the given show</span>
+<div class="viewcode-block" id="Plex.get_episode_after"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_episode_after">[docs]</a>    <span class="k">def</span> <span class="nf">get_episode_after</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show</span><span class="p">:</span> <span class="n">Show</span><span class="p">,</span> <span class="n">episode</span><span class="p">:</span> <span class="n">Episode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Episode</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the episode after a given episode for a given show.</span>
+
+<span class="sd">        :param Episode episode: Episode after this episode will be returned</span>
+<span class="sd">        :param Show show: Show from which to get the episode</span>
+<span class="sd">        :return [Episode, None]: Episode if found, None otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">season_number</span> <span class="o">=</span> <span class="n">episode</span><span class="o">.</span><span class="n">seasonNumber</span>
+        <span class="n">epi_number</span> <span class="o">=</span> <span class="n">episode</span><span class="o">.</span><span class="n">index</span>
+        <span class="n">next_episode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_episode_by_season_index</span><span class="p">(</span><span class="n">show</span><span class="p">,</span> <span class="n">season_number</span><span class="p">,</span> <span class="n">epi_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">next_episode</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">next_episode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_episode_by_season_index</span><span class="p">(</span><span class="n">show</span><span class="p">,</span> <span class="n">season_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">next_episode</span></div>
+
+    <span class="c1"># Get all the episodes of a given show</span>
+<div class="viewcode-block" id="Plex.get_episodes_for_show"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_episodes_for_show">[docs]</a>    <span class="k">def</span> <span class="nf">get_episodes_for_show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show</span><span class="p">:</span> <span class="n">Show</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">Episode</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get all the episodes for a given show</span>
+
+<span class="sd">        :param Show show: The show who&#39;s episodes are to be returned</span>
+<span class="sd">        :return [Episode]: List of Episodes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">shows</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">shows</span> <span class="o">=</span> <span class="n">show</span><span class="o">.</span><span class="n">episodes</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error getting show episodes </span><span class="si">{</span><span class="n">e</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">shows</span></div>
+
+    <span class="c1"># Get duration of show (done by returning the duration of season 1 episode 1)</span>
+<div class="viewcode-block" id="Plex.get_duration_of_show"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_duration_of_show">[docs]</a>    <span class="k">def</span> <span class="nf">get_duration_of_show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show</span><span class="p">:</span> <span class="n">Show</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the duration of a show. Done by getting the duration of season 1 episode 1</span>
+
+<span class="sd">        :param Show show: Whose duration to get</span>
+<span class="sd">        :return int: Duration of the show in milliseconds</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">return_value</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">episode</span><span class="p">:</span> <span class="n">Episode</span> <span class="o">=</span> <span class="n">show</span><span class="o">.</span><span class="n">episode</span><span class="p">(</span><span class="n">season</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">episode</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">return_value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">episode</span><span class="o">.</span><span class="n">duration</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error getting show episodes </span><span class="si">{</span><span class="n">e</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">return_value</span></div>
+
+    <span class="c1"># TODO: This function can be optimized, and handle errors</span>
+<div class="viewcode-block" id="Plex.get_shuffle_play_tv_queue"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_shuffle_play_tv_queue">[docs]</a>    <span class="k">def</span> <span class="nf">get_shuffle_play_tv_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">list</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">include</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlayQueue</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Shuffle function (the meat of this application)</span>
+<span class="sd">        Get a list of episodes for a given show list. inclusive and exclusive shuffle is allowed</span>
+
+<span class="sd">        :param [str] list: List of tv shows to shuffle</span>
+<span class="sd">        :param bool include: Shuffle type.</span>
+<span class="sd">        :param int limit: Max length of the queue that will be generated</span>
+<span class="sd">        :return PlayQueue: Generated PLEX queue</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">episodes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">shows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_shows</span><span class="p">()</span>
+        <span class="n">working_shows</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">show</span> <span class="ow">in</span> <span class="n">shows</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">include</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">show</span><span class="o">.</span><span class="n">title</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">:</span>
+                    <span class="n">working_shows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">show</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">show</span><span class="o">.</span><span class="n">title</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">:</span>
+                    <span class="n">working_shows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">show</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">episodes</span><span class="p">)</span> <span class="o">!=</span> <span class="n">limit</span><span class="p">:</span>
+            <span class="n">n_episode</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">while</span> <span class="n">n_episode</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">working_show</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">working_shows</span><span class="p">)</span>
+                <span class="n">working_show_epi_on_deck</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_show_on_deck</span><span class="p">(</span><span class="n">working_show</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">working_show_epi_on_deck</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">working_show_epi_on_deck</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">episodes</span><span class="p">:</span>
+                        <span class="n">n_episode</span> <span class="o">=</span> <span class="n">working_show_epi_on_deck</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">tmp_epi</span> <span class="o">=</span> <span class="n">working_show_epi_on_deck</span>
+                        <span class="k">while</span> <span class="n">n_episode</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">tmp_epi</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">episodes</span><span class="p">:</span>
+                                <span class="n">n_episode</span> <span class="o">=</span> <span class="n">tmp_epi</span>
+                            <span class="n">tmp_epi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_episode_after</span><span class="p">(</span><span class="n">working_show</span><span class="p">,</span> <span class="n">tmp_epi</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">tmp_epi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                                <span class="k">break</span>
+
+            <span class="n">episodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n_episode</span><span class="p">)</span>
+
+        <span class="n">queue</span> <span class="o">=</span> <span class="n">PlayQueue</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plex</span><span class="p">,</span> <span class="n">episodes</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">queue</span></div>
+
+    <span class="c1"># Play given media on the client</span>
+<div class="viewcode-block" id="Plex.client_play_media"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.client_play_media">[docs]</a>    <span class="k">def</span> <span class="nf">client_play_media</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">media</span><span class="p">:</span> <span class="p">[</span><span class="n">Movie</span><span class="p">,</span> <span class="n">Episode</span><span class="p">,</span> <span class="n">PlayQueue</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Play media on a connected client</span>
+
+<span class="sd">        :param [Movie, Episode, PlayQueue] media: Media to be played on the client</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">playMedia</span><span class="p">(</span><span class="n">media</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error playing media on client </span><span class="si">{</span><span class="n">e</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+    <span class="c1"># Get a list of clients</span>
+<div class="viewcode-block" id="Plex.get_clients"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_clients">[docs]</a>    <span class="k">def</span> <span class="nf">get_clients</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">PlexClient</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get all clients connected to the PLEX server</span>
+
+<span class="sd">        :return [PlexClient]: List of PLEX clients</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plex</span><span class="o">.</span><span class="n">clients</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error getting server clients </span><span class="si">{</span><span class="n">e</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+    <span class="c1"># Get a client given the name</span>
+<div class="viewcode-block" id="Plex.get_client"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_client">[docs]</a>    <span class="k">def</span> <span class="nf">get_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">PlexClient</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a PLEX client given a client name</span>
+
+<span class="sd">        :param str name: Name of the PLEX client to get</span>
+<span class="sd">        :return [PlexClient, None]: PlexClient if one if found, None otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">client</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">plex</span><span class="o">.</span><span class="n">clients</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">client</span><span class="o">.</span><span class="n">title</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">client</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error getting server client </span><span class="si">{</span><span class="n">e</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+    <span class="c1"># Set the client given the plex client</span>
+<div class="viewcode-block" id="Plex.set_client"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.set_client">[docs]</a>    <span class="k">def</span> <span class="nf">set_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">PlexClient</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set a given PLEX client as the active client</span>
+
+<span class="sd">        :param PlexClient client: Client to set as active</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span></div>
+
+    <span class="c1"># Check client connection</span>
+<div class="viewcode-block" id="Plex.is_connected_to_client"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.is_connected_to_client">[docs]</a>    <span class="k">def</span> <span class="nf">is_connected_to_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if there is a connection to the PLEX client</span>
+
+<span class="sd">        :return bool: True if connected, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">reload</span><span class="p">()</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error lost client connection </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+    <span class="c1"># Pause the media on the client</span>
+<div class="viewcode-block" id="Plex.client_pause"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.client_pause">[docs]</a>    <span class="k">def</span> <span class="nf">client_pause</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Pause the media playing on the active client</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">pause</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error setting client to pause </span><span class="si">{</span><span class="n">e</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+    <span class="c1"># Play the media on the client</span>
+<div class="viewcode-block" id="Plex.client_play"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.client_play">[docs]</a>    <span class="k">def</span> <span class="nf">client_play</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Play the media on the active client</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error setting client to play </span><span class="si">{</span><span class="n">e</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+    <span class="c1"># Check if the client media is playing</span>
+<div class="viewcode-block" id="Plex.client_is_playing"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.client_is_playing">[docs]</a>    <span class="k">def</span> <span class="nf">client_is_playing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check is the active client is currently playing any media</span>
+
+<span class="sd">        :return bool: True if something is playing, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">isPlayingMedia</span><span class="p">(</span><span class="n">includePaused</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error getting client media playing status </span><span class="si">{</span><span class="n">e</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+    <span class="c1"># Get a list of servers for the plex account</span>
+<div class="viewcode-block" id="Plex.get_servers"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_servers">[docs]</a>    <span class="k">def</span> <span class="nf">get_servers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">MyPlexResource</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a list of servers available on PLEX users account</span>
+
+<span class="sd">        :return [MyPlexResource]: List of PLEX servers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">r_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">resources</span><span class="p">:</span> <span class="p">[</span><span class="n">MyPlexResource</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">my_account</span><span class="o">.</span><span class="n">resources</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">resource</span> <span class="ow">in</span> <span class="n">resources</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">resource</span><span class="o">.</span><span class="n">product</span> <span class="o">==</span> <span class="s2">&quot;Plex Media Server&quot;</span><span class="p">:</span>
+                    <span class="n">r_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error getting account resources </span><span class="si">{</span><span class="n">e</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r_list</span></div>
+
+    <span class="c1"># Connect to a server given the name</span>
+<div class="viewcode-block" id="Plex.connect_to_server"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.connect_to_server">[docs]</a>    <span class="k">def</span> <span class="nf">connect_to_server</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Connect to a PLEX server given the name</span>
+
+<span class="sd">        :param str server: Name of the PLEX server</span>
+<span class="sd">        :return bool: True if the connection is established, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plex</span><span class="p">:</span> <span class="n">PlexServer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">my_account</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="n">server</span><span class="p">)</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ssl</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error connecting to server </span><span class="si">{</span><span class="n">e</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+    <span class="c1"># Check if the object is connected to a plex server</span>
+<div class="viewcode-block" id="Plex.is_connected_to_server"><a class="viewcode-back" href="../../../../Plex.html#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.is_connected_to_server">[docs]</a>    <span class="k">def</span> <span class="nf">is_connected_to_server</span><span class="p">(</span><span class="bp">self</span><span class="p">,)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if there is a PLEX server connection</span>
+
+<span class="sd">        :return bool: Status of the server connection</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plex</span><span class="o">.</span><span class="n">isLatest</span><span class="p">()</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Anupam Sharma.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

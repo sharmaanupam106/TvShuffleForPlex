@@ -1,0 +1,516 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Plex documentation! &mdash; TvShuffleForPlex 0.9.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="LIB documentation!" href="Lib.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> TvShuffleForPlex
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Read Me:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="README.html">TvShuffleForPlex</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Command.html">Command documentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Host.html">Host documentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MySQL.html">MySQLdocumentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.html">LIB documentation!</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Plex documentation!</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">TvShuffleForPlex</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Plex documentation!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/Plex.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="plex-documentation">
+<h1>Plex documentation!<a class="headerlink" href="#plex-documentation" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex">
+<em class="property">class </em><code class="sig-prename descclassname">TvShuffleForPlex._tvshuffleforplex.bin.PLEX.</code><code class="sig-name descname">Plex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">username</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">password</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lib</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="Lib.html#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB">TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex" title="Permalink to this definition">¶</a></dt>
+<dd><p>The PLEX object used to communicate with the plex server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>username</strong> (<em>str</em>) – Your PLEX username</p></li>
+<li><p><strong>password</strong> (<em>str</em>) – Your PLEX password</p></li>
+<li><p><strong>lib</strong> (<a class="reference internal" href="Lib.html#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB"><em>LIB</em></a>) – A lib instance to be used for logging.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Variables</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>plex</strong> (<em>PlexServer</em>) – The PLEX server object</p></li>
+<li><p><strong>client</strong> (<em>PlexClient</em>) – A PLEX client</p></li>
+<li><p><strong>message</strong> (<em>str</em>) – A message string used to pass messages back to django</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.client_is_playing">
+<code class="sig-name descname">client_is_playing</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.client_is_playing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.client_is_playing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check is the active client is currently playing any media</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return bool</dt>
+<dd class="field-odd"><p>True if something is playing, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.client_pause">
+<code class="sig-name descname">client_pause</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.client_pause"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.client_pause" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pause the media playing on the active client</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.client_play">
+<code class="sig-name descname">client_play</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.client_play"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.client_play" title="Permalink to this definition">¶</a></dt>
+<dd><p>Play the media on the active client</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.client_play_media">
+<code class="sig-name descname">client_play_media</code><span class="sig-paren">(</span><em class="sig-param">media: [&lt;class 'plexapi.video.Movie'&gt;, &lt;class 'plexapi.video.Episode'&gt;, &lt;class 'plexapi.playqueue.PlayQueue'&gt;]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.client_play_media"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.client_play_media" title="Permalink to this definition">¶</a></dt>
+<dd><p>Play media on a connected client</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>Episode</strong><strong>, </strong><strong>PlayQueue</strong><strong>] </strong><strong>media</strong> (<em>[</em><em>Movie</em><em>,</em>) – Media to be played on the client</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.connect_to_server">
+<code class="sig-name descname">connect_to_server</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">server</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.connect_to_server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.connect_to_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect to a PLEX server given the name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>server</strong> (<em>str</em>) – Name of the PLEX server</p>
+</dd>
+<dt class="field-even">Return bool</dt>
+<dd class="field-even"><p>True if the connection is established, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_client">
+<code class="sig-name descname">get_client</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘plexapi.client.PlexClient’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.get_client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a PLEX client given a client name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the PLEX client to get</p>
+</dd>
+<dt class="field-even">Return [PlexClient, None]</dt>
+<dd class="field-even"><p>PlexClient if one if found, None otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_clients">
+<code class="sig-name descname">get_clients</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; [&lt;class ‘plexapi.client.PlexClient’&gt;]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.get_clients"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_clients" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all clients connected to the PLEX server</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return [PlexClient]</dt>
+<dd class="field-odd"><p>List of PLEX clients</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_duration_of_show">
+<code class="sig-name descname">get_duration_of_show</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">show</span><span class="p">:</span> <span class="n">plexapi.video.Show</span></em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.get_duration_of_show"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_duration_of_show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the duration of a show. Done by getting the duration of season 1 episode 1</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>show</strong> (<em>Show</em>) – Whose duration to get</p>
+</dd>
+<dt class="field-even">Return int</dt>
+<dd class="field-even"><p>Duration of the show in milliseconds</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_episode_after">
+<code class="sig-name descname">get_episode_after</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">show</span><span class="p">:</span> <span class="n">plexapi.video.Show</span></em>, <em class="sig-param"><span class="n">episode</span><span class="p">:</span> <span class="n">plexapi.video.Episode</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘plexapi.video.Episode’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.get_episode_after"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_episode_after" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the episode after a given episode for a given show.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>episode</strong> (<em>Episode</em>) – Episode after this episode will be returned</p></li>
+<li><p><strong>show</strong> (<em>Show</em>) – Show from which to get the episode</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return [Episode, None]</dt>
+<dd class="field-even"><p>Episode if found, None otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_episode_by_season_index">
+<em class="property">static </em><code class="sig-name descname">get_episode_by_season_index</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">show</span><span class="p">:</span> <span class="n">plexapi.video.Show</span></em>, <em class="sig-param"><span class="n">season_index</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">episode_index</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘plexapi.video.Episode’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.get_episode_by_season_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_episode_by_season_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get and episode for a given show, given the season number, and episode number</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>show</strong> (<em>Show</em>) – Show from which to get the episode</p></li>
+<li><p><strong>season_index</strong> (<em>int</em>) – Season Number from which to get the episode</p></li>
+<li><p><strong>episode_index</strong> (<em>int</em>) – Episode number</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return [Episode, None]</dt>
+<dd class="field-even"><p>Episode if found, None otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_episodes_for_show">
+<code class="sig-name descname">get_episodes_for_show</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">show</span><span class="p">:</span> <span class="n">plexapi.video.Show</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘plexapi.video.Episode’&gt;]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.get_episodes_for_show"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_episodes_for_show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all the episodes for a given show</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>show</strong> (<em>Show</em>) – The show who’s episodes are to be returned</p>
+</dd>
+<dt class="field-even">Return [Episode]</dt>
+<dd class="field-even"><p>List of Episodes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_movie">
+<code class="sig-name descname">get_movie</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; plexapi.video.Movie<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.get_movie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_movie" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a movie given the name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the movie to get from PLEX</p>
+</dd>
+<dt class="field-even">Return Movie</dt>
+<dd class="field-even"><p>The Movie</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_movies">
+<code class="sig-name descname">get_movies</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; [&lt;class ‘plexapi.video.Movie’&gt;]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.get_movies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_movies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get movies on the PLEX server</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return [Movie]</dt>
+<dd class="field-odd"><p>List of Movies</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_servers">
+<code class="sig-name descname">get_servers</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; [&lt;class ‘plexapi.myplex.MyPlexResource’&gt;]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.get_servers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_servers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of servers available on PLEX users account</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return [MyPlexResource]</dt>
+<dd class="field-odd"><p>List of PLEX servers</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_show">
+<code class="sig-name descname">get_show</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; plexapi.video.Show<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.get_show"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a tv show given the name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the tv show to get</p>
+</dd>
+<dt class="field-even">Return Show</dt>
+<dd class="field-even"><p>The TV Show</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_show_on_deck">
+<em class="property">static </em><code class="sig-name descname">get_show_on_deck</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">show</span><span class="p">:</span> <span class="n">plexapi.video.Show</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘plexapi.video.Episode’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.get_show_on_deck"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_show_on_deck" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the next unwatched episode for a given show</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>show</strong> (<em>Show</em>) – Show from which to get the next unwatched episode</p>
+</dd>
+<dt class="field-even">Return [Episode, None]</dt>
+<dd class="field-even"><p>Episode if found, None otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_shows">
+<code class="sig-name descname">get_shows</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; [&lt;class ‘plexapi.video.Show’&gt;]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.get_shows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_shows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get TV Shows from the PLEX server</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return [Show]</dt>
+<dd class="field-odd"><p>List of TV Shows</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_shuffle_play_tv_queue">
+<code class="sig-name descname">get_shuffle_play_tv_queue</code><span class="sig-paren">(</span><em class="sig-param">list: [&lt;class 'str'&gt;], include: bool = True, limit: int = 20</em><span class="sig-paren">)</span> &#x2192; plexapi.playqueue.PlayQueue<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.get_shuffle_play_tv_queue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.get_shuffle_play_tv_queue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shuffle function (the meat of this application)
+Get a list of episodes for a given show list. inclusive and exclusive shuffle is allowed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>list</strong> (<em>[</em><em>str</em><em>]</em>) – List of tv shows to shuffle</p></li>
+<li><p><strong>include</strong> (<em>bool</em>) – Shuffle type.</p></li>
+<li><p><strong>limit</strong> (<em>int</em>) – Max length of the queue that will be generated</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return PlayQueue</dt>
+<dd class="field-even"><p>Generated PLEX queue</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.is_connected_to_client">
+<code class="sig-name descname">is_connected_to_client</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.is_connected_to_client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.is_connected_to_client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if there is a connection to the PLEX client</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return bool</dt>
+<dd class="field-odd"><p>True if connected, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.is_connected_to_server">
+<code class="sig-name descname">is_connected_to_server</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.is_connected_to_server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.is_connected_to_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if there is a PLEX server connection</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return bool</dt>
+<dd class="field-odd"><p>Status of the server connection</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.set_client">
+<code class="sig-name descname">set_client</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">client</span><span class="p">:</span> <span class="n">plexapi.client.PlexClient</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/PLEX.html#Plex.set_client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.PLEX.Plex.set_client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a given PLEX client as the active client</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>client</strong> (<em>PlexClient</em>) – Client to set as active</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="Lib.html" class="btn btn-neutral float-left" title="LIB documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Anupam Sharma.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

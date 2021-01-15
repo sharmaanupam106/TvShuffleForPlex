@@ -1,0 +1,381 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>MySQLdocumentation! &mdash; TvShuffleForPlex 0.9.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="LIB documentation!" href="Lib.html" />
+    <link rel="prev" title="Host documentation!" href="Host.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> TvShuffleForPlex
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Read Me:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="README.html">TvShuffleForPlex</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Command.html">Command documentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Host.html">Host documentation!</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MySQLdocumentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.html">LIB documentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plex.html">Plex documentation!</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">TvShuffleForPlex</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>MySQLdocumentation!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/MySQL.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="mysqldocumentation">
+<h1>MySQLdocumentation!<a class="headerlink" href="#mysqldocumentation" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL">
+<em class="property">class </em><code class="sig-prename descclassname">TvShuffleForPlex._tvshuffleforplex.bin.LIB.</code><code class="sig-name descname">MySQL</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">host</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">username</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">password</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">database</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lib</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="Lib.html#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB">TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#MySQL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL" title="Permalink to this definition">¶</a></dt>
+<dd><p>MySQL object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> (<em>str</em>) – Hostname of the DB host</p></li>
+<li><p><strong>username</strong> (<em>str</em>) – DB Username</p></li>
+<li><p><strong>password</strong> (<em>str</em>) – DB user password</p></li>
+<li><p><strong>database</strong> (<em>str</em>) – DB name to connect to</p></li>
+<li><p><strong>lib</strong> (<a class="reference internal" href="Lib.html#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB"><em>LIB</em></a>) – Lib used as a reference to create a local copy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Variables</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.CONN" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.CONN"><strong>CONN</strong></a> (<em>mysql.connector.MySQLConnection</em>) – Connection object to the database</p></li>
+<li><p><a class="reference internal" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.CUR" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.CUR"><strong>CUR</strong></a> – Cursor object to retrieve data</p></li>
+<li><p><a class="reference internal" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.lib" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.lib"><strong>lib</strong></a> (<a class="reference internal" href="Lib.html#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB"><em>LIB</em></a>) – Local Lib object for logging and config</p></li>
+<li><p><a class="reference internal" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.config" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.config"><strong>config</strong></a> (<em>str</em>) – DB connection configs</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.CONN">
+<code class="sig-name descname">CONN</code><em class="property">: mysql.connector.MySQLConnection</em><em class="property"> = None</em><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.CONN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connection to the DB</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.CUR">
+<code class="sig-name descname">CUR</code><em class="property"> = None</em><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.CUR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cursor used to interact with the DB</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.close_connection">
+<code class="sig-name descname">close_connection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#MySQL.close_connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.close_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close a database connection</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.config">
+<code class="sig-name descname">config</code><em class="property">: dict</em><em class="property"> = None</em><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.config" title="Permalink to this definition">¶</a></dt>
+<dd><p>MySQL DB connection configs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.create_table">
+<code class="sig-name descname">create_table</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table_definition</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#MySQL.create_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.create_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new table</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>table_definition</strong> (<em>str</em>) – Create table query</p>
+</dd>
+<dt class="field-even">Return bool</dt>
+<dd class="field-even"><p>Status of the table creation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.delete">
+<code class="sig-name descname">delete</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">query</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">values</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘int’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#MySQL.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete query</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong> (<em>str</em>) – Delete query</p></li>
+<li><p><strong>values</strong> (<em>(</em><em>)</em>) – Tuple of values to map to query</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return [int, None]</dt>
+<dd class="field-even"><p>Deleted row_count or None if error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.end">
+<code class="sig-name descname">end</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#MySQL.end"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Terminate the MySQL object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.insert">
+<code class="sig-name descname">insert</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">query</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">values</span><span class="p">:</span> <span class="n"><span class="p">(</span><span class="p">)</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘int’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#MySQL.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert query to add data to DB</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong> (<em>str</em>) – Insert query</p></li>
+<li><p><strong>values</strong> (<em>(</em><em>)</em>) – Tuple of values to map to query</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return [int, None]</dt>
+<dd class="field-even"><p>Inserted row_count or None if error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.lib">
+<code class="sig-name descname">lib</code><em class="property">: <a class="reference internal" href="Lib.html#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB">TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB</a></em><em class="property"> = None</em><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.lib" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lib used for logging and config file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.reconnect">
+<code class="sig-name descname">reconnect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#MySQL.reconnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.reconnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reconnect to the DB</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.select">
+<code class="sig-name descname">select</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">query</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">variables</span><span class="p">:</span> <span class="n"><span class="p">(</span><span class="p">)</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#MySQL.select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.select" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a select query</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong> (<em>str</em>) – Select query</p></li>
+<li><p><strong>variables</strong> (<em>(</em><em>)</em>) – Tuple of values to map into the query</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return [(), None]</dt>
+<dd class="field-even"><p>List of tuples with results or None if error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">query</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">values</span><span class="p">:</span> <span class="n"><span class="p">(</span><span class="p">)</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘int’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#MySQL.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.MySQL.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update multiple rows in DB</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong> (<em>str</em>) – Update query</p></li>
+<li><p><strong>values</strong> (<em>(</em><em>)</em>) – Tuple of values to map to query</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return [int, None]</dt>
+<dd class="field-even"><p>Updated row_count or None if error</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="Lib.html" class="btn btn-neutral float-right" title="LIB documentation!" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Host.html" class="btn btn-neutral float-left" title="Host documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Anupam Sharma.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

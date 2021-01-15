@@ -1,0 +1,470 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>TvShuffleForPlex &mdash; TvShuffleForPlex 0.9.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Command documentation!" href="Command.html" />
+    <link rel="prev" title="TvShuffleForPlex’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> TvShuffleForPlex
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Read Me:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">TvShuffleForPlex</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#description">Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-it-works">How it works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#high-level-functionalities">High level functionalities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#supported-systems">Supported Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#linux"><strong>LINUX</strong></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#auto-service-install">Auto Service Install</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#manual-install">Manual install</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#windows"><strong>Windows</strong></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Auto Service Install</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Manual install</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Command.html">Command documentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Host.html">Host documentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MySQL.html">MySQLdocumentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lib.html">LIB documentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plex.html">Plex documentation!</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">TvShuffleForPlex</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>TvShuffleForPlex</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tvshuffleforplex">
+<h1>TvShuffleForPlex<a class="headerlink" href="#tvshuffleforplex" title="Permalink to this headline">¶</a></h1>
+<p><img alt="https://img.shields.io/badge/Python%20Versions-3.7%7C3.8%7C3.8-blue" src="https://img.shields.io/badge/Python%20Versions-3.7%7C3.8%7C3.8-blue" />
+<img alt="https://img.shields.io/github/issues/sharmaanupam106/TvShuffleForPlex" src="https://img.shields.io/github/issues/sharmaanupam106/TvShuffleForPlex" />
+<img alt="https://img.shields.io/github/license/sharmaanupam106/TvShuffleForPlex" src="https://img.shields.io/github/license/sharmaanupam106/TvShuffleForPlex" /></p>
+<div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<p>The purpose of this application is to allow a chronological shuffling of tv shows.
+The selected TV Shows maybe shuffled however the episodes will be selected based on next unwatched.</p>
+<p>NOTE: This is not a secure site, keep it within your local network. (no port forwarding)</p>
+</div>
+<div class="section" id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>You select a series of TV shows you want to see</p></li>
+<li><p>You select the length of the queue you want generated. (default 20)</p></li>
+<li><p>You select shuffle.</p>
+<ul>
+<li><p>Inclusive shuffle will only pick episodes from the selected tv shows</p></li>
+<li><p>Exclusive shuffle will only pick episodes from all shows <strong><em>NOT</em></strong> selected.</p></li>
+</ul>
+</li>
+<li><p>The app will randomly pick a show from your selected tv shows list, and find the next unwatched episode to put in the queue slot</p>
+<ul>
+<li><p>It will move on to the next queue slot and pick a random show to do the same with.</p></li>
+<li><p>If a show is selected for 2 or more slots and the next unwatched episode is already in the queue, the later slot will get the episode following the last episode in the list, keeping the order of episodes in the queue in order.</p></li>
+</ul>
+</li>
+<li><p>Once the queue is generate, you select which active client you want the queue sent to for viewing.</p></li>
+</ul>
+</div>
+<div class="section" id="high-level-functionalities">
+<h2>High level functionalities<a class="headerlink" href="#high-level-functionalities" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Allow users to select the plex server from which to source tv shows.</p></li>
+<li><p>Allow users to multi select tv shows from which shuffled (inclusive and exclusive) episodes will be selected.</p></li>
+<li><p>Allow users to save the selected tv shows as lists, making it easier to come back to the same list of shows.</p></li>
+<li><p>Allow users to set the max number of episodes that will be put in the plex queue.</p></li>
+<li><p>Allow users to push the generated episodes plex queue to a given client.</p></li>
+</ul>
+</div>
+<div class="section" id="supported-systems">
+<h2>Supported Systems<a class="headerlink" href="#supported-systems" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Ubuntu 20.x - Manjaro 20.x</p></li>
+<li><p>Windows 10 (64bit)</p></li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="linux">
+<h3><strong>LINUX</strong><a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="auto-service-install">
+<h4>Auto Service Install<a class="headerlink" href="#auto-service-install" title="Permalink to this headline">¶</a></h4>
+<p>Does the same steps as the Manual Install</p>
+<ol class="simple">
+<li><p>Download the <a class="reference external" href="https://github.com/sharmaanupam106/TvShuffleForPlex">Git Repo</a></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/sharmaanupam106/TvShuffleForPlex/tree/main">Main</a></p></li>
+</ul>
+</li>
+<li><p>Run the <code class="docutils literal notranslate"><span class="pre">service_install.sh</span></code> script <em><strong>This script required elevated privileges to run</strong></em></p>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">service_install.sh</span></code> to prevent having to put your password multiple times, or erring out</p></li>
+<li><p>Uninstall using <code class="docutils literal notranslate"><span class="pre">service_uninstall.sh</span></code> script <em><strong>This script required elevated privileges to run</strong></em></p></li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="manual-install">
+<h4>Manual install<a class="headerlink" href="#manual-install" title="Permalink to this headline">¶</a></h4>
+<ol>
+<li><p>Download the <a class="reference external" href="https://github.com/sharmaanupam106/TvShuffleForPlex">Git Repo</a></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/sharmaanupam106/TvShuffleForPlex/tree/main">Main</a></p></li>
+</ul>
+</li>
+<li><p>Install the requirements
+<code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code></p></li>
+<li><p>Make migrations</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">makemigrations</span>
+<span class="n">python3</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">migrate</span>
+</pre></div>
+</div>
+</li>
+<li><p>Start the application
+<code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">manage.py</span> <span class="pre">runserver</span> <span class="pre">{IP}:{PORT}</span></code></p></li>
+</ol>
+<div class="section" id="optional">
+<h5>Optional<a class="headerlink" href="#optional" title="Permalink to this headline">¶</a></h5>
+<ul>
+<li><p>Create and Enable a service.</p>
+<ul class="simple">
+<li><p>Create service file <code class="docutils literal notranslate"><span class="pre">touch</span> <span class="pre">TvShuffleForPlex.service</span></code></p></li>
+<li><p>Edit the file with the following <em>(Make sure you update all {} with the correct info)</em></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Install</span><span class="p">]</span>
+<span class="n">WantedBy</span><span class="o">=</span><span class="n">multi</span><span class="o">-</span><span class="n">user</span><span class="o">.</span><span class="n">target</span>
+
+<span class="p">[</span><span class="n">Unit</span><span class="p">]</span>
+<span class="n">Description</span><span class="o">=</span><span class="n">TV</span> <span class="n">Shuffle</span> <span class="n">For</span> <span class="n">Plex</span>
+<span class="n">After</span><span class="o">=</span><span class="n">network</span><span class="o">.</span><span class="n">target</span>
+<span class="n">StartLimitIntervalSec</span><span class="o">=</span><span class="mi">0</span>
+
+<span class="p">[</span><span class="n">Service</span><span class="p">]</span>
+<span class="n">WorkingDirectory</span><span class="o">=</span><span class="p">{</span><span class="n">INSTALL</span> <span class="n">PATH</span><span class="p">}</span>
+<span class="n">Type</span><span class="o">=</span><span class="n">simple</span>
+<span class="n">Restart</span><span class="o">=</span><span class="n">always</span>
+<span class="n">RestartSec</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">ExecStart</span><span class="o">=</span><span class="p">{</span><span class="n">FULL</span> <span class="n">PATH</span> <span class="n">TO</span> <span class="n">PYTHON3</span><span class="p">}</span> <span class="p">{</span><span class="n">INSTALL</span> <span class="n">PATH</span><span class="p">}</span><span class="o">/</span><span class="n">TvShuffleForPlex</span><span class="o">/</span><span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">runserver</span> <span class="p">{</span><span class="n">IP</span><span class="p">}:{</span><span class="n">PORT</span><span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Link the to service controller <code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">link</span> <span class="pre">./TvShuffleForPlex.service</span></code></p></li>
+<li><p>Reload daemon <code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">daemon-reload</span></code></p></li>
+<li><p>Enable the service <code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">enable</span> <span class="pre">TvShuffleForPlex.service</span></code></p>
+<ul>
+<li><p>Will automatically start the service on boot.</p></li>
+</ul>
+</li>
+<li><p>Start the service <code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">TvShuffleForPlex.service</span></code></p>
+<ul>
+<li><p>Check to make sure the service started normally without errors <code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">PlexTvStation.service</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Starting and Stopping the service</p>
+<ul class="simple">
+<li><p>Start service <code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">TvShuffleForPlex.service</span></code></p></li>
+<li><p>Stop service <code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">stop</span> <span class="pre">TvShuffleForPlex.service</span></code></p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="troubleshooting">
+<h4>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>Read the log files at <code class="docutils literal notranslate"><span class="pre">{INSTALL</span> <span class="pre">PATH}/TvShuffleForPlex/_tvshuffleforplex/logs</span></code></p></li>
+<li><p>Read console outputs <code class="docutils literal notranslate"><span class="pre">journalctl</span> <span class="pre">-u</span> <span class="pre">TvShuffleForPlex.service</span></code></p></li>
+<li><p>Google errors that might occur.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="windows">
+<h3><strong>Windows</strong><a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
+<p><em>Thank you to <a class="reference external" href="https://nssm.cc/">NSSM - Non-sucking Service Manager</a> for making Windows service creation simple</em></p>
+<div class="section" id="id1">
+<h4>Auto Service Install<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<p>Does the same steps as the Manual Install</p>
+<ol class="simple">
+<li><p>Download the <a class="reference external" href="https://github.com/sharmaanupam106/TvShuffleForPlex">Git Repo</a></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/sharmaanupam106/TvShuffleForPlex/tree/main">Main</a></p></li>
+</ul>
+</li>
+<li><p>Run the <code class="docutils literal notranslate"><span class="pre">service_install.bat</span></code> script <em><strong>This script required elevated privileges to run</strong></em></p>
+<ul class="simple">
+<li><p>Uninstall using <code class="docutils literal notranslate"><span class="pre">service_uninstall.bat</span></code> script <em><strong>This script required elevated privileges to run</strong></em></p></li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="id2">
+<h4>Manual install<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<ol>
+<li><p>Download the <a class="reference external" href="https://github.com/sharmaanupam106/TvShuffleForPlex">Git Repo</a></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/sharmaanupam106/TvShuffleForPlex/tree/main">Main</a></p></li>
+</ul>
+</li>
+<li><p>Install the requirements
+<code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code></p></li>
+<li><p>Make migrations</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">makemigrations</span>
+<span class="n">python3</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">migrate</span>
+</pre></div>
+</div>
+</li>
+<li><p>Start the application
+<code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">manage.py</span> <span class="pre">runserver</span> <span class="pre">{IP}:{PORT}</span></code></p></li>
+</ol>
+<div class="section" id="id3">
+<h5>Optional<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h5>
+<ul>
+<li><p>Create and Enable a service.
+Using <a class="reference external" href="https://nssm.cc/">NSSM - Non-sucking Service Manager</a> located in {INSTALL PATH}\nssm-2.24\win64\nssm.exe</p>
+<p><em>(Make sure you update all {} with the correct info)</em></p>
+<ul class="simple">
+<li><p>Create a service from an admin cmd <code class="docutils literal notranslate"><span class="pre">nssm.exe</span> <span class="pre">install</span> <span class="pre">TvShuffleForPlex</span> <span class="pre">{FULL</span> <span class="pre">PATH</span> <span class="pre">TO</span> <span class="pre">PYTHON}</span> <span class="pre">{INSTALL</span> <span class="pre">PATH}/TvShuffleForPlex/manage.py</span> <span class="pre">runserver</span> <span class="pre">{IP}:{PORT}</span></code></p></li>
+<li><p>Start the service <code class="docutils literal notranslate"><span class="pre">nssm.exe</span> <span class="pre">start</span> <span class="pre">TvShuffleForPlex</span></code></p></li>
+<li><p>Check the status of the service <code class="docutils literal notranslate"><span class="pre">nssm.exe</span> <span class="pre">status</span> <span class="pre">TvShuffleForPlex</span></code></p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>Login with your plex account</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="p">{</span><span class="n">IP</span><span class="p">}:{</span><span class="n">PORT</span><span class="p">}</span><span class="o">/</span><span class="n">login</span>
+</pre></div>
+</div>
+<p><img alt="Login" src="https://user-images.githubusercontent.com/50554850/103911884-97807880-50d4-11eb-99d7-dee320f46cb7.gif" /></p>
+</li>
+<li><p>Select a plex server</p>
+<p><img alt="ServerSelect" src="https://user-images.githubusercontent.com/50554850/103912591-79ffde80-50d5-11eb-97b7-4d3a850283b7.gif" /></p>
+</li>
+<li><p>Select TV Shows</p>
+<p><img alt="ShowSelect" src="https://user-images.githubusercontent.com/50554850/103912593-7a987500-50d5-11eb-91ee-f2dc50db36dc.gif" /></p>
+</li>
+<li><p>Shuffle the Shows</p>
+<ul class="simple">
+<li><p>Inclusive/Exclusive select</p></li>
+<li><p>Max episodes in generate queue</p></li>
+</ul>
+<p><img alt="Shuffle" src="https://user-images.githubusercontent.com/50554850/103912594-7a987500-50d5-11eb-8ee9-8a1d88e5e7db.gif" /></p>
+</li>
+<li><p>Shuffle the list</p></li>
+<li><p>Select a client to push the queue to</p>
+<p><img alt="ClientPush" src="https://user-images.githubusercontent.com/50554850/103912584-78ceb180-50d5-11eb-910f-2d689eaf6c61.gif" /></p>
+</li>
+<li><p>Save the selected list</p>
+<p><img alt="SaveList" src="https://user-images.githubusercontent.com/50554850/103912586-79674800-50d5-11eb-8f4a-35a8d4f86920.gif" /></p>
+</li>
+<li><p>Select saved List</p>
+<p><img alt="SelectList" src="https://user-images.githubusercontent.com/50554850/103912589-79ffde80-50d5-11eb-8967-2df0f4d9c77e.gif" /></p>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="Command.html" class="btn btn-neutral float-right" title="Command documentation!" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="TvShuffleForPlex’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Anupam Sharma.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,1051 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>LIB documentation! &mdash; TvShuffleForPlex 0.9.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Plex documentation!" href="Plex.html" />
+    <link rel="prev" title="MySQLdocumentation!" href="MySQL.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> TvShuffleForPlex
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Read Me:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="README.html">TvShuffleForPlex</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Code Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Command.html">Command documentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Host.html">Host documentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MySQL.html">MySQLdocumentation!</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">LIB documentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plex.html">Plex documentation!</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">TvShuffleForPlex</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>LIB documentation!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/Lib.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="lib-documentation">
+<h1>LIB documentation!<a class="headerlink" href="#lib-documentation" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB">
+<em class="property">class </em><code class="sig-prename descclassname">TvShuffleForPlex._tvshuffleforplex.bin.LIB.</code><code class="sig-name descname">LIB</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">home</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cfg</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">out_log</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">err_log</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lib Object Class. Contains functions that are most commonly used in a project for simplicity of use.
+Most commonly used for logging, config file reading, and system command execution</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>home</strong> (<em>str</em>) – Working directory of the project. (bin directory contains this file)</p></li>
+<li><p><strong>cfg</strong> (<em>str</em>) – Path to the config file</p></li>
+<li><p><strong>out_log</strong> (<em>str</em>) – Name of the output log file</p></li>
+<li><p><strong>err_log</strong> (<em>str</em>) – Name of the error log file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Variables</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.PUNCTUATION" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.PUNCTUATION"><strong>PUNCTUATION</strong></a> (<em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><a class="reference internal" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.HOME" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.HOME"><strong>HOME</strong></a> (<em>str</em>) – </p></li>
+<li><p><strong>LOG</strong> (<em>str</em>) – </p></li>
+<li><p><a class="reference internal" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.CFG_IN_USE" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.CFG_IN_USE"><strong>CFG_IN_USE</strong></a> (<em>str</em>) – </p></li>
+<li><p><a class="reference internal" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.CFG" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.CFG"><strong>CFG</strong></a> (<em>dict</em>) – </p></li>
+<li><p><a class="reference internal" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.ARGS" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.ARGS"><strong>ARGS</strong></a> (<em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>PROCESSLIST</strong> (<em>[</em><em>process</em><em>]</em>) – </p></li>
+<li><p><a class="reference internal" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.OS" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.OS"><strong>OS</strong></a> (<em>str</em>) – </p></li>
+<li><p><a class="reference internal" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.OUT_LOG" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.OUT_LOG"><strong>OUT_LOG</strong></a> (<em>str</em>) – </p></li>
+<li><p><a class="reference internal" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.ERR_LOG" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.ERR_LOG"><strong>ERR_LOG</strong></a> (<em>str</em>) – </p></li>
+<li><p><a class="reference internal" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.HOSTSLIST" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.HOSTSLIST"><strong>HOSTSLIST</strong></a> (<em>[</em><a class="reference internal" href="Host.html#TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host"><em>Host</em></a><em>]</em>) – </p></li>
+<li><p><a class="reference internal" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.LOGGING" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.LOGGING"><strong>LOGGING</strong></a> (<em>bool</em>) – </p></li>
+<li><p><a class="reference internal" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.VERSION" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.VERSION"><strong>VERSION</strong></a> (<em>str</em>) – </p></li>
+<li><p><a class="reference internal" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.LASTFILEROTATE" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.LASTFILEROTATE"><strong>LASTFILEROTATE</strong></a> (<em>File</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.ARGS">
+<code class="sig-name descname">ARGS</code><em class="property">: [&lt;class ‘str’&gt;]</em><em class="property"> = None</em><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.ARGS" title="Permalink to this definition">¶</a></dt>
+<dd><p>System arguments passed to the program</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.CFG">
+<code class="sig-name descname">CFG</code><em class="property">: dict</em><em class="property"> = &lt;DictProxy object, typeid 'dict'&gt;</em><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.CFG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Config dictionary used to hold config keys and values</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.CFGS_PATH">
+<code class="sig-name descname">CFGS_PATH</code><em class="property">: str</em><em class="property"> = None</em><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.CFGS_PATH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Config files path</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.CFG_IN_USE">
+<code class="sig-name descname">CFG_IN_USE</code><em class="property">: str</em><em class="property"> = None</em><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.CFG_IN_USE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Config file name being used</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.ERR_LOG">
+<code class="sig-name descname">ERR_LOG</code><em class="property">: str</em><em class="property"> = None</em><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.ERR_LOG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error log file name</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.HOME">
+<code class="sig-name descname">HOME</code><em class="property">: str</em><em class="property"> = None</em><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.HOME" title="Permalink to this definition">¶</a></dt>
+<dd><p>Home path for the project</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.HOSTSLIST">
+<code class="sig-name descname">HOSTSLIST</code><em class="property">: [&lt;class ‘TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host’&gt;]</em><em class="property"> = None</em><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.HOSTSLIST" title="Permalink to this definition">¶</a></dt>
+<dd><p>Host’s lists</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.LASTFILEROTATE">
+<code class="sig-name descname">LASTFILEROTATE</code><em class="property">: TvShuffleForPlex._tvshuffleforplex.bin.LIB.File</em><em class="property"> = None</em><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.LASTFILEROTATE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Last log file that was rotated</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.LOGGING">
+<code class="sig-name descname">LOGGING</code><em class="property">: bool</em><em class="property"> = True</em><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.LOGGING" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logging is enabled</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.LOGS_PATH">
+<code class="sig-name descname">LOGS_PATH</code><em class="property">: str</em><em class="property"> = None</em><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.LOGS_PATH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log path for the project</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.OS">
+<code class="sig-name descname">OS</code><em class="property">: str</em><em class="property"> = None</em><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.OS" title="Permalink to this definition">¶</a></dt>
+<dd><p>OS current program is being run on</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.OUT_LOG">
+<code class="sig-name descname">OUT_LOG</code><em class="property">: str</em><em class="property"> = None</em><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.OUT_LOG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Out log file name</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.PUNCTUATION">
+<code class="sig-name descname">PUNCTUATION</code><em class="property">: [&lt;class ‘str’&gt;]</em><em class="property"> = ['&quot;', &quot;'&quot;, '*']</em><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.PUNCTUATION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Punctuation list used in sanitize_string</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.VERSION">
+<code class="sig-name descname">VERSION</code><em class="property">: str</em><em class="property"> = '1.0.1'</em><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.VERSION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Version of this LIB file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.clean_string">
+<code class="sig-name descname">clean_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_string</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.clean_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.clean_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clean a given string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>in_string</strong> (<em>str</em>) – String to be cleaned</p>
+</dd>
+<dt class="field-even">Return str</dt>
+<dd class="field-even"><p>Cleaned string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.clean_string_list">
+<code class="sig-name descname">clean_string_list</code><span class="sig-paren">(</span><em class="sig-param">in_list: [&lt;class 'str'&gt;] = None</em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘str’&gt;]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.clean_string_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.clean_string_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear a list of strings</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>in_list</strong> (<em>[</em><em>str</em><em>]</em>) – List of string to be cleaned</p>
+</dd>
+<dt class="field-even">Return [str]</dt>
+<dd class="field-even"><p>Cleaned list of string, same list return if error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.copy_file">
+<code class="sig-name descname">copy_file</code><span class="sig-paren">(</span><em class="sig-param">source: [&lt;class 'TvShuffleForPlex._tvshuffleforplex.bin.LIB.File'&gt;</em>, <em class="sig-param">&lt;class 'str'&gt;] = None</em>, <em class="sig-param">destination: [&lt;class 'TvShuffleForPlex._tvshuffleforplex.bin.LIB.File'&gt;</em>, <em class="sig-param">&lt;class 'str'&gt;] = None</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.copy_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.copy_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy the given source file to the given destination</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>str</strong><strong>] </strong><strong>source</strong> (<em>[</em><em>File</em><em>,</em>) – Source File that needs to be copied</p></li>
+<li><p><strong>str</strong><strong>] </strong><strong>destination</strong> (<em>[</em><em>File</em><em>,</em>) – Destination File where to copy (must be a directory)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return bool</dt>
+<dd class="field-even"><p>Status of the copy</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.decode">
+<code class="sig-name descname">decode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'secret'</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘str’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.decode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.decode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode a given value using base64. A key has to be given if it was encoded using one
+NOTE: THIS IS NOT SECURE ENCRYPTION… BUT ALTEAST ITS NOT PLAIN TEXT</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>str</em>) – String to decode</p></li>
+<li><p><strong>key</strong> (<em>str</em>) – Salt value when decoding</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return [str, None]</dt>
+<dd class="field-even"><p>Decoded string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.directory_listing">
+<code class="sig-name descname">directory_listing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">directory</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">recursive</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; [[&lt;class ‘TvShuffleForPlex._tvshuffleforplex.bin.LIB.File’&gt;], None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.directory_listing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.directory_listing" title="Permalink to this definition">¶</a></dt>
+<dd><p>List the contents of a directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directory</strong> (<em>srt</em>) – Path to the directory</p></li>
+<li><p><strong>recursive</strong> (<em>bool</em>) – Bool if the contents should be listed recursively</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return [[File], None]</dt>
+<dd class="field-even"><p>List of File objects, or None if error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.encode">
+<code class="sig-name descname">encode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'secret'</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘str’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.encode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.encode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode a given value using base64. A key can be given to further secure the encoding
+NOTE: THIS IS NOT SECURE ENCRYPTION.. BUT ATLEAST ITS NOT PLAIN TEXT</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>str</em>) – Value to be encoded</p></li>
+<li><p><strong>key</strong> (<em>str</em>) – Salt value when encoding</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return [str, None]</dt>
+<dd class="field-even"><p>Encoded string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.end">
+<code class="sig-name descname">end</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.end"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Terminate this LIB instance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.file_exists">
+<code class="sig-name descname">file_exists</code><span class="sig-paren">(</span><em class="sig-param">in_file: [&lt;class 'TvShuffleForPlex._tvshuffleforplex.bin.LIB.File'&gt;</em>, <em class="sig-param">&lt;class 'str'&gt;] = None</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.file_exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.file_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the file exists</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>str</strong><strong>] </strong><strong>in_file</strong> (<em>[</em><em>File</em><em>,</em>) – File object of full path to the file</p>
+</dd>
+<dt class="field-even">Return bool</dt>
+<dd class="field-even"><p>Status of file check</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.file_rotation">
+<code class="sig-name descname">file_rotation</code><span class="sig-paren">(</span><em class="sig-param">in_file: [&lt;class 'TvShuffleForPlex._tvshuffleforplex.bin.LIB.File'&gt;</em>, <em class="sig-param">&lt;class 'str'&gt;] = None</em>, <em class="sig-param">force_rotation: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.file_rotation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.file_rotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check and rotate a given file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>str</strong><strong>] </strong><strong>in_file</strong> (<em>[</em><em>File</em><em>,</em>) – File object of full path to the file</p></li>
+<li><p><strong>force_rotation</strong> (<em>bool</em>) – Ignore the size check and rotate the file anyways</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return [bool, None]</dt>
+<dd class="field-even"><p>Status of the rotation or None if error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.generate_hosts_list">
+<code class="sig-name descname">generate_hosts_list</code><span class="sig-paren">(</span><em class="sig-param">in_hostsfile: [&lt;class 'str'&gt;] = None</em><span class="sig-paren">)</span> &#x2192; [[&lt;class ‘TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host’&gt;], None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.generate_hosts_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.generate_hosts_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a list of hosts from hosts file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>in_hostsfile</strong> (<em>[</em><em>str</em><em>]</em>) – List of lines from the hosts file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.get_args">
+<code class="sig-name descname">get_args</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>str<span class="p">]</span><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.get_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.get_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the arguments passed to the script</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return [str]</dt>
+<dd class="field-odd"><p>list of strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.get_args_value">
+<code class="sig-name descname">get_args_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">default</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.get_args_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.get_args_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get and argument value given the key. (the value in this case is the next argument, {key_index+1})</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – String key to the value of.</p></li>
+<li><p><strong>default</strong> (<em>Any</em>) – Default value to be returned is none is found</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return Any</dt>
+<dd class="field-even"><p>None or the value (argument index +1) of the given key</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.get_config_value">
+<code class="sig-name descname">get_config_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">default</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.get_config_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.get_config_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get he config value for a given key</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – Key for the config value</p></li>
+<li><p><strong>default</strong> (<em>Any</em>) – Default value to return if key is not found</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Found value, default value, or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.get_hosts">
+<code class="sig-name descname">get_hosts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">hosts_file</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; [[&lt;class ‘TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host’&gt;], None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.get_hosts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.get_hosts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a list of Hosts object from a given hosts file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>hosts_file</strong> (<em>str</em>) – Path to the hosts file</p>
+</dd>
+<dt class="field-even">Return [[Host], None]</dt>
+<dd class="field-even"><p>List of Host’s or None if error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.get_now">
+<em class="property">static </em><code class="sig-name descname">get_now</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.get_now"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.get_now" title="Permalink to this definition">¶</a></dt>
+<dd><p>String representation of datetime.now()</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.get_version">
+<code class="sig-name descname">get_version</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.get_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.get_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the version of this LIB</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return str</dt>
+<dd class="field-odd"><p>Version of this LIB</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.host_in_hosts_list">
+<code class="sig-name descname">host_in_hosts_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_host</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="Host.html#TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host">TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.host_in_hosts_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.host_in_hosts_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a given host is in the hosts list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>in_host</strong> (<a class="reference internal" href="Host.html#TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host"><em>Host</em></a>) – Host to search for</p>
+</dd>
+<dt class="field-even">Return bool</dt>
+<dd class="field-even"><p>True if the host is found, false otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.in_args">
+<code class="sig-name descname">in_args</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.in_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.in_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test if the key is part of the arguments</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key</strong> (<em>str</em>) – Key to search for in arguments</p>
+</dd>
+<dt class="field-even">Return bool</dt>
+<dd class="field-even"><p>True if key is present, False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.ip_in_host">
+<em class="property">static </em><code class="sig-name descname">ip_in_host</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">host</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="Host.html#TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host">TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ip</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.ip_in_host"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.ip_in_host" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a given IP is in a given Host</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> (<a class="reference internal" href="Host.html#TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host"><em>Host</em></a>) – Host in which to search for the IP</p></li>
+<li><p><strong>ip</strong> (<em>str</em>) – The IP which is being searched</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return bool</dt>
+<dd class="field-even"><p>True if the IP is found, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.is_ip">
+<code class="sig-name descname">is_ip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_string</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.is_ip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.is_ip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a string is ipV4</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>in_string</strong> (<em>str</em>) – IP being tested</p>
+</dd>
+<dt class="field-even">Return bool</dt>
+<dd class="field-even"><p>True is the string is an IP, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.is_legal_string">
+<em class="property">static </em><code class="sig-name descname">is_legal_string</code><span class="sig-paren">(</span><em class="sig-param">in_string: str = None</em>, <em class="sig-param">white_list: [&lt;class 'str'&gt;] = None</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.is_legal_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.is_legal_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the string is legal. Only ascii chars and white list chars</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_string</strong> (<em>str</em>) – String to be checked</p></li>
+<li><p><strong>white_list</strong> (<em>[</em><em>str</em><em>]</em>) – List of valid chars</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return bool</dt>
+<dd class="field-even"><p>True if the string is valid, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.make_file">
+<code class="sig-name descname">make_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_file</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">create</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘TvShuffleForPlex._tvshuffleforplex.bin.LIB.File’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.make_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.make_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new File Object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_file</strong> (<em>srt</em>) – Full path and name to file</p></li>
+<li><p><strong>create</strong> (<em>bool</em>) – Create the file on the system</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return [File, None]</dt>
+<dd class="field-even"><p>File Object of None if error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.make_host">
+<em class="property">static </em><code class="sig-name descname">make_host</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ip</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="Host.html#TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host">TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host</a><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.make_host"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.make_host" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a host object given the name and ip</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of the host</p></li>
+<li><p><strong>ip</strong> (<em>str</em>) – IP of the host</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return Host</dt>
+<dd class="field-even"><p>The Host object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.make_path">
+<code class="sig-name descname">make_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.make_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.make_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the given absolute path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – Absolute path that should be created</p>
+</dd>
+<dt class="field-even">Return bool</dt>
+<dd class="field-even"><p>True if the path is created, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.move_file">
+<code class="sig-name descname">move_file</code><span class="sig-paren">(</span><em class="sig-param">source: [&lt;class 'TvShuffleForPlex._tvshuffleforplex.bin.LIB.File'&gt;</em>, <em class="sig-param">&lt;class 'str'&gt;] = None</em>, <em class="sig-param">destination: [&lt;class 'TvShuffleForPlex._tvshuffleforplex.bin.LIB.File'&gt;</em>, <em class="sig-param">&lt;class 'str'&gt;] = None</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.move_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.move_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move the given source file to the given destination</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>str</strong><strong>] </strong><strong>source</strong> (<em>[</em><em>File</em><em>,</em>) – Source File that needs to be moved</p></li>
+<li><p><strong>str</strong><strong>] </strong><strong>destination</strong> (<em>[</em><em>File</em><em>,</em>) – Destination File where to move (must be a directory)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return bool</dt>
+<dd class="field-even"><p>Status of the move</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.name_in_hostnames">
+<em class="property">static </em><code class="sig-name descname">name_in_hostnames</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">host</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="Host.html#TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host">TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.name_in_hostnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.name_in_hostnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search for a given name in the given Host.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> (<a class="reference internal" href="Host.html#TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.Host"><em>Host</em></a>) – Host object in which to search for the name</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – Name to search for in the Host object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return bool</dt>
+<dd class="field-even"><p>True if the name is found, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.path_exists">
+<code class="sig-name descname">path_exists</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.path_exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.path_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a given path exists</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – String of the full path to test</p>
+</dd>
+<dt class="field-even">Return bool</dt>
+<dd class="field-even"><p>Bool of the test</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.read_char">
+<code class="sig-name descname">read_char</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'Enter a character: '</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘str’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.read_char"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.read_char" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a char from the user</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> (<em>str</em>) – Message to be displayed when asking for input</p>
+</dd>
+<dt class="field-even">Return [str, None]</dt>
+<dd class="field-even"><p>String value entered by the user, or None for input error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.read_config">
+<code class="sig-name descname">read_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_cfg_file</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘dict’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.read_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.read_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the config file and generate a key value dict</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>in_cfg_file</strong> (<em>str</em>) – Config file name</p>
+</dd>
+<dt class="field-even">Return {str, Any}</dt>
+<dd class="field-even"><p>key value dict of file content</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.read_file">
+<code class="sig-name descname">read_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_file_name</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; [[&lt;class ‘str’&gt;], None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.read_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.read_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read given filename</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>in_file_name</strong> (<em>srt</em>) – Name of the file to be read</p>
+</dd>
+<dt class="field-even">Return [[str], None]</dt>
+<dd class="field-even"><p>List of strings for each line, or None for error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.read_int">
+<code class="sig-name descname">read_int</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'Enter an integer: '</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘int’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.read_int"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.read_int" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read an integer from the user</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> (<em>str</em>) – Message to be displayed when asking for input</p>
+</dd>
+<dt class="field-even">Return [int, None]</dt>
+<dd class="field-even"><p>Integer value entered by the user, or None for input error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.read_ip">
+<code class="sig-name descname">read_ip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'Entry an IPv4: '</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘str’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.read_ip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.read_ip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read an IP from the user</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> (<em>str</em>) – Message to be displayed when asking for input</p>
+</dd>
+<dt class="field-even">Return [str, None]</dt>
+<dd class="field-even"><p>String value of the IP entered by the user, or None for input error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.read_password">
+<code class="sig-name descname">read_password</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'Enter a password: '</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘str’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.read_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.read_password" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a password from the user (not displayed in text)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> (<em>str</em>) – Message to be displayed when asking for input</p>
+</dd>
+<dt class="field-even">Return [str, None]</dt>
+<dd class="field-even"><p>String value entered by the user, or None for input error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.read_string">
+<code class="sig-name descname">read_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'Enter a string: '</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘str’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.read_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.read_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a string from the user</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> (<em>srt</em>) – Message to be displayed when asking for input</p>
+</dd>
+<dt class="field-even">Return [str, None]</dt>
+<dd class="field-even"><p>String value entered by the user, or None for input error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.reload_config">
+<code class="sig-name descname">reload_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.reload_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.reload_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reload the config file into the CFG dict</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.remove_char_from_string">
+<em class="property">static </em><code class="sig-name descname">remove_char_from_string</code><span class="sig-paren">(</span><em class="sig-param">in_string: str = None</em>, <em class="sig-param">white_list: [&lt;class 'str'&gt;] = None</em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘str’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.remove_char_from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.remove_char_from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove non-ascii letters and non-white-list chars from string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_string</strong> (<em>str</em>) – String to be cleaned</p></li>
+<li><p><strong>white_list</strong> (<em>[</em><em>str</em><em>]</em>) – List of chars not to remove</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return [str, None]</dt>
+<dd class="field-even"><p>Cleaned string</p>
+</dd>
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><p><strong>_valid_chars</strong> (<em>[</em><em>str</em><em>]</em>) – List of valid chars or None if error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.remove_comments_from_hosts_file_entry_list">
+<code class="sig-name descname">remove_comments_from_hosts_file_entry_list</code><span class="sig-paren">(</span><em class="sig-param">hostsfile: [&lt;class 'str'&gt;] = None</em><span class="sig-paren">)</span> &#x2192; [[&lt;class ‘str’&gt;], None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.remove_comments_from_hosts_file_entry_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.remove_comments_from_hosts_file_entry_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove comments from hosts files line entries</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>hostsfile</strong> (<em>[</em><em>str</em><em>]</em>) – List of lines from the hosts file</p>
+</dd>
+<dt class="field-even">Return [[srt], None]</dt>
+<dd class="field-even"><p>Sanitized list of lines</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.remove_file">
+<code class="sig-name descname">remove_file</code><span class="sig-paren">(</span><em class="sig-param">in_file: [&lt;class 'TvShuffleForPlex._tvshuffleforplex.bin.LIB.File'&gt;</em>, <em class="sig-param">&lt;class 'str'&gt;] = None</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.remove_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.remove_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a file from the system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>str</strong><strong>] </strong><strong>in_file</strong> (<em>[</em><em>File</em><em>,</em>) – File object of full path to the file</p>
+</dd>
+<dt class="field-even">Return bool</dt>
+<dd class="field-even"><p>Status of the removal</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.remove_path">
+<code class="sig-name descname">remove_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">force</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.remove_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.remove_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the given absolute path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Absolute path that needs to be removed</p></li>
+<li><p><strong>force</strong> (<em>bool</em>) – Force the removal of the path (if there is content in the directory)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return bool</dt>
+<dd class="field-even"><p>True if the path was removed, False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.run_os_cmd">
+<code class="sig-name descname">run_os_cmd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cmd</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; [[&lt;class ‘str’&gt;, &lt;class ‘str’&gt;, &lt;class ‘int’&gt;], [None, None, &lt;class ‘int’&gt;]]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.run_os_cmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.run_os_cmd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a given OS command</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cmd</strong> (<em>str</em>) – OS command to be run</p>
+</dd>
+<dt class="field-even">Return [[str, str , str], None]</dt>
+<dd class="field-even"><p>List of [command.output, command.error, command.return_code] or None if error</p>
+</dd>
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><p><strong>command</strong> (<a class="reference internal" href="Command.html#TvShuffleForPlex._tvshuffleforplex.bin.LIB.Command" title="TvShuffleForPlex._tvshuffleforplex.bin.LIB.Command"><em>Command</em></a>) – The command object that runs the given command</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.sanitize_string">
+<code class="sig-name descname">sanitize_string</code><span class="sig-paren">(</span><em class="sig-param">in_string: str = None</em>, <em class="sig-param">black_list: [&lt;class 'str'&gt;] = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.sanitize_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.sanitize_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sanitized a given string. Removes punctuations, and back listed words from string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_string</strong> (<em>str</em>) – String to be sanitized</p></li>
+<li><p><strong>black_list</strong> (<em>[</em><em>str</em><em>]</em>) – List of blacklisted words to remove</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return str</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.sleep">
+<code class="sig-name descname">sleep</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">duration</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.sleep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.sleep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Program sleep for the given duration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>duration</strong> (<em>int</em>) – Duration for the sleep to take place</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.time_delta">
+<code class="sig-name descname">time_delta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">delta</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">measure</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘str’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.time_delta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.time_delta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return string representation of time after shifting delta from now()</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>delta</strong> (<em>int</em>) – Duration to delta the time</p></li>
+<li><p><strong>measure</strong> (<em>str</em>) – The measure in which to do the delta</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return [str, None]</dt>
+<dd class="field-even"><p>String representation of the delta time</p>
+</dd>
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><p><strong>_measure</strong> (<em>[</em><em>str</em><em>]</em>) – [‘days’, ‘weeks’, ‘hours’, ‘minutes’, ‘seconds’]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.timestamp_to_date">
+<em class="property">static </em><code class="sig-name descname">timestamp_to_date</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stamp</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; [&lt;class ‘str’&gt;, None]<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.timestamp_to_date"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.timestamp_to_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert time stamp to human readable date</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>stamp</strong> (<em>str</em>) – Timestamp that needs to be converted</p>
+</dd>
+<dt class="field-even">Return [str, None]</dt>
+<dd class="field-even"><p>String of the human readable format, None if error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.write_error">
+<code class="sig-name descname">write_error</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_string</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mode</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'a+'</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.write_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.write_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write an string the error file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_string</strong> (<em>str</em>) – String to be written to the error file</p></li>
+<li><p><strong>mode</strong> (<em>srt</em>) – The mode in which hte lof file is opened</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return None</dt>
+<dd class="field-even"><p>None if there is an error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.write_file">
+<code class="sig-name descname">write_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_name</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">in_string</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mode</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'a+'</span></em>, <em class="sig-param"><span class="n">time_stamp</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.write_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.write_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a given string to a given file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_name</strong> (<em>str</em>) – Name of the file where the string is to be written</p></li>
+<li><p><strong>in_string</strong> (<em>str</em>) – String that is written to the file</p></li>
+<li><p><strong>mode</strong> (<em>srt</em>) – Mode in which the file is to be written in</p></li>
+<li><p><strong>time_stamp</strong> (<em>bool</em>) – Boolean a time stamp should be included</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return None</dt>
+<dd class="field-even"><p>None if an error is to occur</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.write_log">
+<code class="sig-name descname">write_log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_string</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mode</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'a+'</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/TvShuffleForPlex/_tvshuffleforplex/bin/LIB.html#LIB.write_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#TvShuffleForPlex._tvshuffleforplex.bin.LIB.LIB.write_log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a given string to the log file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_string</strong> (<em>str</em>) – String to be written to the log file</p></li>
+<li><p><strong>mode</strong> (<em>str</em>) – The mode in which the log file is opened.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return None</dt>
+<dd class="field-even"><p>None if there is an error</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="Plex.html" class="btn btn-neutral float-right" title="Plex documentation!" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="MySQL.html" class="btn btn-neutral float-left" title="MySQLdocumentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Anupam Sharma.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
