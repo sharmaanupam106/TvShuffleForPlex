@@ -131,3 +131,5 @@ dmypy.json
 PlexTvStation/plextvstation/logs/
 
 .idea/
+
+os
