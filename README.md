@@ -1,6 +1,7 @@
 # TvShuffleForPlex
-![Python Version](https://img.shields.io/badge/Python-3.8-blue)
-![Open Issues](https://img.shields.io/github/issues/sharmaanupam106/PlexTvStation)
+![](https://img.shields.io/badge/Python%20Versions-3.7%7C3.8%7C3.8-blue)
+![](https://img.shields.io/github/issues/sharmaanupam106/TvShuffleForPlex)
+![](https://img.shields.io/github/license/sharmaanupam106/TvShuffleForPlex)
 
 ## Description
 The purpose of this application is to allow a chronological shuffling of tv shows.
@@ -27,38 +28,49 @@ NOTE: This is not a secure site, keep it within your local network. (no port for
 - Allow users to push the generated episodes plex queue to a given client.
 
 ## Supported Systems
-**Currently only tested on LINUX systems.** - Ubuntu 20.x - Manjaro 20.x
+- Ubuntu 20.x - Manjaro 20.x
+- Windows 10 (64bit)
 
-## Installation **(LINUX)**
+## Installation
 
-1. Download the git repo
+### **LINUX**
+
+#### Auto Service Install
+Does the same steps as the Manual Install
+
+1. Download the [Git Repo](https://github.com/sharmaanupam106/TvShuffleForPlex)
+    - [Main](https://github.com/sharmaanupam106/TvShuffleForPlex/tree/main)
+2. Run the `service_install.sh` script _**This script required elevated privileges to run**_
+    - Use `sudo service_install.sh` to prevent having to put your password multiple times, or erring out 
+    - Uninstall using `service_uninstall.sh` script _**This script required elevated privileges to run**_
+
+#### Manual install
+
+1. Download the [Git Repo](https://github.com/sharmaanupam106/TvShuffleForPlex)
+    - [Main](https://github.com/sharmaanupam106/TvShuffleForPlex/tree/main)
 2. Install the requirements
     `pip3 install -r requirements.txt`
-3. Generate and record a secret key. `python manage.py shell -c 'from django.core.management import utils; print(utils.get_random_secret_key())'`
-    - Keep this handy for the next step
-4. Update the following parameters in `settings.py`
-   ```
-   SECRET_KEY = "{KEY FROM STEP 3}"
-   DEBUG = False
-   ```
-5. Make migrations
+3. Make migrations
     ```
     python3 manage.py makemigrations
     python3 manage.py migrate
     ```
-6. Start the application
-    `python3 manage.py runserver <IP>:<PORT>`
+4. Start the application
+    `python3 manage.py runserver {IP}:{PORT}`
 
-### Optional
-- Create and Enable a service. _(**NOTE**: Done under the `root` user, if you wish to use a different user, please use sudo when running systemctl commands)_
+##### Optional
+- Create and Enable a service.
     - Create service file `touch TvShuffleForPlex.service`
     - Edit the file with the following _(Make sure you update all {} with the correct info)_
     ```
+    [Install]
+    WantedBy=multi-user.target
+    
     [Unit]
     Description=TV Shuffle For Plex
-    User={USER}
     After=network.target
     StartLimitIntervalSec=0
+    
     [Service]
     WorkingDirectory={INSTALL PATH}
     Type=simple
@@ -75,15 +87,50 @@ NOTE: This is not a secure site, keep it within your local network. (no port for
 - Starting and Stopping the service
     - Start service `systemctl start TvShuffleForPlex.service`
     - Stop service `systemctl stop TvShuffleForPlex.service`
-## Troubleshooting
+#### Troubleshooting
 - Read the log files at `{INSTALL PATH}/TvShuffleForPlex/_tvshuffleforplex/logs`
 - Read console outputs `journalctl -u TvShuffleForPlex.service`
 - Google errors that might occur.
 
+### **Windows**
+
+_Thank you to [NSSM - Non-sucking Service Manager](https://nssm.cc/) for making Windows service creation simple_
+
+#### Auto Service Install
+Does the same steps as the Manual Install
+
+1. Download the [Git Repo](https://github.com/sharmaanupam106/TvShuffleForPlex)
+    - [Main](https://github.com/sharmaanupam106/TvShuffleForPlex/tree/main)
+2. Run the `service_install.bat` script _**This script required elevated privileges to run**_
+    - Uninstall using `service_uninstall.bat` script _**This script required elevated privileges to run**_
+
+#### Manual install
+
+1. Download the [Git Repo](https://github.com/sharmaanupam106/TvShuffleForPlex)
+    - [Main](https://github.com/sharmaanupam106/TvShuffleForPlex/tree/main)
+2. Install the requirements
+    `pip3 install -r requirements.txt`
+3. Make migrations
+    ```
+    python3 manage.py makemigrations
+    python3 manage.py migrate
+    ```
+4. Start the application
+    `python3 manage.py runserver {IP}:{PORT}`
+   
+##### Optional
+- Create and Enable a service.
+    Using [NSSM - Non-sucking Service Manager](https://nssm.cc/) located in {INSTALL PATH}\nssm-2.24\win64\nssm.exe
+  
+    _(Make sure you update all {} with the correct info)_
+    - Create a service from an admin cmd `nssm.exe install TvShuffleForPlex {FULL PATH TO PYTHON} {INSTALL PATH}/TvShuffleForPlex/manage.py runserver {IP}:{PORT}`
+    - Start the service `nssm.exe start TvShuffleForPlex`
+    - Check the status of the service `nssm.exe status TvShuffleForPlex`
+    
 ## Usage
 - Login with your plex account
     ```
-    http://<IP>:<PORT>/login
+    http://{IP}:{PORT}/login
     ```
     
     ![Login](https://user-images.githubusercontent.com/50554850/103911884-97807880-50d4-11eb-99d7-dee320f46cb7.gif)
