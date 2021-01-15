@@ -30,37 +30,38 @@ if '%errorlevel%' NEQ '0' (
     CD /D "%~dp0"
 :--------------------------------------
 
-echo NOTE: There is no error cheking, makesure you're inputs are correct.
+echo NOTE: There is no error checking, make sure you're inputs are correct.
 
-::Get location of python
+::Get necessary paths
 set cmd='where python'
 FOR /F "tokens=*" %%i IN (%cmd%) DO (
 	SET python_location=%%i
 	goto :pass
 	)
 :pass
-
-::Get Current pwd
 set cmd='cd'
 FOR /F "tokens=*" %%i IN (%cmd%) DO SET current_working_directory=%%i
-
 set ms_service_installer=%current_working_directory%\nssm-2.24\win64\nssm.exe
+set path_to_manage=%current_working_directory%\TvShuffleForPlex\manage.py
 
-::set /p host_name=Enter the IP to run the app on:
-::set /p port_number=Enter the PORT to run the app on:
+::Get hostname and port from user
+set /p host_name=Enter the IP to run the app on:
+set /p port_number=Enter the PORT to run the app on:
 
-set host_name=localhost
-set port_number=5000
+set path_to_manage_with_args=%path_to_manage% runserver %host_name%:%port_number%
 
-set path_to_manage_with_args=%current_working_directory%\TvShuffleForPlex\manage.py runserver %host_name%:%port_number%
+:: Make DB migrations
+set cmd=%python_location% %path_to_manage% makemigrations
+start %cmd%
+set cmd=%python_location% %path_to_manage% migrate
+start %cmd%
 
+:: Install the service
 set cmd=%ms_service_installer% install TvShuffleForPlex %python_location% %path_to_manage_with_args%
 start %cmd%
 
+:: Start the service
 set cmd=%ms_service_installer% start TvShuffleForPlex
-start %cmd%
-
-set cmd=%ms_service_installer% status TvShuffleForPlex
 start %cmd%
 
 echo App service installed, go to 'http://%host_name%:%port_number%/login' in your browser

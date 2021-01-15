@@ -30,16 +30,18 @@ if '%errorlevel%' NEQ '0' (
     CD /D "%~dp0"
 :--------------------------------------
 
-echo NOTE: Unintall the TvShuffleForPlex service
+echo NOTE: Uninstall the TvShuffleForPlex service
 
+:: Get the necessary paths
 set cmd='cd'
 FOR /F "tokens=*" %%i IN (%cmd%) DO SET current_working_directory=%%i
-
 set ms_service_installer=%current_working_directory%\nssm-2.24\win64\nssm.exe
 
+:: Stop the service
 set cmd=%ms_service_installer% stop TvShuffleForPlex
 start %cmd%
 
+:: Remove the service
 set cmd=%ms_service_installer% remove TvShuffleForPlex confirm
 start %cmd%
 
