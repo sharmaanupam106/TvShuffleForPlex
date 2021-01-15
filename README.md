@@ -27,9 +27,12 @@ NOTE: This is not a secure site, keep it within your local network. (no port for
 - Allow users to push the generated episodes plex queue to a given client.
 
 ## Supported Systems
-**Currently only tested on LINUX systems.** - Ubuntu 20.x - Manjaro 20.x
+- Ubuntu 20.x - Manjaro 20.x
+- Windows 10
 
-## Installation **(LINUX)**
+## Installation
+
+### **(LINUX)**
 
 1. Download the git repo
 2. Install the requirements
@@ -49,16 +52,19 @@ NOTE: This is not a secure site, keep it within your local network. (no port for
 6. Start the application
     `python3 manage.py runserver <IP>:<PORT>`
 
-### Optional
-- Create and Enable a service. _(**NOTE**: Done under the `root` user, if you wish to use a different user, please use sudo when running systemctl commands)_
+#### Optional
+- Create and Enable a service.
     - Create service file `touch TvShuffleForPlex.service`
     - Edit the file with the following _(Make sure you update all {} with the correct info)_
     ```
+    [Install]
+    WantedBy=multi-user.target
+    
     [Unit]
     Description=TV Shuffle For Plex
-    User={USER}
     After=network.target
     StartLimitIntervalSec=0
+    
     [Service]
     WorkingDirectory={INSTALL PATH}
     Type=simple
@@ -75,10 +81,12 @@ NOTE: This is not a secure site, keep it within your local network. (no port for
 - Starting and Stopping the service
     - Start service `systemctl start TvShuffleForPlex.service`
     - Stop service `systemctl stop TvShuffleForPlex.service`
-## Troubleshooting
+#### Troubleshooting
 - Read the log files at `{INSTALL PATH}/TvShuffleForPlex/_tvshuffleforplex/logs`
 - Read console outputs `journalctl -u TvShuffleForPlex.service`
 - Google errors that might occur.
+
+### **(Windows)**
 
 ## Usage
 - Login with your plex account
