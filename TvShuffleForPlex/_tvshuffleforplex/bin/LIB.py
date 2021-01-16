@@ -845,8 +845,6 @@ class LIB:
             # Ensure this file has a size grater than whats defined
             for dir_file in dir_files:
                 if dir_file.name == working_file.name:
-                    print(float((_sizelimit * 1000) * 1024))
-                    print(float(dir_file.size))
                     if float(dir_file.size) < float(((_sizelimit * 1000) * 1024)):
                         self.write_log("Size not at limit: '{}'".format(working_file.name))
                         return False
