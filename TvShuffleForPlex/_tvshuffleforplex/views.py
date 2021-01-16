@@ -293,6 +293,12 @@ def client_push(request):
         # There is a client selected
         if client_select is not None:
 
+            # Set the client in the plex object
+            lib.write_log("Getting and setting client")
+            client = plex_server.get_client(client_select)
+            plex_server.set_client(client)
+            lib.write_log("Getting and setting client -- Done")
+
             # Validate Client connection
             if not plex_server.is_connected_to_client():
                 request.session['message'] = 'Client connection lost'
