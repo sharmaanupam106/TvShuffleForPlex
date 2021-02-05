@@ -7,14 +7,11 @@
         </div>
         <div class="col-2 pl-0">
           <div class="dropdown">
-              <button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Servers
-              <span class="caret"></span></button>
-              <ul class="dropdown-menu">
-                  <li class="dropdown-item"><a href='{% url "connect_to_server" %}?plex_server_select=None'>None</a></li>
-                  {% for server in plex_servers %}
-                      <li class="dropdown-item"><a href='{% url "connect_to_server" %}?plex_server_select={{ server.name }}'>{{ server.name }}</a></li>
-                  {% endfor %}
-              </ul>
+            <button class="btn btn-sm btn-primary dropdown-toggle server-select-button" type="button" data-toggle="dropdown">Servers
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu" id="server-selection-list">
+
+            </ul>
           </div>
         </div>
       </div>
@@ -22,7 +19,7 @@
     <div class="col text-center">
       {% if plex_connected_server %}
         <h4>Connected to '{{ plex_connected_server }}'</h4>
-    {% endif %}
+      {% endif %}
     </div>
   </div>
 </div>

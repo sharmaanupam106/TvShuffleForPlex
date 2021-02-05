@@ -2,7 +2,7 @@
     <nav class="navbar navbar-default navbar-light">
         <a class="btn btn-lg" href="{% url 'index' %}">
             {% load static %}
-            <img src='{% static "_tvshuffleforplex/TvShuffleForPlex.png" %}' class="shuffle_logo" title="Tv Shuffle For Plex" data-toggle="tooltip" data-placement="bottom">
+            <img src='{% static "images/TvShuffleForPlex.png" %}' class="shuffle_logo" title="Tv Shuffle For Plex" data-toggle="tooltip" data-placement="bottom">
         </a>
         {% if request.session.is_plex %}
         <div>
