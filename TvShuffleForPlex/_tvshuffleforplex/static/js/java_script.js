@@ -1,10 +1,5 @@
-<script>
 $(document).ready(function(){
     $('.waiting').hide();
-    {% for show in selected_shows %}
-        $('.{{ show.ratingKey }}').addClass('selected');
-    {% endfor %}
-    counter();
 });
 
 $('.show_list_item').click(function () {
@@ -23,17 +18,7 @@ $('.select-button').click(function () {
 });
 
 $('.save-selected-button').click(function(){
-    let data = {}
-    data['list'] = getSelectedShows();
-    data['save_name'] = getSelectedSaveName();
-    $.ajax({
-        type: "POST",
-        url: "{% url 'saved_list' %}",
-        data: data,
-        success: function(return_data){
-            window.location.reload();
-        }
-    });
+
 });
 
 $('.shuffle-submit-button').click(function (e){
@@ -63,6 +48,58 @@ $('.shuffle-submit-button').click(function (e){
         }
     });
 });
+
+$('.server-select-button').click(function (e){
+    m_html = "<li class='dropdown-item'><a href='#'>Loading...</a></li>"
+    document.getElementById("server-selection-list").innerHTML = m_html;
+    get_servers_list();
+})
+
+$('.save-select-list-button').click(function (e){
+    m_html = "<li class='dropdown-item'><a href='#'>Loading...</a></li>"
+    document.getElementById("save-list-selection").innerHTML = m_html;
+    get_saved_list();
+})
+
+function get_servers_list(){
+     $.ajax({
+        type: "GET",
+        url: "/get_server_list",
+        complete: function(return_data){
+            let m_html = return_data.responseText;
+            let responce_code = return_data.status
+            if (responce_code != 200) {
+                document.open()
+                document.write(m_html)
+                document.close()
+                $('.waiting').hide();
+            }
+            else{
+                document.getElementById("server-selection-list").innerHTML = m_html;
+                $('.waiting').hide();
+            }
+        }
+    });
+}
+
+function get_saved_list(){
+    $.ajax({
+        type: "GET",
+        url: "/get_saved_list",
+        complete: function(return_data){
+            let m_html = return_data.responseText;
+            let responce_code = return_data.status
+            if (responce_code != 200) {
+                document.open()
+                document.write(m_html)
+                document.close()
+            }
+            else{
+                document.getElementById("save-list-selection").innerHTML = m_html;
+            }
+        }
+    });
+}
 
 function getMaxEpisodeCount(){
     return document.getElementById("max-episode-input").value;
@@ -104,4 +141,3 @@ $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
 
-</script>
