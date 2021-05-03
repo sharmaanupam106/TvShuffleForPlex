@@ -11,5 +11,6 @@ urlpatterns = [
     path("connect_to_server", views.connect_to_server, name="connect_to_server"),
     path("get_server_list", views.get_server_list, name="get_server_list"),
     path("get_saved_list", views.get_saved_list, name="get_saved_list"),
+    path("get_tv_show_list", views.get_tv_show_list, name="get_tv_show_list"),
 
 ]

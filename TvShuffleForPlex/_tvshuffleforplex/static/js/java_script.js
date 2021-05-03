@@ -1,13 +1,33 @@
+let waiting = '<div class="container waiting pt-5 pb-10 text-center"><div class="spinner-border" role="status"><h2 class="pl-2 text-center">Loading...</h2></div></div>'
+
 $(document).ready(function(){
-    $('.waiting').hide();
+    if (document.getElementById("show_list")){
+        document.getElementById("show_list").innerHTML = waiting;
+        $.ajax({
+            type: "GET",
+            url: "/get_tv_show_list",
+            complete: function(return_data){
+                let m_html = return_data.responseText;
+                let responce_code = return_data.status
+                if (responce_code != 200) {
+                    document.open()
+                    document.write(m_html)
+                    document.close()
+                }
+                else{
+                    document.getElementById("show_list").innerHTML = m_html;
+                }
+            }
+        });
+    }
 });
 
-$('.show_list_item').click(function () {
-  $(this).toggleClass('selected');
-  counter();
-});
+function test_click(class_name){
+    $("." + class_name).toggleClass('selected');
+    counter();
+}
 
-$('.select-button').click(function () {
+$('.select-button').click(function (e) {
   if ($('.show_list_item.selected').length == 0) {
     $('.show_list_item').addClass('selected');
   }
@@ -18,7 +38,7 @@ $('.select-button').click(function () {
 });
 
 $('.save-selected-button').click(function(){
-
+    console.log("test");
 });
 
 $('.shuffle-submit-button').click(function (e){
@@ -72,11 +92,9 @@ function get_servers_list(){
                 document.open()
                 document.write(m_html)
                 document.close()
-                $('.waiting').hide();
             }
             else{
                 document.getElementById("server-selection-list").innerHTML = m_html;
-                $('.waiting').hide();
             }
         }
     });

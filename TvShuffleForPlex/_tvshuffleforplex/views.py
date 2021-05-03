@@ -59,16 +59,9 @@ def index(request):
             context['selected_shows'] = working_show_list
 
         # Get user saved lists of shows
-        lib.write_log("Getting saved list")
-        saved_list = get_db_lists_for_user(user_name=request.session['username'])
-        context['saved_list'] = saved_list
-        lib.write_log("Getting saved list -- Done")
         if plex_server.plex.friendlyName:
             context['plex_connected_server'] = plex_server.plex.friendlyName
             request.session['plex_connected_server'] = plex_server.plex.friendlyName
-            lib.write_log("Getting Shows")
-            context['tv_shows'] = plex_server.get_shows()
-            lib.write_log("Getting Shows -- Done")
 
     lib.write_log(f"{context=}")
     return render(request, template_name="_tvshuffleforplex/index.html", context=context)
@@ -423,8 +416,8 @@ def generate_list(user:  str):
             half_hour_shows.append(show.title)
         elif 34 <= duration <= 70:
             full_hour_shows.append(show.title)
-    set_db_list(user_name=user, list_name="20 Minute Bangers", in_list=half_hour_shows)
-    set_db_list(user_name=user, list_name="60 Minute Bangers", in_list=full_hour_shows)
+    set_db_list(user_name=user, list_name="*20 Minute Bangers", in_list=half_hour_shows)
+    set_db_list(user_name=user, list_name="*60 Minute Bangers", in_list=full_hour_shows)
     lib.write_log(f'generate_list -- Done')
     pass
 
@@ -504,7 +497,6 @@ def get_tv_show_list(request):
     login_status = check_login_status(request)
     if login_status != True:
         return login_status
-
     if request.method == "GET":
         context = {}
         lib.write_log("Getting tv show list")
