@@ -117,6 +117,13 @@ def shuffled_view_and_client_select_push(request):
         else:
             max_length = 20
 
+        if not list:
+            message = f'No Shows selected'
+            request.session['message'] = message
+            response = index(request)
+            response.status_code = 307
+            return response
+
         # Get all the plex show objects for the selected shows
         working_show_list = []
         lib.write_log("Getting Shows by item")

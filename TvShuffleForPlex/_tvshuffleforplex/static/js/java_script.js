@@ -1,4 +1,4 @@
-let waiting = '<div class="container waiting pt-5 pb-10 text-center"><div class="spinner-border" role="status"><h2 class="pl-2 text-center">Loading...</h2></div></div>'
+    waiting = '<div class="container waiting pt-5 pb-10 text-center"><div class="spinner-border" role="status"><h2 class="pl-2 text-center">Loading...</h2></div></div>'
 
 $(document).ready(function(){
     if (document.getElementById("show_list")){
@@ -19,6 +19,7 @@ $(document).ready(function(){
                 }
             }
         });
+        $('.waiting').addClass("invisible");
     }
 });
 
@@ -46,11 +47,11 @@ $('.shuffle-submit-button').click(function (e){
     data['list'] = getSelectedShows();
     data['shuffle_style'] = getShuffleType();
     data['max_episode_count'] = getMaxEpisodeCount();
-    $('.waiting').show();
+    $('.waiting').removeClass("invisible");
     document.getElementById("shuffled_view").innerHTML = "";
     $.ajax({
         type: "POST",
-        url: "{% url 'shuffle' %}",
+        url: "/shuffle",
         data: data,
         complete: function(return_data){
             let m_html = return_data.responseText;
@@ -59,11 +60,11 @@ $('.shuffle-submit-button').click(function (e){
                 document.open()
                 document.write(m_html)
                 document.close()
-                $('.waiting').hide();
+                $('.waiting').addClass("invisible");
             }
             else{
                 document.getElementById("shuffled_view").innerHTML = m_html;
-                $('.waiting').hide();
+                $('.waiting').addClass("invisible");
             }
         }
     });

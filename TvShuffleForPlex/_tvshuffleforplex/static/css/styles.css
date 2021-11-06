@@ -8,6 +8,10 @@ body{
     border: 2px solid #e5a00d;
 }
 
+.invisible{
+    visibility: hidden;
+}
+
 a.btn{
     color: #e5a00d;
     border: 2px solid #e5a00d;

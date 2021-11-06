@@ -222,6 +222,8 @@ class Plex:
         while len(episodes) != limit:
             n_episode = None
             while n_episode is None:
+                if len(working_shows) == 0:
+                    break
                 working_show = random.choice(working_shows)
                 working_show_epi_on_deck = self.get_show_on_deck(working_show)
                 if working_show_epi_on_deck is not None:
@@ -234,8 +236,14 @@ class Plex:
                                 n_episode = tmp_epi
                             tmp_epi = self.get_episode_after(working_show, tmp_epi)
                             if tmp_epi is None:
+                                working_shows.remove(working_show)
                                 break
+                else:
+                    working_shows.remove(working_show)
+                    break
 
+            if len(working_shows) == 0:
+                break
             episodes.append(n_episode)
 
         queue = PlayQueue.create(self.plex, episodes)
