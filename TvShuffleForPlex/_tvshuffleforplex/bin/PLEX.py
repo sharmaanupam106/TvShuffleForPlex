@@ -2,6 +2,7 @@
 import random
 import os
 from pathlib import Path
+from typing import Union, List
 
 # Plex imports
 from plexapi.myplex import MyPlexAccount, MyPlexResource
@@ -246,8 +247,13 @@ class Plex:
                 break
             episodes.append(n_episode)
 
+        print(f"{episodes}")
+
         queue = PlayQueue.create(self.plex, episodes)
         return queue
+
+    def create_playlist(self, media: [Movie, Episode, PlayQueue]):
+        pass
 
     # Play given media on the client
     def client_play_media(self, media: [Movie, Episode, PlayQueue]):

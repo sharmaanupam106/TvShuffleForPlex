@@ -14,7 +14,9 @@ from .bin.PLEX import Plex
 lib = LIB(home=str(Path(os.path.dirname(os.path.realpath(__file__)))))
 global plex_server
 plex_server: Plex = None
+
 global play_queue
+play_queue = None
 
 
 # Index page
@@ -62,6 +64,8 @@ def index(request):
         if plex_server.plex.friendlyName:
             context['plex_connected_server'] = plex_server.plex.friendlyName
             request.session['plex_connected_server'] = plex_server.plex.friendlyName
+
+    context['shuffled_episodes'] = play_queue
 
     lib.write_log(f"{context=}")
     return render(request, template_name="_tvshuffleforplex/index.html", context=context)
@@ -139,6 +143,7 @@ def shuffled_view_and_client_select_push(request):
         shuffled_episodes = plex_server.get_shuffle_play_tv_queue(list, include=shuffle_style, limit=max_length)
         lib.write_log("Getting Shuffled list -- Done")
         context['shuffled_episodes'] = shuffled_episodes
+
         global play_queue
         play_queue = shuffled_episodes
 
@@ -268,7 +273,6 @@ def client_push(request):
             lib.write_log("Getting and setting client -- Done")
 
             # Push the generated queue to the client
-            global play_queue
             lib.write_log("Queue sending")
             plex_server.client_play_media(play_queue)
             request.session['message'] = 'Queue Sent'
