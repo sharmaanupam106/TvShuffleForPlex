@@ -18,6 +18,11 @@ button.btn{
     border: 2px solid #e5a00d;
 }
 
+button.btn-shuffle{
+    background-color: #008800;
+    border: 2px solid #e5a00d;
+}
+
 ul.dropdown-menu{
     background-color: #282a2d;
 }
