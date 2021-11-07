@@ -49,6 +49,8 @@ def index(request):
     lib.write_log("Getting Servers -- Done")
     context['plex_servers'] = servers
 
+    test = plex_server
+
     if plex_server.is_connected_to_server():
         # List of user selected shows given though the session
         if request.session.get('selected_shows', None):

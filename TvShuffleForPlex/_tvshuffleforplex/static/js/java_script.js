@@ -1,6 +1,7 @@
     waiting = '<div class="container waiting pt-5 pb-10 text-center"><div class="spinner-border" role="status"><h2 class="pl-2 text-center">Loading...</h2></div></div>'
 
 $(document).ready(function(){
+    $('.waiting').addClass("invisible");
     if (document.getElementById("show_list")){
         document.getElementById("show_list").innerHTML = waiting;
         $.ajax({
@@ -19,7 +20,6 @@ $(document).ready(function(){
                 }
             }
         });
-        $('.waiting').addClass("invisible");
     }
 });
 
@@ -80,6 +80,14 @@ $('.save-select-list-button').click(function (e){
     m_html = "<li class='dropdown-item'><a href='#'>Loading...</a></li>"
     document.getElementById("save-list-selection").innerHTML = m_html;
     get_saved_list();
+})
+
+$('.remove-notification').click(function (e){
+    $('.messages').hide()
+})
+
+$('.server-select-name').click(function (e){
+    $('.waiting').removeClass("invisible");
 })
 
 function get_servers_list(){

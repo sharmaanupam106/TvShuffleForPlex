@@ -385,7 +385,8 @@ class Plex:
         :return bool: True if the connection is established, False otherwise
         """
         try:
-            self.plex: PlexServer = self.my_account.resource(server).connect(ssl=True)
+            res = self.my_account.resource(server)
+            self.plex: PlexServer = res.connect(ssl=True)
             return True
         except Exception as e:
             self.lib.write_error(f"Error connecting to server {e=}")
@@ -399,7 +400,8 @@ class Plex:
         :return bool: Status of the server connection
         """
         try:
-            self.plex.isLatest()
+            if not self.plex:
+                return False
             return True
         except Exception as e:
             return False

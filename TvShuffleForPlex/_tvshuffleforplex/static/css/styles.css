@@ -128,6 +128,15 @@ input.max-episode-input:focus{
     opacity: 0;
 }
 
+.remove-notification{
+    color: red;
+    font-size: 16px;
+    position: absolute;
+    right: 10px;
+    top: 0px;
+    cursor: pointer;
+}
+
 .messages{
     color: #e5a00d;
     background-color: #3c3f44;

@@ -8,11 +8,11 @@
 
         {% include 'messages.html' %}
 
-        {% include 'server_selection.html' %}
-
         {% if plex_connected_server %}
                 {% include 'shuffle_view.html' %}
         {% endif %}
+
+        {% include 'waiting.html' %}
 
     </body>
 
