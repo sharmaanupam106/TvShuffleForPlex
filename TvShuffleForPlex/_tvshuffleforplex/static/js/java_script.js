@@ -1,4 +1,4 @@
-    waiting = '<div class="container waiting pt-5 pb-10 text-center"><div class="spinner-border" role="status"><h2 class="pl-2 text-center">Loading...</h2></div></div>'
+waiting = '<div class="container waiting pt-5 pb-10 text-center"><div class="spinner-border" role="status"><h2 class="pl-2 text-center">Loading...</h2></div></div>'
 
 $(document).ready(function(){
     $('.waiting').addClass("invisible");
@@ -17,6 +17,7 @@ $(document).ready(function(){
                 }
                 else{
                     document.getElementById("show_list").innerHTML = m_html;
+                    counter();
                 }
             }
         });
@@ -36,10 +37,6 @@ $('.select-button').click(function (e) {
     $('.show_list_item').removeClass('selected');
   }
   counter();
-});
-
-$('.save-selected-button').click(function(){
-    console.log("test");
 });
 
 $('.shuffle-submit-button').click(function (e){
@@ -76,6 +73,12 @@ $('.server-select-button').click(function (e){
     get_servers_list();
 })
 
+$('.client-select-list-button').click(function (e){
+    m_html = "<li class='dropdown-item'><a href='#'>Loading...</a></li>"
+    document.getElementById("client-selection-list").innerHTML = m_html;
+    get_clients_list();
+})
+
 $('.save-select-list-button').click(function (e){
     m_html = "<li class='dropdown-item'><a href='#'>Loading...</a></li>"
     document.getElementById("save-list-selection").innerHTML = m_html;
@@ -104,6 +107,25 @@ function get_servers_list(){
             }
             else{
                 document.getElementById("server-selection-list").innerHTML = m_html;
+            }
+        }
+    });
+}
+
+function get_clients_list(){
+     $.ajax({
+        type: "GET",
+        url: "/get_clients_list",
+        complete: function(return_data){
+            let m_html = return_data.responseText;
+            let responce_code = return_data.status
+            if (responce_code != 200) {
+                document.open()
+                document.write(m_html)
+                document.close()
+            }
+            else{
+                document.getElementById("client-selection-list").innerHTML = m_html;
             }
         }
     });

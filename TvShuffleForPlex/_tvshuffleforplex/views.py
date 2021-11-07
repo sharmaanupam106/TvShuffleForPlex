@@ -49,19 +49,7 @@ def index(request):
     lib.write_log("Getting Servers -- Done")
     context['plex_servers'] = servers
 
-    test = plex_server
-
     if plex_server.is_connected_to_server():
-        # List of user selected shows given though the session
-        if request.session.get('selected_shows', None):
-            selected_shows = request.session.get('selected_shows', None)
-            working_show_list = []
-            lib.write_log("Getting Show by items")
-            for item in selected_shows:
-                working_show_list.append(plex_server.get_show(item))
-            lib.write_log("Getting Show by items -- Done")
-            context['selected_shows'] = working_show_list
-
         # Get user saved lists of shows
         if plex_server.plex.friendlyName:
             context['plex_connected_server'] = plex_server.plex.friendlyName
@@ -149,11 +137,6 @@ def shuffled_view_and_client_select_push(request):
         global play_queue
         play_queue = shuffled_episodes
 
-        # Get all available clients
-        lib.write_log("Getting Clients")
-        clients = plex_server.get_clients()
-        lib.write_log("Getting Clients -- Done")
-        context['plex_clients'] = clients
         lib.write_log(f"{context=}")
         return render(request, template_name="_tvshuffleforplex/shuffled_view_and_client_select_push.html", context=context)
 
@@ -492,6 +475,20 @@ def get_server_list(request):
         return render(request, template_name="_tvshuffleforplex/server_ul.html", context=context)
 
 
+def get_clients_list(request):
+    login_status = check_login_status(request)
+    if login_status != True:
+        return login_status
+
+    if request.method == "GET":
+        context = {}
+        lib.write_log("Getting clients")
+        clients = plex_server.get_clients()
+        lib.write_log("Getting clients -- Done")
+        context['plex_clients'] = clients
+        return render(request, template_name="_tvshuffleforplex/client_ul.html", context=context)
+
+
 def get_saved_list(request):
     login_status = check_login_status(request)
     if login_status != True:
@@ -515,4 +512,15 @@ def get_tv_show_list(request):
         lib.write_log("Getting tv show list")
         context['tv_shows'] = plex_server.get_shows()
         lib.write_log("Getting tv show list -- done")
+
+        # List of user selected shows given though the session
+        if request.session.get('selected_shows', None):
+            selected_shows = request.session.get('selected_shows', None)
+            working_show_list = []
+            lib.write_log("Getting Show by items")
+            for item in selected_shows:
+                working_show_list.append(plex_server.get_show(item))
+            lib.write_log("Getting Show by items -- Done")
+            context['selected_shows'] = working_show_list
+
         return render(request, template_name="_tvshuffleforplex/tv_show_selection_list.html", context=context)

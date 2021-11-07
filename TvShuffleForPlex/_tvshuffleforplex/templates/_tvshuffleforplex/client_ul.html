@@ -1,0 +1,4 @@
+<li class="dropdown-item"><a href="#">None</a></li>
+{% for client in plex_clients %}
+  <li class="dropdown-item"><a href='{% url "push_client" %}?client_select={{ client.title }}'>{{ client.title }}</a></li>
+{% endfor %}
