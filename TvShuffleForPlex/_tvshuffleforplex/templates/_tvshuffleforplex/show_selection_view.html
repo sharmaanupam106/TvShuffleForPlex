@@ -1,12 +1,8 @@
 <div class="container">
-    <h3 class="text-center">TV Shows</h3>
+    <h3 class="text-center">TV Shows (<label style="font-size: 24px;" id="selected-count">0</label>)</h3>
     <div class="container tv_shows_listing">
-        <ul class="row text-center show_list">
-        {% for show in tv_shows %}
-            <li class="col show_list_item {{ show.ratingKey }}">
-                {% include 'show_item.html' with show=show%}
-            </li>
-        {% endfor %}
+        <ul class="row text-center show_list" id="show_list">
+
         </ul>
     </div>
 </div>

@@ -8,13 +8,10 @@
         </div>
         <div class="col-2 pl-0">
           <div class="dropdown">
-              <button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Clients
+              <button class="btn btn-sm btn-primary dropdown-toggle client-select-list-button" type="button" data-toggle="dropdown">Clients
               <span class="caret"></span></button>
-              <ul class="dropdown-menu">
-                  <li class="dropdown-item"><a href="#">None</a></li>
-                  {% for client in plex_clients %}
-                    <li class="dropdown-item"><a href='{% url "push_client" %}?client_select={{ client.title }}'>{{ client.title }}</a></li>
-                  {% endfor %}
+              <ul class="dropdown-menu" id="client-selection-list">
+
               </ul>
           </div>
         </div>

@@ -2,6 +2,7 @@
 import random
 import os
 from pathlib import Path
+from typing import Union, List
 
 # Plex imports
 from plexapi.myplex import MyPlexAccount, MyPlexResource
@@ -222,6 +223,8 @@ class Plex:
         while len(episodes) != limit:
             n_episode = None
             while n_episode is None:
+                if len(working_shows) == 0:
+                    break
                 working_show = random.choice(working_shows)
                 working_show_epi_on_deck = self.get_show_on_deck(working_show)
                 if working_show_epi_on_deck is not None:
@@ -234,12 +237,23 @@ class Plex:
                                 n_episode = tmp_epi
                             tmp_epi = self.get_episode_after(working_show, tmp_epi)
                             if tmp_epi is None:
+                                working_shows.remove(working_show)
                                 break
+                else:
+                    working_shows.remove(working_show)
+                    break
 
+            if len(working_shows) == 0:
+                break
             episodes.append(n_episode)
+
+        print(f"{episodes}")
 
         queue = PlayQueue.create(self.plex, episodes)
         return queue
+
+    def create_playlist(self, media: [Movie, Episode, PlayQueue]):
+        pass
 
     # Play given media on the client
     def client_play_media(self, media: [Movie, Episode, PlayQueue]):
@@ -371,7 +385,8 @@ class Plex:
         :return bool: True if the connection is established, False otherwise
         """
         try:
-            self.plex: PlexServer = self.my_account.resource(server).connect(ssl=True)
+            res = self.my_account.resource(server)
+            self.plex: PlexServer = res.connect(ssl=True)
             return True
         except Exception as e:
             self.lib.write_error(f"Error connecting to server {e=}")
@@ -385,7 +400,8 @@ class Plex:
         :return bool: Status of the server connection
         """
         try:
-            self.plex.isLatest()
+            if not self.plex:
+                return False
             return True
         except Exception as e:
             return False

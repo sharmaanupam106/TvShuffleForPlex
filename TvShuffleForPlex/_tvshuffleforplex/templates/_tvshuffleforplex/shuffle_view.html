@@ -5,6 +5,16 @@
 
 {% include 'show_selection_view.html' %}
 
+{% if shuffled_episodes %}
+
+<div class="container shuffled_view" id="shuffled_view">
+    {% include 'shuffled_view_and_client_select_push.html' %}
+</div>
+
+{% else %}
+
 <div class="container shuffled_view" id="shuffled_view">
 
 </div>
+
+{% endif %}

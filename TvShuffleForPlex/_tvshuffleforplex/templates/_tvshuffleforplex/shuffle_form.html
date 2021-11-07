@@ -1,43 +1,39 @@
 <div class="container pb-3 shuffle_form">
-    <div class="row text-center">
-        <div class="col-6">
-            <div class="container">
-                <div class="row d-fex justify-content-center pt-1">
-                    <div class="dropdown pb-1">
-                        <button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Saved List
-                        <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                <li class="dropdown-item"><a href="#">None</a></li>
-                                <!-- add for loop for saved items -->
-                                {% for item in saved_list %}
-                                  <li class="dropdown-item"><a href='{% url "saved_list" %}?saved_list_name={{ item.name }}'>{{ item.name }}</a></li>
-                              {% endfor %}
-                            </ul>
-                    </div>
-                    <input id="save-select-name-input" class="max-episode-input text-center form-control form-control-sm pt-1" placeholder="Name to save list as">
-                    <button class="btn btn-sm save-selected-button">Save Current Select</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-4">
-           <button class="btn btn-sm select-button">Select/UnSelect</button>
-            <label style="padding-left: 1em; font-size: 17px;" id="selected-count">0</label>
-            <div class="row d-flex justify-content-center pt-1">
-                 <input type="number" id="max-episode-input" class="max-episode-input text-center form-control form-control-sm" placeholder="Max episodes (20 default)">
-            </div>
-        </div>
+    <div class="row justify-content-center">
+
         <div class="col-2">
-            <button class="btn btn-lg shuffle-submit-button">Shuffle</button>
-            <div class="row d-flex justify-content-center pt-2">
-                <form class="shuffle_style_radio">
-                    <label class="radio-inline">
-                        <input type="radio" value="inclusive" name="optradio" checked>Inclusive Shuffle
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" value="exclusive" name="optradio">Exclusive Shuffle
-                    </label>
-                </form>
+            <div class="dropdown">
+                <button class="w-100 btn btn-sm btn-primary dropdown-toggle save-select-list-button" type="button" data-toggle="dropdown">Saved List
+                <span class="caret"></span></button>
+                    <ul class="dropdown-menu" id="save-list-selection"></ul>
             </div>
         </div>
+
+
+        <div class="col-2">
+            <input id="save-select-name-input" class=" w-100 max-episode-input text-center form-control form-control-sm" placeholder="Name to save list as">
+        </div>
+
+
+        <div class="col-2">
+            <button class="w-100 btn btn-sm save-selected-button">Save list</button>
+        </div>
+
+
+        <div class="col-2">
+            <button class="w-100 btn btn-sm select-button w-100">Select/Unselect</button>
+        </div>
+
+
+        <div class="col-2">
+            <input type="number" id="max-episode-input" class="max-episode-input text-center form-control form-control-sm w-100" placeholder="Max episodes (20 default)">
+        </div>
+
+
+        <div class="col-2">
+            <button class="w-100 btn-shuffle btn-sm shuffle-submit-button">Shuffle</button>
+        </div>
+
+
     </div>
 </div>

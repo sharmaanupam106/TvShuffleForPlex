@@ -8,16 +8,14 @@
 
         {% include 'messages.html' %}
 
-        {% include 'server_selection.html' %}
-
         {% if plex_connected_server %}
                 {% include 'shuffle_view.html' %}
         {% endif %}
 
+        {% include 'waiting.html' %}
+
     </body>
 
-    {% include 'waiting.html' %}
-
-    {% include 'my_js_functions.html' %}
-
+{% load static %}
+<script src='{% static "js/java_script.js" %}'></script>
 </html>
