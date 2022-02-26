@@ -1,5 +1,5 @@
-<li class="dropdown-item"><a href="#">None</a></li>
+<li class="dropdown-item"><a href="#" onclick='select_from_saved_list("None")'>None</a></li>
 <!-- add for loop for saved items -->
 {% for item in saved_list %}
-  <li class="dropdown-item"><a href='{% url "saved_list" %}?saved_list_name={{ item.name }}'>{{ item.name }}</a></li>
+  <li class="dropdown-item"><a href='#' onclick='select_from_saved_list("{{ item.name }}")' >{{ item.name }}</a></li>
 {% endfor %}

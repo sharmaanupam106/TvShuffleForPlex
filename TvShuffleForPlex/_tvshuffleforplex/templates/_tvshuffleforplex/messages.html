@@ -1,7 +1,14 @@
 {% if message %}
 
-    <div class="alert alert-info messages" role="alert">
-        <div class="remove-notification">X</div>
+    <div class="alert alert-info messages" role="alert" id="messages">
+        <a href="#" onclick="hide_messages()" class="remove-notification">X</a>
         {{ message }}
     </div>
+
+{% else %}
+
+    <div class="alert alert-info messages" role="alert" id="messages" hidden=true>
+        <a href="#" onclick="hide_messages()" class="remove-notification">X</a>
+    </div>
+
 {% endif %}

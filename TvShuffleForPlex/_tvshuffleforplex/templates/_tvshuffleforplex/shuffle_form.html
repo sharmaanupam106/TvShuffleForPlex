@@ -3,9 +3,9 @@
 
         <div class="col-2">
             <div class="dropdown">
-                <button class="w-100 btn btn-sm btn-primary dropdown-toggle save-select-list-button" type="button" data-toggle="dropdown">Saved List
+                <button class="w-100 btn btn-sm btn-primary dropdown-toggle saved-select-list-button" type="button" data-toggle="dropdown">Saved List
                 <span class="caret"></span></button>
-                    <ul class="dropdown-menu" id="save-list-selection"></ul>
+                    <ul class="dropdown-menu" id="saved-list-selection"></ul>
             </div>
         </div>
 
@@ -16,22 +16,17 @@
 
 
         <div class="col-2">
-            <button class="w-100 btn btn-sm save-selected-button">Save list</button>
+            <button class="w-100 btn btn-sm save-selected-button" onclick="save_selected_shows()">Save list</button>
         </div>
 
 
         <div class="col-2">
-            <button class="w-100 btn btn-sm select-button w-100">Select/Unselect</button>
+            <input type="number" id="max-episode-input" class="max-episode-input text-center form-control form-control-sm w-100" placeholder="Max episodes (10 default)">
         </div>
 
 
         <div class="col-2">
-            <input type="number" id="max-episode-input" class="max-episode-input text-center form-control form-control-sm w-100" placeholder="Max episodes (20 default)">
-        </div>
-
-
-        <div class="col-2">
-            <button class="w-100 btn-shuffle btn-sm shuffle-submit-button">Shuffle</button>
+            <button class="w-100 btn-shuffle btn-sm shuffle-submit-button" onclick="shuffle_shows()">Shuffle</button>
         </div>
 
 

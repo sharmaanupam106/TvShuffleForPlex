@@ -1,6 +1,8 @@
 # Imports
 import os
 from pathlib import Path
+
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpRequest, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -12,22 +14,19 @@ from .bin.PLEX import Plex
 
 # Create a lib instance (used for logging, and config file reading)
 lib = LIB(home=str(Path(os.path.dirname(os.path.realpath(__file__)))))
+
+# Create a plex_server instance (not logged in)
 global plex_server
-plex_server: Plex = None
-
-global play_queue
-play_queue = None
+plex_server: Plex = Plex(lib=lib)
 
 
-# Index page
 @csrf_exempt
 def index(request):
-
     # Rotate the log files
-    out_log_file = os.path.join(lib.LOGS_PATH, lib.OUT_LOG)
-    error_log_file = os.path.join(lib.LOGS_PATH, lib.ERR_LOG)
-    lib.file_rotation(out_log_file)
-    lib.file_rotation(error_log_file)
+    # out_log_file = os.path.join(lib.LOGS_PATH, lib.OUT_LOG)
+    # error_log_file = os.path.join(lib.LOGS_PATH, lib.ERR_LOG)
+    # lib.file_rotation(out_log_file)
+    # lib.file_rotation(error_log_file)
 
     context = {}
     lib.write_log("index")
@@ -40,275 +39,60 @@ def index(request):
         request.session.pop("message")
 
     login_status = check_login_status(request)
-    if login_status != True:
+    if login_status != True:  # this is an explicit test for True since another return value can be a render
+        try:
+            request.session.pop('plex_connected_server')
+        except KeyError:
+            pass
         return login_status
 
-    # Get a list of plex servers available to the user
-    lib.write_log("Getting Servers")
-    servers = plex_server.get_servers()
-    lib.write_log("Getting Servers -- Done")
-    context['plex_servers'] = servers
+    context['username'] = plex_server.my_account.email
 
     if plex_server.is_connected_to_server():
         # Get user saved lists of shows
         if plex_server.plex.friendlyName:
-            context['plex_connected_server'] = plex_server.plex.friendlyName
             request.session['plex_connected_server'] = plex_server.plex.friendlyName
-
-    context['shuffled_episodes'] = play_queue
 
     lib.write_log(f"{context=}")
     return render(request, template_name="_tvshuffleforplex/index.html", context=context)
 
 
-# Generate a shuffled episode list from selected shows, and allow the user to push the list to an available plex client
-@csrf_exempt
-def shuffled_view_and_client_select_push(request):
-    context = {}
-    lib.write_log("shuffled_view_and_client_select_push")
-
-    login_status = check_login_status(request)
-    if login_status != True:
-        return login_status
-
-    # Validate server connection
-    if not plex_server.is_connected_to_server():
-        lib.write_log(f"Connection to {plex_server.plex.friendlyName} was lost.")
-        disconnect_server(request)
-        response = index(request)
-        response.status_code = 307
-        return response
-
-    # Make sure the call method is post
-    if request.method == "POST":
-
-        # Convert the post data into a dict
-        post_data = dict(request.POST)
-        lib.write_log(f"{post_data=}")
-
-        # Get the list of user selected shows
-        list = post_data.get("list[]")
-
-        # Get the user selected shuffle style
-        request.session['selected_shows'] = list
-        if len(post_data.get("shuffle_style")) >= 1:
-            if post_data.get("shuffle_style")[0] == "exclusive":
-                shuffle_style = False
-            else:
-                shuffle_style = True
-        else:
-            shuffle_style = True
-
-        # Get the user selected max episodes
-        max_length = post_data.get("max_episode_count", None)
-        if max_length is None:
-            max_length = 20
-        elif len(max_length) == 1:
-            if max_length[0] != '':
-                max_length = int(max_length[0])
-            else:
-                max_length = 20
-        else:
-            max_length = 20
-
-        if not list:
-            message = f'No Shows selected'
-            request.session['message'] = message
-            response = index(request)
-            response.status_code = 307
-            return response
-
-        # Get all the plex show objects for the selected shows
-        working_show_list = []
-        lib.write_log("Getting Shows by item")
-        for item in list:
-            show = plex_server.get_show(item)
-            working_show_list.append(show)
-        lib.write_log("Getting Shows by item -- Done")
-        context['selected_shows'] = working_show_list
-        context['shuffle_style'] = shuffle_style
-
-        # Generate a shuffled list of episodes
-        lib.write_log("Getting Shuffled list")
-        shuffled_episodes = plex_server.get_shuffle_play_tv_queue(list, include=shuffle_style, limit=max_length)
-        lib.write_log("Getting Shuffled list -- Done")
-        context['shuffled_episodes'] = shuffled_episodes
-
-        global play_queue
-        play_queue = shuffled_episodes
-
-        lib.write_log(f"{context=}")
-        return render(request, template_name="_tvshuffleforplex/shuffled_view_and_client_select_push.html", context=context)
-
-    # Get method for this URL is not allowed
-    if request.method == "GET":
-        request.session['message'] = 'Method Not Allowed'
-        response = index(request)
-        response.status_code = 307
-        return response
-
-
-# Manage the user saves shows in list
-@csrf_exempt
-def saved_list(request):
-    lib.write_log("select_list")
-
-    login_status = check_login_status(request)
-    if login_status != True:
-        return login_status
-
-    # Get the lists of saves shows for the user
-    if request.method == "GET":
-        lib.write_log(f"{request.GET=}")
-        # Get the name of the list to retrieve
-        name = request.GET.get("saved_list_name", None)
-        if name is None:
-            lib.write_log('Missing name');
-            request.session['message'] = 'Missing name'
-            response = index(request)
-            response.status_code = 307
-            return response
-        # Get the shows list given the name for the given user
-        obj = get_db_list(user_name=request.session.get('username'), list_name=name)
-        request.session['selected_shows'] = obj.get_list()
-        response = index(request)
-        response.status_code = 307
-        return response
-
-    # POST a list to be saved.
-    if request.method == "POST":
-
-        # Convert the post data into a dict
-        post_data = dict(request.POST)
-        lib.write_log(f"{post_data=}")
-
-        # Get the list of shows from post data
-        tmp_list = post_data.get("list[]")
-
-        # Get the given name of the list from post data
-        name = post_data.get("save_name")[0]
-        if (name == "") or (len(tmp_list) == 0):
-            lib.write_log('Name or List is empty')
-            request.session['message'] = 'Name or List is empty'
-            response = index(request)
-            response.status_code = 307
-            return response
-
-        # Save the list into the database
-        set_db_list(user_name=request.session.get('username'), list_name=name, in_list=tmp_list)
-
-        # Set the new selected shows
-        request.session['selected_shows'] = tmp_list
-        response = index(request)
-        response.status_code = 307
-        return response
-
-
-# Push a plex queue to the user selected client
-def client_push(request):
-    lib.write_log("client_push")
-
-    login_status = check_login_status(request)
-    if login_status != True:
-        return login_status
-
-    # Validate server connection
-    if not plex_server.is_connected_to_server():
-        lib.write_log(f"Connection to {plex_server.plex.friendlyName} was lost.")
-        disconnect_server(request)
-        response = index(request)
-        response.status_code = 307
-        return response
-
-    # POST method for this URL is not allowed
-    if request.method == "POST":
-        request.session['message'] = 'Method Not Allowed'
-        response = index(request)
-        response.status_code = 307
-        return response
-
-    # Get the selected client and push queue to it
-    if request.method == "GET":
-
-        # Get the selected client from the session
-        if request.session.get('client_select', None):
-            client_select = request.session.get('client_select', None)
-        else:
-            client_select = request.GET.get("client_select", None)
-
-        # There is a client selected
-        if client_select is not None:
-
-            # Set the client in the plex object
-            lib.write_log("Getting and setting client")
-            client = plex_server.get_client(client_select)
-            plex_server.set_client(client)
-            lib.write_log("Getting and setting client -- Done")
-
-            # Validate Client connection
-            if not plex_server.is_connected_to_client():
-                request.session['message'] = 'Client connection lost'
-                response = index(request)
-                return response
-
-            # Set the client in the plex object
-            lib.write_log("Getting and setting client")
-            client = plex_server.get_client(client_select)
-            plex_server.set_client(client)
-            lib.write_log("Getting and setting client -- Done")
-
-            # Push the generated queue to the client
-            lib.write_log("Queue sending")
-            plex_server.client_play_media(play_queue)
-            request.session['message'] = 'Queue Sent'
-            lib.write_log("Queue sending -- Done")
-            response = index(request)
-            response.status_code = 307
-            return response
-        else:
-            # There was no client selected
-            request.session['message'] = 'No Client'
-            lib.write_log("No Client")
-            response = index(request)
-            response.status_code = 307
-            return response
-
-
-# Log in to the app using your plex account
 def login(request):
+    global plex_server
     context = {}
     lib.write_log("login")
 
     # Request for login
     if request.method == "POST":
-
         # Get messages from session
         if request.session.get('message', None):
             message = request.session.get('message', None)
             lib.write_log(message)
             request.session.pop("message")
 
-        # Get user entered username and pasword
+        # Get user entered username and password
         post_username = request.POST.get('username', None)
         post_password = request.POST.get('password', None)
 
-        # Attempt a login
-        global plex_server
+        post_username = "drool.grewa0@gmail.com"
+        post_password = "fe#5eU!k&2bY"
+
         plex_server = Plex(username=post_username, password=post_password, lib=lib)
 
         # There was an error with plex login
-        if plex_server.message:
+        if not plex_server.logged_in:
             request.session['message'] = plex_server.message
             lib.write_log(plex_server.message)
-            request.session['is_plex'] = False
+            request.session['logged_in'] = False
+            request.method = "GET"
             response = login(request)
             response.status_code = 307
             return response
 
         # Plex login was successful
         else:
-            request.session['is_plex'] = True
             request.session['username'] = post_username
+            request.session['logged_in'] = True
             response = index(request)
             response.status_code = 307
             return response
@@ -324,7 +108,7 @@ def login(request):
             request.session.pop("message")
 
         # Check if a plex session already exists (user is already logged in)
-        if request.session.get("is_plex", None):
+        if plex_server.logged_in:
             request.session['message'] = 'Already logged in'
             response = index(request)
             response.status_code = 307
@@ -333,7 +117,6 @@ def login(request):
         return render(request, template_name="_tvshuffleforplex/login.html", context=context)
 
 
-# Log out of the app
 def logout(request):
     lib.write_log("logout")
 
@@ -345,12 +128,12 @@ def logout(request):
 
     # Clear the session
     request.session.clear()
-
     # Remove the global plex object
     global plex_server
-    plex_server = None
+    plex_server = Plex(lib=lib)
     request.session['message'] = 'Log out successful'
     lib.write_log('Log out successful')
+    request.method = "GET"
     response = login(request)
     response.status_code = 307
     return response
@@ -360,12 +143,10 @@ def connect_to_server(request):
     lib.write_log("connect_to_server")
 
     login_status = check_login_status(request)
-    if login_status != True:
+    if not login_status:
         return login_status
 
     if request.method == "GET":
-        if plex_server.is_connected_to_server():
-            disconnect_server(request)
         plex_server_select = request.GET.get("plex_server_select", None)
         # Connect to a server
         if plex_server_select:
@@ -376,6 +157,8 @@ def connect_to_server(request):
                     message = f'Unable to connect to server {plex_server_select}'
                     request.session['message'] = message
                 lib.write_log("Connecting to server -- New Connection -- Done")
+            else:
+                disconnect_server(request)
         lib.write_log("connect_to_server -- Done")
 
         response = index(request)
@@ -395,132 +178,183 @@ def disconnect_server(request):
     server = request.session.get('plex_connected_server', None)
     lib.write_log(f'Disconnecting from server {server}')
     request.session.pop('plex_connected_server', None)
-    plex_server.plex = None
+    plex_server.disconnect_from_server()
     message = f'Disconnected from server {server}'
     request.session['message'] = message
     lib.write_log("disconnect_server -- Done")
 
 
-def generate_list(user:  str):
-    lib.write_log(f'generate_list')
-    half_hour_shows = []
-    full_hour_shows = []
-    shows = plex_server.get_shows()
-    for show in shows:
-        duration: int = int(round(plex_server.get_duration_of_show(show) / 60000))
-        if 18 <= duration <= 33:
-            half_hour_shows.append(show.title)
-        elif 34 <= duration <= 70:
-            full_hour_shows.append(show.title)
-    set_db_list(user_name=user, list_name="*20 Minute Bangers", in_list=half_hour_shows)
-    set_db_list(user_name=user, list_name="*60 Minute Bangers", in_list=full_hour_shows)
-    lib.write_log(f'generate_list -- Done')
-    pass
-
-
-def get_db_lists_for_user(user_name: str) -> SavedLists:
-    return SavedLists.objects.filter(user=user_name)
-
-
-def get_db_list(user_name: str, list_name: str) -> SavedLists:
-    return SavedLists.objects.get(name=list_name, user=user_name)
-
-
-def set_db_list(user_name: str, list_name: str, in_list: [str]) -> bool:
-    # Search the DB for a pre-existing list
-    lib.write_log('Getting Objects')
-    try:
-        obj = get_db_list(user_name=user_name, list_name=list_name)
-    except Exception as e:
-        # Create a new list
-        lib.write_log('Object not found -- creating new')
-        obj = SavedLists(name=list_name, user=user_name)
-    # Update the existing list with the new selection
-    lib.write_log('Updating object')
-    obj.set_list(in_list)
-    obj.save()
-    return True
-
-
 def check_login_status(request):
     # Check if a plex session already exists (user is already logged in)
-    if not request.session.get("is_plex", None):
-        request.session['message'] = 'Please log in'
-        lib.write_log("Invalid login")
-        response = login(request)
-        response.status_code = 307
-        return response
-    elif plex_server is None:
-        request.session.pop("is_plex")
+    if not plex_server.logged_in:
+        request.session['logged_in'] = False
         request.session['message'] = 'Please log in'
         lib.write_log("Invalid login")
         response = login(request)
         response.status_code = 307
         return response
     else:
+        request.session['logged_in'] = True
         return True
 
 
 def get_server_list(request):
-    login_status = check_login_status(request)
-    if login_status != True:
-        return login_status
-
     if request.method == "GET":
-        context = {}
-        lib.write_log("Getting Servers")
-        servers = plex_server.get_servers()
-        lib.write_log("Getting Servers -- Done")
-        context['plex_servers'] = servers
-        return render(request, template_name="_tvshuffleforplex/server_ul.html", context=context)
+        context = {
+            'plex_servers': plex_server.get_servers()
+        }
+        return render(request, template_name='_tvshuffleforplex/server_ul.html', context=context)
 
 
-def get_clients_list(request):
-    login_status = check_login_status(request)
-    if login_status != True:
-        return login_status
-
+def get_list_of_shows(request):
     if request.method == "GET":
-        context = {}
-        lib.write_log("Getting clients")
-        clients = plex_server.get_clients()
-        lib.write_log("Getting clients -- Done")
-        context['plex_clients'] = clients
+        context = {
+            'shows': plex_server.get_shows()
+        }
+        return render(request, template_name='_tvshuffleforplex/tv_show_selection_list.html', context=context)
+
+
+@csrf_exempt
+def saved_lists(request):
+    if request.method == "GET":
+        context = {
+            'saved_list': SavedLists.objects.filter(
+                user=plex_server.my_account.username,
+                server=plex_server.plex.friendlyName
+            ).all()
+        }
+        return render(request, template_name='_tvshuffleforplex/save_list_ul.html', context=context)
+    if request.method == "POST":
+        post_data = dict(request.POST)
+        selected_shows = post_data.get('selected_shows[]', None)
+        list_name = post_data.get('list_name', None)[0]
+        if list_name == "None":
+            data = {
+                "None": True
+            }
+            return JsonResponse(data)
+        user = plex_server.my_account.username
+        server = plex_server.plex.friendlyName
+        try:
+            obj = SavedLists.objects.get(
+                user=user,
+                server=server,
+                name=list_name
+            )
+            obj.set_list(selected_shows)
+            obj.save()
+        except ObjectDoesNotExist:
+            obj = SavedLists(
+                user=user,
+                server=server,
+                name=list_name
+            )
+            obj.set_list(selected_shows)
+            obj.save()
+        plex_server.selected_shows = selected_shows
+        data = {
+            "message": f"List {list_name} Saved"
+        }
+        return JsonResponse(data)
+
+
+@csrf_exempt
+def update_selected_shows(request):
+    if request.method == "GET":
+        data = {
+            'selected_shows': plex_server.selected_shows if len(plex_server.selected_shows) >= 1 else []
+        }
+        return JsonResponse(data)
+
+    if request.method == "POST":
+        post_data = dict(request.POST)
+        selected_shows = post_data.get('selected_shows[]', None)
+        plex_server.selected_shows = selected_shows
+        return JsonResponse({})
+
+
+def select_from_saved_list(request):
+    if request.method == "GET":
+        get_data = dict(request.GET)
+        list_name = get_data.get('list_name')[0]
+
+        if list_name == "None":
+            plex_server.selected_shows = []
+            return JsonResponse({})
+
+        user = plex_server.my_account.username
+        server = plex_server.plex.friendlyName
+        saved_list = SavedLists.objects.get(
+            user=user,
+            server=server,
+            name=list_name
+        )
+        plex_server.selected_shows = saved_list.get_list()
+        return JsonResponse({})
+
+
+def get_plex_queue(request):
+    if request.method == "GET":
+        return_queue = plex_server.play_queue
+        if return_queue:
+            context = {
+                'play_queue': return_queue
+            }
+            return render(request, template_name="_tvshuffleforplex/shuffled_list_ul.html", context=context)
+        else:
+            context = {
+                'no_play_queue': True
+            }
+            return render(request, template_name="_tvshuffleforplex/shuffled_list_ul.html", context=context)
+
+
+@csrf_exempt
+def plex_client(request):
+    if request.method == "GET":
+        plex_clients = plex_server.get_clients()
+        context = {
+            'plex_clients': plex_clients
+        }
         return render(request, template_name="_tvshuffleforplex/client_ul.html", context=context)
 
+    if request.method == "POST":
+        post_data = dict(request.POST)
+        client_name = post_data.get('client', [None])[0]
+        if client_name:
+            print(f"{client_name=}")
+            client = plex_server.get_client(client_name)
+            print(f"{client=}")
+            plex_server.set_client(client)
+            if plex_server.client_play_media(plex_server.play_queue):
+                return JsonResponse({'message': f"Queue sent to {client_name}"})
+            else:
+                return JsonResponse({'message': f"Unable to send queue to {client_name}"})
+        else:
+            return JsonResponse({'message': f"No such client {client_name}"})
 
-def get_saved_list(request):
-    login_status = check_login_status(request)
-    if login_status != True:
-        return login_status
 
+def shuffle(request):
     if request.method == "GET":
-        context = {}
-        lib.write_log("Getting saved list")
-        saved_list = get_db_lists_for_user(user_name=request.session['username'])
-        context['saved_list'] = saved_list
-        lib.write_log("Getting saved list -- Done")
-        return render(request, template_name="_tvshuffleforplex/save_list_ul.html", context=context)
+        get_data = dict(request.GET)
+        if plex_server.selected_shows:
+            limit = get_data.get('limit', [10])[0]
+            play_queue = plex_server.get_shuffle_play_tv_queue(list=plex_server.selected_shows, limit=int(limit))
+            plex_server.play_queue = play_queue
+            return JsonResponse({'shuffle': True})
+        else:
+            return JsonResponse({'shuffle': False, 'message': 'No shows selected'})
 
 
-def get_tv_show_list(request):
-    login_status = check_login_status(request)
-    if login_status != True:
-        return login_status
+def remove_episode(request):
     if request.method == "GET":
-        context = {}
-        lib.write_log("Getting tv show list")
-        context['tv_shows'] = plex_server.get_shows()
-        lib.write_log("Getting tv show list -- done")
+        get_data = dict(request.GET)
+        if plex_server.play_queue:
+            rating_key = get_data.get('ratingKey', [None])[0]
+            if rating_key:
+                plex_server.play_queue = [episode for episode in plex_server.play_queue if episode.ratingKey != int(rating_key)]
+                return JsonResponse({'remove': True})
+            else:
+                return JsonResponse({'remove': False, 'message': 'Episode not found in queue'})
+        else:
+            return JsonResponse({'remove': False, 'message': 'There is no queue'})
 
-        # List of user selected shows given though the session
-        if request.session.get('selected_shows', None):
-            selected_shows = request.session.get('selected_shows', None)
-            working_show_list = []
-            lib.write_log("Getting Show by items")
-            for item in selected_shows:
-                working_show_list.append(plex_server.get_show(item))
-            lib.write_log("Getting Show by items -- Done")
-            context['selected_shows'] = working_show_list
-
-        return render(request, template_name="_tvshuffleforplex/tv_show_selection_list.html", context=context)

@@ -5,10 +5,10 @@
                 {% load static %}
                 <img src='{% static "images/TvShuffleForPlex.png" %}' class="shuffle_logo" title="Tv Shuffle For Plex" data-toggle="tooltip" data-placement="bottom">
             </a>
-            {% if request.session.is_plex %}
+            {% if request.session.logged_in %}
             {% include 'server_selection.html' %}
             <div class="col-6 w-100 text-right my-auto">
-                <a class="btn btn-lg disabled" href="#">{{ request.session.username }}</a>
+                <a class="btn btn-lg disabled" href="#">{{ username }}</a>
                 <a class="btn btn-lg" href="{% url 'logout' %}">Logout</a>
             </div>
             {% else %}

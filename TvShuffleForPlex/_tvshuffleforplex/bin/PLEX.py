@@ -30,10 +30,14 @@ class Plex:
     """
     def __init__(self, username: str = None, password: str = None, lib: LIB = None):
         self.message = None
-
+        self.logged_in = False
+        self.play_queue = None
+        self.selected_shows = []
+        self.connected_to_server = False
         # Try to connect to the users plex account
         try:
             self.my_account: MyPlexAccount = MyPlexAccount(username=username, password=password)
+            self.logged_in = True
 
         # Error logging in
         except Unauthorized as e:
@@ -50,10 +54,6 @@ class Plex:
             self.lib = lib
         else:
             self.lib = LIB(home=str(Path(os.path.dirname(os.path.realpath(__file__)))))
-
-    def __del__(self):
-
-        pass
 
     def __str__(self):
         return str(self.__dict__)
@@ -248,25 +248,26 @@ class Plex:
             episodes.append(n_episode)
 
         print(f"{episodes}")
+        episodes = [i for i in episodes if i]
 
         queue = PlayQueue.create(self.plex, episodes)
+        self.play_queue = queue
         return queue
 
-    def create_playlist(self, media: [Movie, Episode, PlayQueue]):
-        pass
-
     # Play given media on the client
-    def client_play_media(self, media: [Movie, Episode, PlayQueue]):
+    def client_play_media(self, media: [Movie, Episode, PlayQueue]) -> bool:
         """
         Play media on a connected client
 
         :param [Movie, Episode, PlayQueue] media: Media to be played on the client
-        :return:
+        :return bool: Play status
         """
         try:
             self.client.playMedia(media)
+            return True
         except Exception as e:
             self.lib.write_error(f"Error playing media on client {e=}")
+            return False
 
     # Get a list of clients
     def get_clients(self) -> [PlexClient]:
@@ -387,6 +388,7 @@ class Plex:
         try:
             res = self.my_account.resource(server)
             self.plex: PlexServer = res.connect(ssl=True)
+            self.connected_to_server = True
             return True
         except Exception as e:
             self.lib.write_error(f"Error connecting to server {e=}")
@@ -399,10 +401,13 @@ class Plex:
 
         :return bool: Status of the server connection
         """
-        try:
-            if not self.plex:
-                return False
-            return True
-        except Exception as e:
-            return False
+        return self.connected_to_server
 
+    def disconnect_from_server(self) -> bool:
+        """
+        Set the status of disconnect to true
+
+        :return bool: Status of the server connection
+        """
+        self.connected_to_server = False
+        return True

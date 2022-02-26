@@ -1,5 +1,5 @@
-{% for show in tv_shows %}
-    <li class="col show_list_item {{ show.ratingKey }} {% if show in selected_shows %} selected {% endif  %}" onclick="test_click({{ show.ratingKey }})">
+{% for show in shows %}
+    <li class="col show_list_item {% if show in selected_shows %} selected {% endif  %}" onclick="toggle_selection({{ show.ratingKey }})" id="{{ show.ratingKey }}">
         {% include 'show_item.html' with show=show%}
     </li>
 {% endfor %}

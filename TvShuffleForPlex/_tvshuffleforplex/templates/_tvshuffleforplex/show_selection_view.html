@@ -1,6 +1,9 @@
 <div class="container">
-    <h3 class="text-center">TV Shows (<label style="font-size: 24px;" id="selected-count">0</label>)</h3>
-    <div class="container tv_shows_listing">
+    <div id="tv_show_listing_header" class="tv_show_listing_header">
+        <h3 class="text-center tv_show_listing_title">TV Shows (<label style="font-size: 24px;" id="selected-count">0</label>)</h3>
+        <a id="collapse_show_listing" class="collapsible" href="#" onclick="toggle_show_listing()">+</a>
+    </div>
+    <div class="container tv_shows_listing" id="tv_shows_listing">
         <ul class="row text-center show_list" id="show_list">
 
         </ul>

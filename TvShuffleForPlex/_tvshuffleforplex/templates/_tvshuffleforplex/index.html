@@ -8,12 +8,12 @@
 
         {% include 'messages.html' %}
 
-        {% if plex_connected_server %}
-                {% include 'shuffle_view.html' %}
+        {% if request.session.plex_connected_server %}
+            {% include 'shuffle_view.html' %}
+            {% include 'shuffled_view.html' %}
+        {% else %}
+            <div id="shuffle_view"></div>
         {% endif %}
-
-        {% include 'waiting.html' %}
-
     </body>
 
 {% load static %}

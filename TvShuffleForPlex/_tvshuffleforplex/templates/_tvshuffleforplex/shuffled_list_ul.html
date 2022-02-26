@@ -1,0 +1,11 @@
+{% if no_play_queue %}
+    <li class="col episode_item">
+        There is no queue, use the Shuffle button!
+    </li>
+{% else %}
+    {% for episode in play_queue %}
+        <li class="col episode_item">
+            {% include 'episode_item.html' with episode=episode%}
+        </li>
+    {% endfor %}
+{% endif %}

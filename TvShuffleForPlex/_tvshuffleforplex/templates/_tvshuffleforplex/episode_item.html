@@ -1,8 +1,11 @@
-<div id="{{ episode.title }}" class="container-sm episode_item">
+<div id="{{ episode.ratingKey }}" class="container-sm episode_in_queue">
     <img
+        id="episode_img"
+        class="episode_img"
         src={{ episode.thumbUrl }}
         width="180"
         height="100">
+    <a id="remove_episode" class="remove_episode" href="#" onclick="remove_episode({{ episode.ratingKey }})">X</a>
     <h6 class="episode_show_title">{{ episode.grandparentTitle }}</h6>
     <h6 class="episode_season_episode">{{ episode.seasonEpisode }}</h6>
     <h6 class="episode_title">{{ episode.title }}</h6>

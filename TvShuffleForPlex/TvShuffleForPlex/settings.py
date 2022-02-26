@@ -25,7 +25,7 @@ SECRET_KEY = '&n%dldqqhrnq%x@(h^kd77pm(1*y#p+m)e$m41iy&+!g49rwou'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "10.10.20.60"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "192.168.100.144"]
 
 
 # Application definition
@@ -121,5 +121,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, '_tvshuffleforplex', 'static')
 ]

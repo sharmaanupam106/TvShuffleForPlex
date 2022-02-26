@@ -108,7 +108,7 @@ input.max-episode-input:focus{
     margin-top: 1.5em;
 }
 
-.show_list_item.selected img {
+.selected_show img {
     box-shadow: 0 0 0 4px #00c09e;
 }
 
@@ -164,6 +164,16 @@ input.max-episode-input:focus{
     border: 2px solid #e5a00d;
 }
 
+.remove_episode{
+    color: red;
+    font-size: 11px;
+}
+
+.remove_episode:hover{
+    color: red;
+    font-size: 11px;
+}
+
 .episode_show_title{
     color: #f2f2f2;
     font-size: 15px;
@@ -182,4 +192,30 @@ input.max-episode-input:focus{
 .shuffle_logo{
     width: 10em;
     height: 4em;
+}
+
+.collapsible {
+    color: #e5a00d;
+    font-size: 20px;
+    float: left;
+    padding-left: 1%;
+}
+
+.collapsible:hover{
+    color: #e5a00d;
+}
+
+.tv_show_listing_title{
+    float: right;
+    padding-right: 40%;
+}
+
+.shuffled_view_title{
+    float: left;
+    padding-left: 35%;
+}
+
+.client_select_container{
+    float: right;
+    padding-right: 1%;
 }
