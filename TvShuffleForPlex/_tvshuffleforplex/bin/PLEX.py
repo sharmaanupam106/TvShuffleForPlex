@@ -387,7 +387,7 @@ class Plex:
         """
         try:
             res = self.my_account.resource(server)
-            self.plex: PlexServer = res.connect(ssl=True)
+            self.plex: PlexServer = res.connect()
             self.connected_to_server = True
             return True
         except Exception as e:
