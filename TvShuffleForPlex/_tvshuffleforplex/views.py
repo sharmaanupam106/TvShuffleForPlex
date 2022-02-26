@@ -74,9 +74,6 @@ def login(request):
         post_username = request.POST.get('username', None)
         post_password = request.POST.get('password', None)
 
-        post_username = "drool.grewa0@gmail.com"
-        post_password = "fe#5eU!k&2bY"
-
         plex_server = Plex(username=post_username, password=post_password, lib=lib)
 
         # There was an error with plex login
